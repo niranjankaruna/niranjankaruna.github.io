@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Angular cache
+/.angular
+
 # dependencies
 /node_modules
 

@@ -1,12 +1,12 @@
 backend:
   name: github
-  repo: <your-org-or-user>/<your-repo>
+  repo: niranjankaruna/DecorRentals
   branch: main
-  # OAuth bridge endpoint you deploy (see oauth-bridge/README.md)
-  auth_endpoint: https://<your-bridge-domain>/api/auth
+  base_url: https://oauth-bridge.niranjankaruna.workers.dev
+  auth_endpoint: /api/auth
 
-site_url: https://<your-domain>
-logo_url: /assets/logo.svg
+site_url: http://localhost:4200
+# logo_url: /assets/logo.svg
 
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
