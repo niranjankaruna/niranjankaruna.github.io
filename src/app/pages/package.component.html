@@ -1,0 +1,40 @@
+<ng-container *ngIf="pkg as p">
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="md:col-span-2">
+      <div class="aspect-[16/9] bg-gray-200 rounded-2xl mb-4"></div>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="aspect-square bg-gray-200 rounded-xl" *ngFor="let i of [1,2,3,4,5,6]"></div>
+      </div>
+      <div class="mt-6" *ngIf="p.videos?.length">
+        <h3 class="text-lg font-semibold mb-2">Videos</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <iframe *ngFor="let v of p.videos" class="w-full aspect-video rounded-xl" [src]="v" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h1 class="text-3xl font-bold">{{p.name}}</h1>
+      <p class="text-gray-700 mt-2">{{p.summary}}</p>
+
+      <div class="mt-4 space-y-2">
+        <label class="block text-sm font-medium">Choose Tier</label>
+        <div class="flex gap-2">
+          <button class="btn" *ngFor="let t of p.tiers; let i = index" (click)="tierIndex = i">
+            {{t.name}} – {{t.price | currency:t.currency}}
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6 card">
+        <h3 class="text-lg font-semibold mb-2">Included Items ({{p.tiers[tierIndex]?.name}})</h3>
+        <ul class="space-y-2">
+          <li class="flex items-center justify-between" *ngFor="let it of p.tiers[tierIndex]?.resolvedItems">
+            <a class="text-brand-700 hover:underline" [routerLink]="['/product', it.product]">{{it.productData?.name || it.product}}</a>
+            <span class="text-sm text-gray-600">× {{it.qty || 1}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-container>

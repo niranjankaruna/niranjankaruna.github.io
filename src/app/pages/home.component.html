@@ -1,0 +1,29 @@
+<section class="space-y-8">
+  <div>
+    <h1 class="text-3xl font-bold mb-3">Choose an Event Type</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <a class="tile block" *ngFor="let evt of events" [routerLink]="['/event', evt.slug]">
+        <div class="aspect-[16/9] bg-gray-200"></div>
+        <div class="p-4">
+          <div class="text-lg font-semibold">{{evt.name}}</div>
+          <div class="text-sm text-gray-600">{{evt.summary}}</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="text-2xl font-semibold mb-3">Featured Packages</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <a class="tile block" *ngFor="let p of packages" [routerLink]="['/package', p.slug]">
+        <div class="aspect-[16/9] bg-gray-200"></div>
+        <div class="p-4">
+          <div class="text-lg font-semibold">{{p.name}}</div>
+          <div class="flex gap-2 mt-2">
+            <span class="badge" *ngFor="let t of p.tiers">{{t.name}}: {{t.price | currency:t.currency}}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

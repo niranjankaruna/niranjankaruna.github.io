@@ -1,0 +1,124 @@
+backend:
+  name: github
+  repo: <your-org-or-user>/<your-repo>
+  branch: main
+  # OAuth bridge endpoint you deploy (see oauth-bridge/README.md)
+  auth_endpoint: https://<your-bridge-domain>/api/auth
+
+site_url: https://<your-domain>
+logo_url: /assets/logo.svg
+
+media_folder: "src/assets/uploads"
+public_folder: "/assets/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - label: "Event Types"
+    name: "event_types"
+    folder: "content/event-types"
+    create: true
+    format: "json"
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Slug, name: slug, widget: string }
+      - { label: Summary, name: summary, widget: text, required: false }
+      - { label: Tile Image, name: tileImage, widget: image }
+      - { label: Images, name: images, widget: list, field: { label: Image, name: image, widget: image } }
+      - { label: Videos (YouTube URLs), name: videos, widget: list, field: { label: URL, name: url, widget: string } }
+      - label: SEO
+        name: seo
+        widget: object
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Description, name: description, widget: text, required: false }
+      - { label: Status, name: status, widget: select, options: [draft, published], default: published }
+
+  - label: "Products"
+    name: "products"
+    folder: "content/products"
+    create: true
+    format: "json"
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Slug, name: slug, widget: string }
+      - { label: SKU, name: sku, widget: string, required: false }
+      - { label: Category, name: category, widget: select, options: [cake-stands, backdrop-frames, cloths, easel-boards, garlands, banners, balloons, age-numbers, lights, props] }
+      - label: Dimensions
+        name: dimensions
+        widget: object
+        required: false
+        fields:
+          - { label: Width, name: width, widget: number, required: false }
+          - { label: Depth, name: depth, widget: number, required: false }
+          - { label: Height, name: height, widget: number, required: false }
+          - { label: Unit, name: unit, widget: select, options: [cm, in] }
+      - { label: Color, name: color, widget: string, required: false }
+      - label: Rental
+        name: rental
+        widget: object
+        fields:
+          - { label: Price, name: price, widget: number, value_type: float, min: 0 }
+          - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP], default: EUR }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Images, name: images, widget: list, field: { label: Image, name: image, widget: image } }
+      - { label: Videos (YouTube URLs), name: videos, widget: list, field: { label: URL, name: url, widget: string } }
+      - { label: Care, name: care, widget: text, required: false }
+      - { label: Notes, name: notes, widget: text, required: false }
+      - label: SEO
+        name: seo
+        widget: object
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Description, name: description, widget: text, required: false }
+      - { label: Status, name: status, widget: select, options: [draft, published], default: published }
+
+  - label: "Packages"
+    name: "packages"
+    folder: "content/packages"
+    create: true
+    format: "json"
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Slug, name: slug, widget: string }
+      - label: Event Type
+        name: eventType
+        widget: relation
+        collection: event_types
+        search_fields: ["name", "slug"]
+        value_field: "slug"
+        display_fields: ["name"]
+      - { label: Summary, name: summary, widget: text, required: false }
+      - { label: Images, name: images, widget: list, field: { label: Image, name: image, widget: image } }
+      - { label: Videos (YouTube URLs), name: videos, widget: list, field: { label: URL, name: url, widget: string } }
+      - label: Tiers
+        name: tiers
+        widget: list
+        fields:
+          - { label: Tier Name, name: name, widget: select, options: [Silver, Gold, Diamond] }
+          - { label: Price, name: price, widget: number, value_type: float, min: 0 }
+          - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP], default: EUR }
+          - label: Included Items
+            name: items
+            widget: list
+            summary: "{{fields.product}} × {{fields.qty}}"
+            fields:
+              - label: Product
+                name: product
+                widget: relation
+                collection: products
+                search_fields: ["name", "sku", "slug", "tags"]
+                value_field: "slug"
+                display_fields: ["name"]
+              - { label: Quantity, name: qty, widget: number, min: 1, default: 1 }
+              - { label: Notes, name: notes, widget: string, required: false }
+      - label: SEO
+        name: seo
+        widget: object
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Description, name: description, widget: text, required: false }
+      - { label: Status, name: status, widget: select, options: [draft, published], default: published }

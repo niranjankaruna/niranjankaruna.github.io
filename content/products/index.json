@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "backdrop-frame-2m",
+    "name": "Backdrop Frame (2m)",
+    "price": 25,
+    "currency": "EUR",
+    "image": "/assets/uploads/products/backdrop-frame-2m.jpg",
+    "category": "backdrop-frames",
+    "status": "published"
+  },
+  {
+    "slug": "cake-stand-gold-12in",
+    "name": "Gold Cake Stand (12\")",
+    "price": 12,
+    "currency": "EUR",
+    "image": "/assets/uploads/products/cake-stand-12.jpg",
+    "category": "cake-stands",
+    "status": "published"
+  },
+  {
+    "slug": "neon-happy-birthday",
+    "name": "Neon Sign – Happy Birthday",
+    "price": 30,
+    "currency": "EUR",
+    "image": "/assets/uploads/products/neon-hbd.jpg",
+    "category": "lights",
+    "status": "published"
+  },
+  {
+    "slug": "pink-garland-3m",
+    "name": "Pink Garland (3m)",
+    "price": 18,
+    "currency": "EUR",
+    "image": "/assets/uploads/products/pink-garland-3m.jpg",
+    "category": "garlands",
+    "status": "published"
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json.schemastore.org/angular.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "decor-site": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/decor-site",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "polyfills": [],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              { "glob": "**/*", "input": "content", "output": "/content" },
+              { "glob": "**/*", "input": "public", "output": "/" },
+              { "glob": "**/*", "input": "admin", "output": "/admin" }
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "400kb",
+                  "maximumError": "600kb"
+                }
+              ],
+              "outputHashing": "all"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "decor-site:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "decor-site:build:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

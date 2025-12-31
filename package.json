@@ -1,0 +1,37 @@
+{
+  "name": "decor-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:prepare": "node scripts/build-content-index.mjs && node scripts/validate-content.mjs && node scripts/generate-sitemap.mjs",
+    "dev": "npm run dev:prepare && ng serve --host 0.0.0.0 --port 4200",
+    "build": "npm run dev:prepare && ng build --configuration production",
+    "build:local": "npm run dev:prepare && ng build --configuration production --base-href /",
+    "validate": "node scripts/validate-content.mjs",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@angular/animations": "^18.2.0",
+    "@angular/common": "^18.2.0",
+    "@angular/compiler": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/forms": "^18.2.0",
+    "@angular/platform-browser": "^18.2.0",
+    "@angular/platform-browser-dynamic": "^18.2.0",
+    "@angular/router": "^18.2.0",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.6.3",
+    "zone.js": "^0.14.5"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.2.0",
+    "@angular/cli": "^18.2.0",
+    "@angular/compiler-cli": "^18.2.0",
+    "typescript": "^5.5.4",
+    "tailwindcss": "^3.4.10",
+    "postcss": "^8.4.47",
+    "autoprefixer": "^10.4.20",
+    "prettier": "^3.3.3"
+  }
+}

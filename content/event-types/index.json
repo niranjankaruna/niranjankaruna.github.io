@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "baby-shower",
+    "name": "Baby Shower",
+    "summary": "Soft pastels and cute props for baby showers",
+    "image": "/assets/uploads/tiles/baby-shower.jpg",
+    "status": "published"
+  },
+  {
+    "slug": "birthday",
+    "name": "Birthday",
+    "summary": "Birthday party décor themes",
+    "image": "/assets/uploads/tiles/birthday.jpg",
+    "status": "published"
+  }
+]
