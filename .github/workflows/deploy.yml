@@ -26,7 +26,7 @@ jobs:
           node-version: 20
       - run: npm ci
       - name: Build with base-href for GitHub Pages
-        run: npm run build -- --base-href "/${{ github.event.repository.name }}/"
+        run: npm run build -- --base-href "/"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/decor-site
