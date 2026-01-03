@@ -65,10 +65,10 @@ If using a **custom domain**, set `--base-href "/"` in the workflow and configur
 Run `npm run validate` to ensure all package tier items reference existing products.
 
 ### Indexes
-Build scripts will generate:
-- `content/event-types/index.json`
-- `content/products/index.json`
-- `content/packages/index.json`
+Build scripts now write to `content/indexes/` to keep CMS collections clean:
+- `content/indexes/event-types.json`
+- `content/indexes/products.json`
+- `content/indexes/packages.json`
 
 These power the home/event/search pages and reverse lookups.
 

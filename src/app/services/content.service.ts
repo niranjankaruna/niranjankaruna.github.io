@@ -15,9 +15,9 @@ export class ContentService {
   }
 
   // Indexes
-  getEventsIndex() { return this.get<any[]>('/content/event-types/index.json'); }
-  getProductsIndex() { return this.get<any[]>('/content/products/index.json'); }
-  getPackagesIndex() { return this.get<any[]>('/content/packages/index.json'); }
+  getEventsIndex() { return this.get<any[]>('/content/indexes/event-types.json'); }
+  getProductsIndex() { return this.get<any[]>('/content/indexes/products.json'); }
+  getPackagesIndex() { return this.get<any[]>('/content/indexes/packages.json'); }
 
   // Singletons
   getEvent(slug: string) { return this.get<any>(`/content/event-types/${slug}.json`); }
