@@ -1,16 +1,16 @@
 {
-  "id": "evt-baby-shower",
-  "slug": "baby-shower",
-  "name": "Baby Shower",
   "summary": "Soft pastels and cute props for baby showers",
-  "tileImage": "/assets/uploads/tiles/baby-shower.jpg",
+  "name": "Baby Shower",
+  "slug": "baby-shower",
+  "tileImage": "/assets/uploads/screenshot-2026-01-03-at-21-17-41-housewarming-wishes-good-wishes.png",
+  "updatedAt": "2025-01-01T00:00:00Z",
+  "status": "published",
   "images": [],
   "videos": [],
-  "seo": {
-    "title": "Baby Shower D\u00e9cor",
-    "description": "Reusable d\u00e9cor for baby showers"
-  },
-  "status": "published",
+  "id": "evt-baby-shower",
   "createdAt": "2025-01-01T00:00:00Z",
-  "updatedAt": "2025-01-01T00:00:00Z"
+  "seo": {
+    "title": "Baby Shower Décor",
+    "description": "Reusable décor for baby showers"
+  }
 }
