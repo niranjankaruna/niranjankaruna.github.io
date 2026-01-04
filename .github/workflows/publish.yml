@@ -1,0 +1,58 @@
+name: Publish Drafts to Live Site
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Publish message (optional)'
+        required: false
+        default: 'Publish content updates'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Check for changes in drafts
+        id: check
+        run: |
+          git fetch origin drafts main
+          CHANGES=$(git log origin/main..origin/drafts --oneline)
+          if [ -z "$CHANGES" ]; then
+            echo "No changes to publish"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes to publish:"
+            echo "$CHANGES"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Merge drafts to main
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git checkout main
+          git merge origin/drafts --squash
+          git commit -m "${{ github.event.inputs.message || 'Publish content updates' }}"
+          git push origin main
+      
+      - name: Reset drafts branch to main
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git checkout drafts
+          git reset --hard main
+          git push origin drafts --force
+      
+      - name: No changes message
+        if: steps.check.outputs.has_changes == 'false'
+        run: echo "Nothing to publish - drafts branch is up to date with main"
