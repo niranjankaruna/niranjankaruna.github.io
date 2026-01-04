@@ -1,0 +1,78 @@
+{
+  "id": "pkg-pinky-birthday",
+  "slug": "pinky-birthday",
+  "name": "Pinky Birthday",
+  "eventType": "birthday",
+  "summary": "Full pink-themed birthday setup.",
+  "images": [
+    "/assets/uploads/packages/pinky/hero.jpg"
+  ],
+  "videos": [],
+  "tiers": [
+    {
+      "name": "Silver",
+      "price": 149.0,
+      "currency": "EUR",
+      "items": [
+        {
+          "product": "cake-stand-gold-12in",
+          "qty": 1,
+          "notes": "centerpiece"
+        },
+        {
+          "product": "backdrop-frame-2m",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "name": "Gold",
+      "price": 219.0,
+      "currency": "EUR",
+      "items": [
+        {
+          "product": "cake-stand-gold-12in",
+          "qty": 1
+        },
+        {
+          "product": "backdrop-frame-2m",
+          "qty": 1
+        },
+        {
+          "product": "pink-garland-3m",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "name": "Diamond",
+      "price": 299.0,
+      "currency": "EUR",
+      "items": [
+        {
+          "product": "cake-stand-gold-12in",
+          "qty": 1
+        },
+        {
+          "product": "backdrop-frame-2m",
+          "qty": 1
+        },
+        {
+          "product": "pink-garland-3m",
+          "qty": 1
+        },
+        {
+          "product": "neon-happy-birthday",
+          "qty": 1
+        }
+      ]
+    }
+  ],
+  "seo": {
+    "title": "Pinky Birthday Package",
+    "description": "Silver/Gold/Diamond tiers with curated items"
+  },
+  "status": "published",
+  "createdAt": "2025-01-01T00:00:00Z",
+  "updatedAt": "2025-01-01T00:00:00Z"
+}
