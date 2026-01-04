@@ -1,100 +1,86 @@
-# Decor Site Starter (Angular + Tailwind + Decap CMS)
+# Decor Rentals (Angular + Tailwind + Decap CMS)
 
-A static Angular site for an event décor rental business. Content is Git-backed (Decap CMS), deploys to GitHub Pages, and models Event Types, Products, and Decor Packages with tiered compositions.
+A modern static Angular site for event décor rentals. Content is Git-backed via Decap CMS, deploys to GitHub Pages, and features Event Types, Products, Collections, and Categories with full relation management.
 
-> ✅ **What’s included**
+> ✅ **What's included**
 >
-> - Angular standalone app (no auth for public site)
-> - Tailwind CSS
-> - Decap CMS at `/admin`
+> - Angular 18 standalone components with lazy loading
+> - Tailwind CSS with animated balloon backgrounds  
+> - Decap CMS at `/admin` with GitHub OAuth
 > - Git-based content under `/content/**`
-> - Sample schema for event types, products, packages + tiers
-> - Image galleries (in Git) + YouTube (unlisted) video embeds
-> - Reference integrity checker + content indexer + sitemap generator
-> - GitHub Actions workflow for Pages
->
-> 🔒 **Admin Login** uses GitHub OAuth via an OAuth bridge you deploy (e.g., Cloudflare Worker). See `oauth-bridge/README.md`.
+> - Dynamic collections: Categories, Event Types, Products, Collections
+> - Relation widgets with reverse lookups
+> - Auto-generated indexes (never committed to git)
+> - Reference integrity validation + sitemap generator
+> - GitHub Actions workflow for automated deployment
+> - Clean, simple workflow: CMS → Main → Auto Deploy
 
 ---
 
 ## Quick Start
 
-### 1) Prereqs
+### 1) Prerequisites
 - Node.js 20+
-- GitHub repo with Pages enabled (build from GitHub Actions)
-- Admin GitHub account(s)
+- GitHub repo with Pages enabled
+- GitHub account for CMS access
 
-### 2) Install dependencies
+### 2) Install & Run
 ```bash
 npm install
+./scripts/run-local.sh
 ```
 
-### 3) Run locally
-```bash
-# generates content indexes + sitemap, validates refs, runs dev server
-npm run dev
-```
+Open http://localhost:4200
 
-Open http://localhost:4200. Admin UI is at http://localhost:4200/admin (login requires OAuth bridge; without it you can still view the UI shell).
+### 3) Deploy
+Push to `main` branch - GitHub Actions automatically builds and deploys.
 
-### 4) Configure Decap GitHub OAuth
-1. Create a **GitHub OAuth App** with homepage `https://<your-domain>` and callback `https://<your-bridge-domain>/callback`.
-2. Deploy the bridge in `oauth-bridge/` (Cloudflare Worker example included). Set env vars CLIENT_ID and CLIENT_SECRET.
-3. Update `admin/config.yml`:
-   ```yml
-   backend:
-     name: github
-     repo: <your-org-or-user>/<your-repo>
-     branch: main
-     auth_endpoint: https://<your-bridge-domain>/api/auth
-   ```
-
-### 5) Deploy to GitHub Pages
-Push to `main`. The workflow at `.github/workflows/deploy.yml` builds and deploys automatically. It sets `--base-href` to `/${{ github.event.repository.name }}/` for Pages on user/org repos.
-
-If using a **custom domain**, set `--base-href "/"` in the workflow and configure your DNS + Pages custom domain.
+Site: **https://niranjankaruna.github.io/**
 
 ---
 
 ## Content Model
 
-- `content/event-types/<slug>.json`
-- `content/products/<slug>.json`
-- `content/packages/<slug>.json` (with `tiers[].items[].product` referencing product slugs)
+- **Categories** - Product categories
+- **Event Types** - Birthday, Baby Shower, etc.
+- **Products** - Individual rental items
+- **Collections** - Curated packages with tiers
 
-Run `npm run validate` to ensure all package tier items reference existing products.
+All use relations (no hardcoded dropdowns).
 
-### Indexes
-Build scripts now write to `content/indexes/` to keep CMS collections clean:
-- `content/indexes/event-types.json`
-- `content/indexes/products.json`
-- `content/indexes/packages.json`
+---
 
-These power the home/event/search pages and reverse lookups.
+## Navigation
+
+- `/events` - All event types
+- `/collections` - All packages
+- `/products` - All rental items
+- `/search` - Search everything
+- `/admin` - CMS (login required)
 
 ---
 
 ## Scripts
 
-- `npm run dev` – validate, build indexes, generate sitemap, and start dev server
-- `npm run validate` – checks cross-references (products used by package tiers exist)
-- `npm run build` – builds production with dynamic `--base-href` for GitHub Pages
-- `npm run build:local` – builds production with `--base-href /` for local/custom-domain hosting
+```bash
+./scripts/run-local.sh      # Clean + dev server
+npm run dev                 # Dev server only
+npm run build               # Production build
+./scripts/clean-ignored.sh  # Delete gitignored files
+```
 
 ---
 
-## YouTube Videos
+## Workflow
 
-Add unlisted video URLs to the `videos` arrays on products or packages. The site embeds them on detail pages. Avoid storing video files in Git.
+```
+CMS Edit → Save → Commits to main → Auto Build & Deploy
+```
 
----
-
-## Portability
-
-Everything is static + Git-backed. You can migrate hosting/CI providers by copying the repo and swapping the deploy workflow. Decap CMS works with any Git provider backend (you can switch `backend:` in `admin/config.yml`).
+No drafts, no approvals - direct publishing.
 
 ---
 
 ## License
 
-MIT – do what you like, attribution appreciated.
+MIT
