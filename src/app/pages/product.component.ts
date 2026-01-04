@@ -20,8 +20,8 @@ export class ProductComponent {
   async ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug')!;
     this.product = await this.content.getProduct(slug);
-    const pkgs = await this.content.getPackagesIndex();
-    this.usedIn = pkgs.filter((p:any) => (p.productSlugs||[]).includes(slug));
+    const collections = await this.content.getCollectionsIndex();
+    this.usedIn = collections.filter((p:any) => (p.productSlugs||[]).includes(slug));
 
     this.seo.setTitle(`${this.product.name} – Decor Rentals`);
     this.seo.setDescription(this.product.seo?.description || '');

@@ -17,21 +17,21 @@ export class ContentService {
   // Indexes (relative paths for GitHub Pages compatibility)
   getEventsIndex() { return this.get<any[]>('content/indexes/event-types.json'); }
   getProductsIndex() { return this.get<any[]>('content/indexes/products.json'); }
-  getPackagesIndex() { return this.get<any[]>('content/indexes/packages.json'); }
+  getCollectionsIndex() { return this.get<any[]>('content/indexes/collections.json'); }
 
   // Singletons
   getEvent(slug: string) { return this.get<any>(`content/event-types/${slug}.json`); }
   getProduct(slug: string) { return this.get<any>(`content/products/${slug}.json`); }
-  getPackage(slug: string) { return this.get<any>(`content/packages/${slug}.json`); }
+  getCollection(slug: string) { return this.get<any>(`content/collections/${slug}.json`); }
 
-  // Resolve package tier items -> product data
-  async resolvePackage(pkg: any) {
-    for (const tier of pkg.tiers || []) {
+  // Resolve collection tier items -> product data
+  async resolveCollection(collection: any) {
+    for (const tier of collection.tiers || []) {
       tier.resolvedItems = await Promise.all((tier.items || []).map(async (it: any) => ({
         ...it,
         productData: await this.getProduct(it.product)
       })));
     }
-    return pkg;
+    return collection;
   }
 }

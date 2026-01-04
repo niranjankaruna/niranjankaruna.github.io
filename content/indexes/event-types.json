@@ -3,7 +3,7 @@
     "slug": "baby-shower",
     "name": "Baby Shower",
     "summary": "Soft pastels and cute props for baby showers",
-    "image": "/assets/uploads/tiles/baby-shower.jpg",
+    "image": "/assets/uploads/screenshot-2026-01-03-at-21-17-41-housewarming-wishes-good-wishes.png",
     "status": "published"
   },
   {
@@ -11,13 +11,6 @@
     "name": "Birthday",
     "summary": "Birthday party décor themes",
     "image": "/assets/uploads/tiles/birthday.jpg",
-    "status": "published"
-  },
-  {
-    "slug": "house-warming",
-    "name": "House warming",
-    "summary": "",
-    "image": "/assets/uploads/screenshot-2026-01-03-at-21-17-41-housewarming-wishes-good-wishes.png",
     "status": "published"
   }
 ]

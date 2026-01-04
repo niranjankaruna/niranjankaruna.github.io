@@ -28,8 +28,8 @@ await indexDir('content/products', 'products.json', (p) => ({
   image: (p.images?.[0] || ''), category: p.category || '', status: p.status || 'published'
 }));
 
-// For packages include eventType and flattened product slugs for reverse lookup
-await indexDir('content/packages', 'packages.json', (pkg) => ({
+// For collections include eventType and flattened product slugs for reverse lookup
+await indexDir('content/collections', 'collections.json', (pkg) => ({
   slug: pkg.slug, name: pkg.name, eventType: pkg.eventType, image: (pkg.images?.[0] || ''),
   tiers: (pkg.tiers || []).map(t => ({ name: t.name, price: t.price, currency: t.currency, items: t.items?.map(i => i.product) || [] })),
   productSlugs: [...new Set((pkg.tiers || []).flatMap(t => (t.items || []).map(i => i.product)))],

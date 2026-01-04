@@ -15,12 +15,12 @@ export class EventComponent {
 
   slug = '';
   event: any;
-  packages: any[] = [];
+  collections: any[] = [];
 
   async ngOnInit() {
     this.slug = this.route.snapshot.paramMap.get('slug')!;
     this.event = await this.content.getEvent(this.slug);
-    const allPkgs = await this.content.getPackagesIndex();
-    this.packages = allPkgs.filter((p:any) => p.eventType === this.slug);
+    const allCollections = await this.content.getCollectionsIndex();
+    this.collections = allCollections.filter((p:any) => p.eventType === this.slug);
   }
 }

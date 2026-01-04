@@ -89,9 +89,9 @@ collections:
           - { label: Description, name: description, widget: text, required: false }
       - { label: Status, name: status, widget: select, options: [draft, published], default: published }
 
-  - name: packages
-    label: Packages
-    folder: content/packages
+  - name: collections
+    label: Collections
+    folder: content/collections
     create: true
     format: json
     identifier_field: slug

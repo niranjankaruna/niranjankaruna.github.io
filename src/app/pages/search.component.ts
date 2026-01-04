@@ -13,19 +13,19 @@ export class SearchComponent {
   private content = inject(ContentService);
   q = '';
   products: any[] = [];
-  packages: any[] = [];
+  collections: any[] = [];
 
   async ngOnInit() {
     this.products = await this.content.getProductsIndex();
-    this.packages = await this.content.getPackagesIndex();
+    this.collections = await this.content.getCollectionsIndex();
   }
 
   get filteredProducts() {
     const q = this.q.toLowerCase();
     return this.products.filter((p:any)=> p.name.toLowerCase().includes(q));
   }
-  get filteredPackages() {
+  get filteredCollections() {
     const q = this.q.toLowerCase();
-    return this.packages.filter((p:any)=> p.name.toLowerCase().includes(q));
+    return this.collections.filter((p:any)=> p.name.toLowerCase().includes(q));
   }
 }

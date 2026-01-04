@@ -1,7 +1,7 @@
 <section class="space-y-6">
   <div class="flex items-center gap-2">
-    <input [(ngModel)]="q" placeholder="Search products & packages..." class="w-full px-4 py-2 rounded-xl border" />
-    <span class="badge">{{filteredProducts.length + filteredPackages.length}} results</span>
+    <input [(ngModel)]="q" placeholder="Search products & collections..." class="w-full px-4 py-2 rounded-xl border" />
+    <span class="badge">{{filteredProducts.length + filteredCollections.length}} results</span>
   </div>
 
   <div class="grid md:grid-cols-2 gap-6">
@@ -15,10 +15,10 @@
       </ul>
     </div>
     <div class="card">
-      <h2 class="text-xl font-semibold mb-3">Packages</h2>
+      <h2 class="text-xl font-semibold mb-3">Collections</h2>
       <ul class="space-y-2">
-        <li *ngFor="let p of filteredPackages">
-          <a [routerLink]="['/package', p.slug]" class="text-brand-700 hover:underline">{{p.name}}</a>
+        <li *ngFor="let p of filteredCollections">
+          <a [routerLink]="['/collection', p.slug]" class="text-brand-700 hover:underline">{{p.name}}</a>
         </li>
       </ul>
     </div>

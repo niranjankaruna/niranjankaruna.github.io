@@ -17,11 +17,11 @@
     </div>
   </div>
 
-  <!-- Packages Section -->
-  <div class="packages-section" *ngIf="packages.length > 0">
-    <h2 class="section-title">Available Packages</h2>
+  <!-- Collections Section -->
+  <div class="packages-section" *ngIf="collections.length > 0">
+    <h2 class="section-title">Available Collections</h2>
     <div class="app-grid">
-      <article *ngFor="let p of packages" class="app-card" [routerLink]="['/package', p.slug]">
+      <article *ngFor="let p of collections" class="app-card" [routerLink]="['/collection', p.slug]">
         <div
           class="app-media"
           *ngIf="p.tileImage"
@@ -40,7 +40,7 @@
             <div class="tier-badges">
               <span class="tier-badge" *ngFor="let t of p.tiers">{{t.name}}: {{t.price | currency:t.currency}}</span>
             </div>
-            <span class="explore-btn">View Package</span>
+            <span class="explore-btn">View Collection</span>
           </div>
         </figcaption>
 
@@ -49,8 +49,8 @@
     </div>
   </div>
 
-  <div class="no-packages" *ngIf="packages.length === 0 && event">
-    <p>No packages available for this event type yet.</p>
+  <div class="no-packages" *ngIf="collections.length === 0 && event">
+    <p>No collections available for this event type yet.</p>
     <a routerLink="/" class="back-btn">← Back to Events</a>
   </div>
 </section>

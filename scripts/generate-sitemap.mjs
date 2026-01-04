@@ -15,7 +15,7 @@ async function pushAll(dir, routeBase) {
 }
 await pushAll('content/event-types', '/event');
 await pushAll('content/products', '/product');
-await pushAll('content/packages', '/package');
+await pushAll('content/collections', '/collection');
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
