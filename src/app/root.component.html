@@ -67,7 +67,7 @@
   <nav class="navbar">
     <div class="navbar-container">
       <div class="logo">
-        <span>Decor Rentals</span>
+        <span routerLink="/">Decor Rentals</span>
       </div>
 
       <!-- Desktop Navigation -->
@@ -75,7 +75,6 @@
         <li><a routerLink="/events" routerLinkActive="active-link">Events</a></li>
         <li><a routerLink="/collections" routerLinkActive="active-link">Collections</a></li>
         <li><a routerLink="/products" routerLinkActive="active-link">Products</a></li>
-        <li><a routerLink="/search" routerLinkActive="active-link">Search</a></li>
         <li><a href="/admin/" target="_blank">Admin</a></li>
       </ul>
 
@@ -91,7 +90,6 @@
       <li><a routerLink="/events" routerLinkActive="active-link" (click)="toggleMenu()">Events</a></li>
       <li><a routerLink="/collections" routerLinkActive="active-link" (click)="toggleMenu()">Collections</a></li>
       <li><a routerLink="/products" routerLinkActive="active-link" (click)="toggleMenu()">Products</a></li>
-      <li><a routerLink="/search" routerLinkActive="active-link" (click)="toggleMenu()">Search</a></li>
       <li><a href="/admin/" target="_blank" (click)="toggleMenu()">Admin</a></li>
     </ul>
   </nav>
@@ -105,7 +103,7 @@
     <div class="hero-content">
       <h1>Welcome to Decor Rentals</h1>
       <p>Why buy when you can rent?</p>
-      <a routerLink="/" class="hero-btn">Explore Events</a>
+      <a routerLink="/events" class="hero-btn">Explore Events</a>
     </div>
 
     <!-- Sparkles -->
