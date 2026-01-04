@@ -19,6 +19,10 @@ async function indexDir(sourceDir, outputName, pick) {
   await writeJSON(join(INDEX_DIR, outputName), items);
 }
 
+await indexDir('content/categories', 'categories.json', (c) => ({
+  id: c.id, name: c.name
+}));
+
 await indexDir('content/event-types', 'event-types.json', (e) => ({
   id: e.id, name: e.name, summary: e.summary || '', image: (e.tileImage || (e.images?.[0] || '')), status: e.status || 'published'
 }));

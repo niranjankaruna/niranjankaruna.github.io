@@ -10,6 +10,26 @@ media_folder: src/assets/uploads
 public_folder: /assets/uploads
 
 collections:
+  - name: categories
+    label: Categories
+    folder: content/categories
+    create: true
+    format: json
+    identifier_field: id
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: ID, name: id, widget: string }
+      - label: Used In Products
+        name: products_using_category
+        widget: relation
+        collection: products
+        search_fields: [name]
+        display_fields: [name]
+        value_field: id
+        required: false
+        multiple: true
+        read_only: true
+
   - name: event_types
     label: Event Types
     folder: content/event-types
@@ -53,7 +73,14 @@ collections:
       - { label: Name, name: name, widget: string }
       - { label: ID, name: id, widget: string }
       - { label: Description, name: description, widget: string }
-      - { label: Category, name: category, widget: select, options: [cake-stands, backdrop-frames, cloths, easel-boards, garlands, banners, balloons, age-numbers, lights, props] }
+      - label: Category
+        name: category
+        widget: relation
+        collection: categories
+        search_fields: [name]
+        display_fields: [name]
+        value_field: id
+        required: true
       - label: Dimensions
         name: dimensions
         widget: object
