@@ -1,17 +1,12 @@
 {
-  "id": "pkg-pinky-birthday",
-  "slug": "pinky-birthday",
-  "name": "Pinky Birthday",
-  "eventType": "birthday",
   "summary": "Full pink-themed birthday setup.",
-  "images": [
-    "/assets/uploads/packages/pinky/hero.jpg"
-  ],
-  "videos": [],
+  "name": "Pinky Birthday",
+  "slug": "pinky-birthday",
+  "updatedAt": "2025-01-01T00:00:00Z",
   "tiers": [
     {
       "name": "Silver",
-      "price": 149.0,
+      "price": 148,
       "currency": "EUR",
       "items": [
         {
@@ -23,7 +18,7 @@
     },
     {
       "name": "Gold",
-      "price": 219.0,
+      "price": 219,
       "currency": "EUR",
       "items": [
         {
@@ -38,7 +33,7 @@
     },
     {
       "name": "Diamond",
-      "price": 299.0,
+      "price": 299,
       "currency": "EUR",
       "items": [
         {
@@ -56,11 +51,16 @@
       ]
     }
   ],
+  "status": "published",
+  "eventType": "birthday",
+  "images": [
+    "/assets/uploads/packages/pinky/hero.jpg"
+  ],
+  "videos": [],
+  "id": "pkg-pinky-birthday",
+  "createdAt": "2025-01-01T00:00:00Z",
   "seo": {
     "title": "Pinky Birthday Package",
     "description": "Silver/Gold/Diamond tiers with curated items"
-  },
-  "status": "published",
-  "createdAt": "2025-01-01T00:00:00Z",
-  "updatedAt": "2025-01-01T00:00:00Z"
+  }
 }
