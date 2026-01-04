@@ -4,8 +4,7 @@ backend:
   branch: main
   base_url: https://oauth-bridge.niranjankaruna.workers.dev
   auth_endpoint: /api/auth
-
-editorial_workflow: true
+  editorial_workflow: true
 
 media_folder: src/assets/uploads
 public_folder: /assets/uploads
