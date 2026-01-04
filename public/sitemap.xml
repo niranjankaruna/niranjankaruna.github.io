@@ -2,5 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://example.com/</loc><lastmod>2025-12-31</lastmod></url>
   <url><loc>https://example.com/search</loc><lastmod>2025-12-31</lastmod></url>
+  <url><loc>https://example.com/event/123456789</loc><lastmod>2025-12-31</lastmod></url>
   <url><loc>https://example.com/event/baby-shower</loc><lastmod>2025-12-31</lastmod></url>
 </urlset>
