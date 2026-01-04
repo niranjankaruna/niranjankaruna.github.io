@@ -36,30 +36,44 @@ jobs:
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
       
-      - name: Rebase drafts onto main and push
+      - name: Rebase drafts onto latest main and merge
         if: steps.check.outputs.has_changes == 'true'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           
-          # Checkout main and rebase drafts commits onto it
+          # Step 1: Checkout drafts branch
+          git checkout drafts
+          
+          # Step 2: Rebase drafts onto latest main
+          # This brings main's changes (e.g., v1.2) into drafts first,
+          # then applies the CMS changes on top
+          echo "🔄 Rebasing drafts onto latest main..."
+          git rebase origin/main
+          
+          # Step 3: Force push the rebased drafts branch
+          git push origin drafts --force-with-lease
+          echo "✅ Drafts rebased onto main"
+          
+          # Step 4: Now fast-forward main to drafts
+          # Since drafts is now ahead of main (contains main + CMS changes)
           git checkout main
-          git rebase origin/drafts
+          git merge drafts --ff-only
           
-          # Push the updated main branch
+          # Step 5: Push the updated main branch
           git push origin main
-          
-          echo "✅ Rebased drafts onto main and pushed"
+          echo "✅ Main branch updated with drafts changes"
       
-      - name: Reset drafts branch to main
+      - name: Sync drafts to main
         if: steps.check.outputs.has_changes == 'true'
         run: |
-          # Reset drafts to match main (now that main has all the commits)
+          # Both branches should now be at the same commit
+          # This ensures they stay in sync
           git checkout drafts
           git reset --hard main
           git push origin drafts --force
           
-          echo "✅ Drafts branch reset to main"
+          echo "✅ Drafts branch synced with main"
       
       - name: No changes message
         if: steps.check.outputs.has_changes == 'false'
