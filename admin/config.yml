@@ -1,3 +1,11 @@
+# CONTEXT:
+# - Decap CMS configuration for Git-based content management
+# - All CMS commits go directly to main branch; no editorial workflow
+# - OAuth handled by Cloudflare Worker proxy (oauth-bridge)
+# - identifier_field: id used for all collections; maps to JSON filename
+# - Relation widgets enable dynamic dropdowns without hardcoded values
+# - read_only relation fields provide reverse dependency visibility
+
 backend:
   name: github
   repo: niranjankaruna/niranjankaruna.github.io
@@ -5,11 +13,16 @@ backend:
   base_url: https://oauth-bridge.niranjankaruna.workers.dev
   auth_endpoint: /api/auth
 
-
+# CONTEXT:
+# - media_folder: source location during development (committed to git)
+# - public_folder: URL path after build (used in generated JSON)
 media_folder: src/assets/uploads
 public_folder: /assets/uploads
 
 collections:
+  # CONTEXT:
+  # - Categories collection minimal; exists only to provide dynamic dropdown for Products
+  # - products_using_category is read-only reverse relation for dependency awareness
   - name: categories
     label: Categories
     folder: content/categories
@@ -30,6 +43,10 @@ collections:
         multiple: true
         read_only: true
 
+  # CONTEXT:
+  # - Event Types are top-level content; Collections reference them via relation
+  # - tileImage separate from images array for explicit list view thumbnail control
+  # - Status field enables draft workflow without editorial_workflow feature
   - name: event_types
     label: Event Types
     folder: content/event-types
@@ -63,6 +80,11 @@ collections:
         multiple: true
         read_only: true
 
+  # CONTEXT:
+  # - Products are referenced by Collections via tier items
+  # - Category uses relation widget; requires Categories collection to have entries
+  # - Dimensions object collapsed by default to reduce form noise
+  # - Rental object contains pricing; indexed for list view display
   - name: products
     label: Products
     folder: content/products
@@ -121,6 +143,12 @@ collections:
         multiple: true
         read_only: true
 
+  # CONTEXT:
+  # - Collections (formerly Packages) aggregate Products into tiered pricing bundles
+  # - eventType relation links to Event Types; enables filtering by occasion
+  # - Tiers widget is nested list with Silver/Gold/Diamond pricing structure
+  # - Tier items use relation to products collection; enables search on product name
+  # - ContentService.resolveCollection() hydrates tier items with full product data
   - name: collections
     label: Collections
     folder: content/collections
