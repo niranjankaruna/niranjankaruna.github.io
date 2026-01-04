@@ -14,11 +14,11 @@ collections:
     folder: content/event-types
     create: true
     format: json
-    identifier_field: slug
+    identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: Slug, name: slug, widget: string }
-      - { label: Summary, name: summary, widget: text, required: false }
+      - { label: ID, name: id, widget: string }
+      - { label: Summary, name: summary, widget: text, required: true }
       - { label: Tile Image, name: tileImage, widget: image, required: false }
       - label: Images
         name: images
@@ -30,13 +30,6 @@ collections:
         widget: list
         required: false
         field: { label: URL, name: url, widget: string }
-      - label: SEO
-        name: seo
-        widget: object
-        collapsed: true
-        fields:
-          - { label: Title, name: title, widget: string, required: false }
-          - { label: Description, name: description, widget: text, required: false }
       - { label: Status, name: status, widget: select, options: [draft, published], default: published }
 
   - name: products
@@ -44,11 +37,11 @@ collections:
     folder: content/products
     create: true
     format: json
-    identifier_field: slug
+    identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: Slug, name: slug, widget: string }
-      - { label: SKU, name: sku, widget: string, required: false }
+      - { label: ID, name: id, widget: string }
+      - { label: Description, name: description, widget: string }
       - { label: Category, name: category, widget: select, options: [cake-stands, backdrop-frames, cloths, easel-boards, garlands, banners, balloons, age-numbers, lights, props] }
       - label: Dimensions
         name: dimensions
@@ -78,15 +71,6 @@ collections:
         widget: list
         required: false
         field: { label: URL, name: url, widget: string }
-      - { label: Care, name: care, widget: text, required: false }
-      - { label: Notes, name: notes, widget: text, required: false }
-      - label: SEO
-        name: seo
-        widget: object
-        collapsed: true
-        fields:
-          - { label: Title, name: title, widget: string, required: false }
-          - { label: Description, name: description, widget: text, required: false }
       - { label: Status, name: status, widget: select, options: [draft, published], default: published }
 
   - name: collections
@@ -94,12 +78,19 @@ collections:
     folder: content/collections
     create: true
     format: json
-    identifier_field: slug
+    identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: Slug, name: slug, widget: string }
-      - { label: Event Type, name: eventType, widget: string }
-      - { label: Summary, name: summary, widget: text, required: false }
+      - { label: ID, name: id, widget: string }
+      - label: Event Type
+        name: eventType
+        widget: relation
+        collection: event_types
+        search_fields: [name]
+        display_fields: [name]
+        value_field: id
+        required: true
+      - { label: Summary, name: summary, widget: text, required: true }
       - label: Images
         name: images
         widget: list
@@ -121,14 +112,14 @@ collections:
             name: items
             widget: list
             fields:
-              - { label: Product Slug, name: product, widget: string }
+              - label: Product
+                name: product
+                widget: relation
+                collection: products
+                search_fields: [name]
+                display_fields: [name]
+                value_field: id
+                required: true
               - { label: Quantity, name: qty, widget: number, min: 1, default: 1 }
               - { label: Notes, name: notes, widget: string, required: false }
-      - label: SEO
-        name: seo
-        widget: object
-        collapsed: true
-        fields:
-          - { label: Title, name: title, widget: string, required: false }
-          - { label: Description, name: description, widget: text, required: false }
       - { label: Status, name: status, widget: select, options: [draft, published], default: published }
