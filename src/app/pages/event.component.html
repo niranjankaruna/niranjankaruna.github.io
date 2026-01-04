@@ -14,11 +14,9 @@
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     <a class="tile block" *ngFor="let p of packages" [routerLink]="['/package', p.slug]">
-      <div class="aspect-[16/9] bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center text-white text-xl font-semibold overflow-hidden"
-           [style.backgroundImage]="p.tileImage ? 'url(' + p.tileImage + ')' : null"
-           [style.backgroundSize]="p.tileImage ? 'cover' : null"
-           [style.backgroundPosition]="p.tileImage ? 'center' : null">
-        <span *ngIf="!p.tileImage">{{p.name}}</span>
+      <div class="aspect-[16/9] bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center text-white text-xl font-semibold overflow-hidden relative">
+        <img *ngIf="p.tileImage" [src]="p.tileImage" [alt]="p.name" class="absolute inset-0 w-full h-full object-cover">
+        <span *ngIf="!p.tileImage" class="relative z-10">{{p.name}}</span>
       </div>
       <div class="p-4">
         <div class="text-lg font-semibold">{{p.name}}</div>

@@ -3,11 +3,9 @@
     <h1 class="text-3xl font-bold mb-3">Choose an Event Type</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <a class="tile block" *ngFor="let evt of events" [routerLink]="['/event', evt.slug]">
-        <div class="aspect-[16/9] bg-gradient-to-br from-indigo-200 to-pink-200 flex items-center justify-center text-white text-2xl font-bold overflow-hidden"
-             [style.backgroundImage]="evt.tileImage ? 'url(' + evt.tileImage + ')' : null"
-             [style.backgroundSize]="evt.tileImage ? 'cover' : null"
-             [style.backgroundPosition]="evt.tileImage ? 'center' : null">
-          <span *ngIf="!evt.tileImage">{{evt.name}}</span>
+        <div class="aspect-[16/9] bg-gradient-to-br from-indigo-200 to-pink-200 flex items-center justify-center text-white text-2xl font-bold overflow-hidden relative">
+          <img *ngIf="evt.tileImage" [src]="evt.tileImage" [alt]="evt.name" class="absolute inset-0 w-full h-full object-cover">
+          <span *ngIf="!evt.tileImage" class="relative z-10">{{evt.name}}</span>
         </div>
         <div class="p-4">
           <div class="text-lg font-semibold">{{evt.name}}</div>
@@ -21,11 +19,9 @@
     <h2 class="text-2xl font-semibold mb-3">Featured Packages</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <a class="tile block" *ngFor="let p of packages" [routerLink]="['/package', p.slug]">
-        <div class="aspect-[16/9] bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center text-white text-xl font-semibold overflow-hidden"
-             [style.backgroundImage]="p.tileImage ? 'url(' + p.tileImage + ')' : null"
-             [style.backgroundSize]="p.tileImage ? 'cover' : null"
-             [style.backgroundPosition]="p.tileImage ? 'center' : null">
-          <span *ngIf="!p.tileImage">{{p.name}}</span>
+        <div class="aspect-[16/9] bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center text-white text-xl font-semibold overflow-hidden relative">
+          <img *ngIf="p.tileImage" [src]="p.tileImage" [alt]="p.name" class="absolute inset-0 w-full h-full object-cover">
+          <span *ngIf="!p.tileImage" class="relative z-10">{{p.name}}</span>
         </div>
         <div class="p-4">
           <div class="text-lg font-semibold">{{p.name}}</div>
