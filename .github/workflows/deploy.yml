@@ -10,6 +10,7 @@ on:
       - 'scripts/**'
       - 'package.json'
       - 'angular.json'
+  workflow_call:
 
 permissions:
   contents: read
