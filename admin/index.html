@@ -69,14 +69,40 @@
       const WORKFLOW_FILE = 'publish.yml';
       
       function getGitHubToken() {
-        // Get token from Decap CMS localStorage
-        const stored = localStorage.getItem('netlify-cms-user');
-        if (stored) {
-          try {
-            const data = JSON.parse(stored);
-            return data.token;
-          } catch (e) {}
+        // Try multiple possible localStorage keys for Decap CMS token
+        const keys = [
+          'netlify-cms-user',
+          'decap-cms-user', 
+          'git-gateway-user',
+          'github-auth'
+        ];
+        
+        for (const key of keys) {
+          const stored = localStorage.getItem(key);
+          if (stored) {
+            try {
+              const data = JSON.parse(stored);
+              if (data.token) return data.token;
+              if (data.access_token) return data.access_token;
+            } catch (e) {}
+          }
         }
+        
+        // Also check for token directly stored
+        for (const key of Object.keys(localStorage)) {
+          if (key.includes('token') || key.includes('auth') || key.includes('cms')) {
+            const val = localStorage.getItem(key);
+            try {
+              const data = JSON.parse(val);
+              if (data && data.token) return data.token;
+              if (data && data.access_token) return data.access_token;
+            } catch (e) {
+              // If it's a raw token string (starts with gh)
+              if (val && val.startsWith('gh')) return val;
+            }
+          }
+        }
+        
         return null;
       }
       
