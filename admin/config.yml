@@ -31,6 +31,16 @@ collections:
         required: false
         field: { label: URL, name: url, widget: string }
       - { label: Status, name: status, widget: select, options: [draft, published], default: published }
+      - label: Used In Collections
+        name: collections_using_event
+        widget: relation
+        collection: collections
+        search_fields: [name]
+        display_fields: [name]
+        value_field: id
+        required: false
+        multiple: true
+        read_only: true
 
   - name: products
     label: Products
@@ -72,6 +82,16 @@ collections:
         required: false
         field: { label: URL, name: url, widget: string }
       - { label: Status, name: status, widget: select, options: [draft, published], default: published }
+      - label: Used In Collections
+        name: collections_using_product
+        widget: relation
+        collection: collections
+        search_fields: [name]
+        display_fields: [name]
+        value_field: id
+        required: false
+        multiple: true
+        read_only: true
 
   - name: collections
     label: Collections
