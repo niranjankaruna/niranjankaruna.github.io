@@ -1,18 +1,18 @@
 {
-  "id": "evt-birthday",
-  "slug": "birthday",
+  "summary": "Birthday party décor themess",
   "name": "Birthday",
-  "summary": "Birthday party d\u00e9cor themes",
+  "slug": "birthday",
   "tileImage": "/assets/uploads/tiles/birthday.jpg",
+  "updatedAt": "2025-01-01T00:00:00Z",
+  "status": "published",
   "images": [
     "/assets/uploads/events/birthday-hero.jpg"
   ],
   "videos": [],
-  "seo": {
-    "title": "Birthday D\u00e9cor",
-    "description": "Reusable d\u00e9cor for birthdays"
-  },
-  "status": "published",
+  "id": "evt-birthday",
   "createdAt": "2025-01-01T00:00:00Z",
-  "updatedAt": "2025-01-01T00:00:00Z"
+  "seo": {
+    "title": "Birthday Décor",
+    "description": "Reusable décor for birthdays"
+  }
 }
