@@ -60,7 +60,7 @@
   <body>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     
-    <button id="publish-btn" onclick="publishToLive()">🚀 Publish to Live</button>
+    <button id="publish-btn">🚀 Publish to Live</button>
     <div id="publish-status"></div>
     
     <script>
@@ -121,10 +121,12 @@
           { headers: { 'Authorization': `token ${token}` } }
         );
         const data = await response.json();
-        return data.ahead_by > 0;
+        console.log('Comparing main...drafts:', data);
+        console.log('Ahead by:', data.ahead_by, 'Behind by:', data.behind_by, 'Status:', data.status);
+        return data.ahead_by > 0 || data.status === 'ahead' || data.status === 'diverged';
       }
       
-      async function publishToLive() {
+      async function publishToLive(force = false) {
         const btn = document.getElementById('publish-btn');
         const token = getGitHubToken();
         
@@ -139,15 +141,17 @@
         showStatus('Checking for unpublished changes...');
         
         try {
-          // Check if there are changes to publish
-          const hasChanges = await checkForChanges(token);
-          
-          if (!hasChanges) {
-            showStatus('✅ No changes to publish - site is up to date!', 'success');
-            btn.textContent = '🚀 Publish to Live';
-            btn.disabled = false;
-            btn.classList.remove('publishing');
-            return;
+          // Check if there are changes to publish (skip if force)
+          if (!force) {
+            const hasChanges = await checkForChanges(token);
+            
+            if (!hasChanges) {
+              showStatus('✅ No changes to publish - site is up to date! (Hold Shift + Click to force)', 'success');
+              btn.textContent = '🚀 Publish to Live';
+              btn.disabled = false;
+              btn.classList.remove('publishing');
+              return;
+            }
           }
           
           btn.textContent = '⏳ Publishing...';
@@ -191,6 +195,12 @@
           btn.classList.remove('publishing');
         }
       }
+      
+      // Handle shift+click for force publish
+      document.getElementById('publish-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        publishToLive(e.shiftKey);
+      }, true);
     </script>
   </body>
 </html>
