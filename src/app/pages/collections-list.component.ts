@@ -130,12 +130,12 @@ export class CollectionsListComponent implements OnInit {
 
   constructor(private content: ContentService) {}
 
-  ngOnInit() {
-    this.content.getCollectionsIndex().subscribe({
-      next: (data) => {
-        this.collections = data.filter((c: any) => c.status === 'published');
-      },
-      error: (err) => console.error('Error loading collections:', err)
-    });
+  async ngOnInit() {
+    try {
+      const data = await this.content.getCollectionsIndex();
+      this.collections = data.filter((c: any) => c.status === 'published');
+    } catch (err) {
+      console.error('Error loading collections:', err);
+    }
   }
 }

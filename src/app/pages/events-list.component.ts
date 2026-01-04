@@ -118,12 +118,12 @@ export class EventsListComponent implements OnInit {
 
   constructor(private content: ContentService) {}
 
-  ngOnInit() {
-    this.content.getEventsIndex().subscribe({
-      next: (data) => {
-        this.events = data.filter((e: any) => e.status === 'published');
-      },
-      error: (err) => console.error('Error loading events:', err)
-    });
+  async ngOnInit() {
+    try {
+      const data = await this.content.getEventsIndex();
+      this.events = data.filter((e: any) => e.status === 'published');
+    } catch (err) {
+      console.error('Error loading events:', err);
+    }
   }
 }

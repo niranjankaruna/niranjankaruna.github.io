@@ -128,12 +128,12 @@ export class ProductsListComponent implements OnInit {
 
   constructor(private content: ContentService) {}
 
-  ngOnInit() {
-    this.content.getProductsIndex().subscribe({
-      next: (data) => {
-        this.products = data.filter((p: any) => p.status === 'published');
-      },
-      error: (err) => console.error('Error loading products:', err)
-    });
+  async ngOnInit() {
+    try {
+      const data = await this.content.getProductsIndex();
+      this.products = data.filter((p: any) => p.status === 'published');
+    } catch (err) {
+      console.error('Error loading products:', err);
+    }
   }
 }
