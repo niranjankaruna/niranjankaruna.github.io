@@ -7,15 +7,14 @@ import { ContentService } from '../services/content.service';
   standalone: true,
   selector: 'app-home',
   imports: [CommonModule, RouterLink],
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
 export class HomeComponent {
   private content = inject(ContentService);
   events: any[] = [];
-  packages: any[] = [];
 
   async ngOnInit() {
     this.events = await this.content.getEventsIndex();
-    this.packages = (await this.content.getPackagesIndex()).slice(0, 6);
   }
 }

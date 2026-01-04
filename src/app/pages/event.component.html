@@ -1,29 +1,56 @@
-<section class="space-y-6">
-  <div class="relative h-64 rounded-xl overflow-hidden bg-gray-100" *ngIf="event?.tileImage">
-    <img [src]="event.tileImage" [alt]="event.name" class="w-full h-full object-cover">
-    <div class="absolute inset-0 bg-black/30 flex items-end p-6">
-      <h1 class="text-4xl font-bold text-white">{{event?.name}}</h1>
+<section class="event-page">
+  <!-- Event Header -->
+  <div class="event-header" *ngIf="event">
+    <div class="event-hero" *ngIf="event?.tileImage" [ngStyle]="{'background-image': 'url(' + event.tileImage + ')'}">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>{{event?.name}}</h1>
+        <p>{{event?.summary}}</p>
+      </div>
+    </div>
+    <div class="event-hero event-hero-fallback" *ngIf="!event?.tileImage">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>{{event?.name}}</h1>
+        <p>{{event?.summary}}</p>
+      </div>
     </div>
   </div>
-  
-  <div *ngIf="!event?.tileImage">
-    <h1 class="text-3xl font-bold">{{event?.name}}</h1>
+
+  <!-- Packages Section -->
+  <div class="packages-section" *ngIf="packages.length > 0">
+    <h2 class="section-title">Available Packages</h2>
+    <div class="app-grid">
+      <article *ngFor="let p of packages" class="app-card" [routerLink]="['/package', p.slug]">
+        <div
+          class="app-media"
+          *ngIf="p.tileImage"
+          [ngStyle]="{ 'background-image': 'url(' + p.tileImage + ')' }"
+        ></div>
+        <div
+          class="app-media app-media-fallback"
+          *ngIf="!p.tileImage"
+        ></div>
+
+        <div class="media-overlay"></div>
+
+        <figcaption class="caption">
+          <div class="show-cont">
+            <h3 class="media-title">{{ p.name }}</h3>
+            <div class="tier-badges">
+              <span class="tier-badge" *ngFor="let t of p.tiers">{{t.name}}: {{t.price | currency:t.currency}}</span>
+            </div>
+            <span class="explore-btn">View Package</span>
+          </div>
+        </figcaption>
+
+        <span class="after"></span>
+      </article>
+    </div>
   </div>
 
-  <p class="text-xl text-gray-700">{{event?.summary}}</p>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    <a class="tile block" *ngFor="let p of packages" [routerLink]="['/package', p.slug]">
-      <div class="aspect-[16/9] bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center text-white text-xl font-semibold overflow-hidden relative">
-        <img *ngIf="p.tileImage" [src]="p.tileImage" [alt]="p.name" class="absolute inset-0 w-full h-full object-cover">
-        <span *ngIf="!p.tileImage" class="relative z-10">{{p.name}}</span>
-      </div>
-      <div class="p-4">
-        <div class="text-lg font-semibold">{{p.name}}</div>
-        <div class="flex gap-2 mt-2 flex-wrap">
-          <span class="badge" *ngFor="let t of p.tiers">{{t.name}}: {{t.price | currency:t.currency}}</span>
-        </div>
-      </div>
-    </a>
+  <div class="no-packages" *ngIf="packages.length === 0 && event">
+    <p>No packages available for this event type yet.</p>
+    <a routerLink="/" class="back-btn">← Back to Events</a>
   </div>
 </section>

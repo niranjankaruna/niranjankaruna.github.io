@@ -1,0 +1,130 @@
+<div class="app-container">
+  <!-- Original balloons -->
+  <div class="floating-shape shape-1"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-2"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-3"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-4"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-5"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-6"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-7"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-8"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-9"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-10"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-11"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-12"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-13"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-14"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-15"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-16"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-17"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-18"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-19"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-20"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-21"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-22"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-23"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-24"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-25"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-26"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-27"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-28"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-29"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-30"><div class="balloon-ref"></div></div>
+
+  <!-- Duplicates for continuous flow -->
+  <div class="floating-shape shape-1 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-2 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-3 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-4 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-5 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-6 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-7 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-8 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-9 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-10 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-11 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-12 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-13 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-14 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-15 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-16 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-17 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-18 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-19 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-20 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-21 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-22 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-23 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-24 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-25 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-26 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-27 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-28 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-29 clone"><div class="balloon-ref"></div></div>
+  <div class="floating-shape shape-30 clone"><div class="balloon-ref"></div></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">
+        <span>Decor Rentals</span>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-links desktop">
+        <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Events</a></li>
+        <li><a routerLink="/search" routerLinkActive="active-link">Search</a></li>
+        <li><a href="/admin/" target="_blank">Admin</a></li>
+      </ul>
+
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" (click)="toggleMenu()">
+        <span *ngIf="!isMenuOpen">&#9776;</span>
+        <span *ngIf="isMenuOpen">&times;</span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <ul class="nav-links mobile" [class.show]="isMenuOpen">
+      <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMenu()">Events</a></li>
+      <li><a routerLink="/search" routerLinkActive="active-link" (click)="toggleMenu()">Search</a></li>
+      <li><a href="/admin/" target="_blank" (click)="toggleMenu()">Admin</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <h1>Welcome to Decor Rentals</h1>
+      <p>Why buy when you can rent?</p>
+      <a routerLink="/" class="hero-btn">Explore Events</a>
+    </div>
+
+    <!-- Sparkles -->
+    <div class="sparkle sparkle-1"></div>
+    <div class="sparkle sparkle-2"></div>
+    <div class="sparkle sparkle-3"></div>
+    <div class="sparkle sparkle-4"></div>
+    <div class="sparkle sparkle-5"></div>
+    <div class="sparkle sparkle-6"></div>
+
+    <!-- Soft Glows -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© {{currentYear}} Decor Rentals. All rights reserved.</p>
+  </footer>
+</div>

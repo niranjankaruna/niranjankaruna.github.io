@@ -6,7 +6,8 @@ import { ContentService } from '../services/content.service';
 @Component({
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './event.component.html'
+  templateUrl: './event.component.html',
+  styleUrl: './event.component.css'
 })
 export class EventComponent {
   private route = inject(ActivatedRoute);
