@@ -72,7 +72,9 @@
 
       <!-- Desktop Navigation -->
       <ul class="nav-links desktop">
-        <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Events</a></li>
+        <li><a routerLink="/events" routerLinkActive="active-link">Events</a></li>
+        <li><a routerLink="/collections" routerLinkActive="active-link">Collections</a></li>
+        <li><a routerLink="/products" routerLinkActive="active-link">Products</a></li>
         <li><a routerLink="/search" routerLinkActive="active-link">Search</a></li>
         <li><a href="/admin/" target="_blank">Admin</a></li>
       </ul>
@@ -86,7 +88,9 @@
 
     <!-- Mobile Menu -->
     <ul class="nav-links mobile" [class.show]="isMenuOpen">
-      <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMenu()">Events</a></li>
+      <li><a routerLink="/events" routerLinkActive="active-link" (click)="toggleMenu()">Events</a></li>
+      <li><a routerLink="/collections" routerLinkActive="active-link" (click)="toggleMenu()">Collections</a></li>
+      <li><a routerLink="/products" routerLinkActive="active-link" (click)="toggleMenu()">Products</a></li>
       <li><a routerLink="/search" routerLinkActive="active-link" (click)="toggleMenu()">Search</a></li>
       <li><a href="/admin/" target="_blank" (click)="toggleMenu()">Admin</a></li>
     </ul>
