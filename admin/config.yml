@@ -10,7 +10,7 @@ backend:
   name: github
   repo: decor-rentals/decor-rentals.github.io
   branch: main
-  base_url: https://oauth-bridge.niranjankaruna.workers.dev
+  base_url: https://oauth-bridge.decor-rentals.workers.dev
   auth_endpoint: /api/auth
 
 # CONTEXT:
