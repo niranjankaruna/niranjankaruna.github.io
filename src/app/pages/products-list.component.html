@@ -1,0 +1,32 @@
+<section class="app-page">
+  <div class="app-grid">
+    <article *ngFor="let product of products" class="app-card" [routerLink]="['/product', product.id]">
+      <!-- Background image -->
+      <div
+        class="app-media"
+        *ngIf="product.image"
+        [ngStyle]="{ 'background-image': 'url(' + product.image + ')' }"
+      ></div>
+      <div
+        class="app-media app-media-fallback"
+        *ngIf="!product.image"
+      ></div>
+
+      <!-- dark overlay on image -->
+      <div class="media-overlay"></div>
+
+      <!-- animated caption -->
+      <figcaption class="caption">
+        <div class="show-cont">
+          <h3 class="media-title">{{ product.name }}</h3>
+          <p class="card-category" *ngIf="product.category">{{ product.category }}</p>
+          <p class="card-price" *ngIf="product.price">{{ product.price }} {{ product.currency }}/rental</p>
+          <span class="explore-btn">View</span>
+        </div>
+      </figcaption>
+
+      <!-- overlay gradient -->
+      <span class="after"></span>
+    </article>
+  </div>
+</section>

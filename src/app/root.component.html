@@ -103,7 +103,7 @@
     <div class="hero-content">
       <h1>Welcome to Decor Rentals</h1>
       <p>Why buy when you can rent?</p>
-      <a routerLink="/events" class="hero-btn">Explore Events</a>
+      <a *ngIf="!isEventsPage" routerLink="/events" class="hero-btn">Explore Events</a>
     </div>
 
     <!-- Sparkles -->

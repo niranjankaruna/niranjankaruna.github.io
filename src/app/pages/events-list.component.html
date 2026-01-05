@@ -1,0 +1,32 @@
+<section class="app-page">
+  <div class="app-grid">
+    <article *ngFor="let evt of events" class="app-card" [routerLink]="['/event', evt.id]">
+      <!-- Background image -->
+      <div
+        class="app-media"
+        *ngIf="evt.image"
+        [ngStyle]="{ 'background-image': 'url(' + evt.image + ')' }"
+      ></div>
+      <div
+        class="app-media app-media-fallback"
+        *ngIf="!evt.image"
+      ></div>
+
+      <!-- dark overlay on image -->
+      <div class="media-overlay"></div>
+
+      <!-- animated caption -->
+      <figcaption class="caption">
+        <div class="show-cont">
+        <!-- No need for title, as the image itself having the title -->
+         <!-- <h3 class="media-title">{{ evt.name }}</h3> -->
+          <p class="card-content">{{ evt.summary }}</p>
+          <span class="explore-btn">Explore</span>
+        </div>
+      </figcaption>
+
+      <!-- overlay gradient -->
+      <span class="after"></span>
+    </article>
+  </div>
+</section>
