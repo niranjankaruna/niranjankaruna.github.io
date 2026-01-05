@@ -3,5 +3,6 @@
   "name": "Gender Reveal",
   "id": "gender-reveal",
   "summary": "An exciting celebration where family and friends come together to discover and celebrate the baby’s gender.",
-  "tileImage": "/assets/uploads/genderreveal.png"
+  "tileImage": "/assets/uploads/genderreveal.png",
+  "heroImage": "/assets/uploads/genderreveal-hero.png"
 }
