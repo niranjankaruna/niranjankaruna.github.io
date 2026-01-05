@@ -14,6 +14,7 @@
   margin-right: calc(-50vw + 50%);
   width: 100vw;
   background-color: #FFF7E8;
+  border-radius: 0 !important; /* ensure square edges on the header container */
 }
 
 /* Event Hero/Header - Full Width Card Style */
@@ -22,7 +23,7 @@
   height: 25vh;
   min-height: 200px;
   width: 100%;
-  border-radius: 0;
+  border-radius: 0 !important; /* force no rounding on the hero itself */
   overflow: hidden;
   background-size: cover;
   background-position: center;
@@ -48,7 +49,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.1);
   z-index: 1;
-  border-radius: 0;
+  border-radius: 0 !important; /* keep overlay edges square */
 }
 
 /* Overlay gradient span - same as card effect */
@@ -60,7 +61,7 @@
   bottom: 0;
   opacity: 0.7;
   z-index: 2;
-  border-radius: 0;
+  border-radius: 0 !important; /* keep gradient overlay square */
   mix-blend-mode: multiply;
   transition: opacity 0.4s ease;
 }
@@ -109,6 +110,45 @@
   color: #1F3D3A;
   margin-bottom: 30px;
   text-align: center;
+}
+
+/* Sparkles */
+.sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: sparkle 2s infinite;
+  z-index: 4;
+}
+
+.sparkle-1 { top: 20%; left: 20%; animation-delay: 0s; }
+.sparkle-2 { top: 70%; left: 60%; animation-delay: 0.5s; }
+.sparkle-3 { top: 50%; left: 70%; animation-delay: 1s; }
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 0.3; }
+}
+
+/* Soft Glows */
+.glow {
+  position: absolute;
+  width: 15px; height: 15px;
+  background: radial-gradient(circle, #fff, rgba(255,255,255,0));
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: floatGlow 8s ease-in-out infinite;
+  z-index: 4;
+}
+
+.glow-1 { top: 15%; left: 25%; animation-delay: 0s; }
+.glow-2 { top: 70%; left: 90%; animation-delay: 2s; }
+
+@keyframes floatGlow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(20px); }
 }
 
 /* App Grid - same as home */
@@ -290,7 +330,7 @@
 @media (max-width: 768px) {
   .event-hero {
     height: 220px;
-    border-radius: 15px;
+    border-radius: 0 !important;
   }
   
   .event-hero .hero-content h1 {
@@ -315,10 +355,15 @@
 @media (max-width: 480px) {
   .event-hero {
     height: 180px;
+    border-radius: 0 !important;
   }
   
   .event-hero .hero-content h1 {
     font-size: 1.5rem;
+  }
+  
+  .event-hero .hero-content p {
+    font-size: 0.9rem;
   }
   
   .app-card {

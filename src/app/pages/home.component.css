@@ -4,10 +4,11 @@
   width: 100%;
 }
 
-/* Hero Section */
+/* Hero Card (matches event detail style) */
 .hero {
   position: relative;
-  height: 30vh;
+  height: 25vh;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,42 +18,68 @@
   margin-right: calc(-50vw + 50%);
   width: 100vw;
   overflow: hidden;
-  background-color: #FFF7E8;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0 !important;
+  box-shadow: none;
+  transition: transform 0.6s ease, filter 0.6s ease, box-shadow 0.6s ease;
 }
 
-.hero-bg {
+.hero:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 16px 50px rgba(248, 106, 46, 0.2);
+}
+
+.hero .media-overlay,
+.hero .after,
+.hero .hero-content {
+  border-radius: 0 !important;
+}
+
+.hero .media-overlay {
   position: absolute;
   inset: 0;
-  background: url('/assets/hero-bg.jpg') center/cover no-repeat;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
-.hero-overlay {
+.hero .after {
+  content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, rgba(248,106,46,0.8), rgba(249,196,65,0.7), rgba(44,168,217,0.7));
-  backdrop-filter: blur(4px);
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.hero:hover .after {
+  opacity: 0.9;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 10;
-  max-width: 800px;
-  padding: 0 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 20px;
+  background: linear-gradient(to top, rgba(31, 61, 58, 0.95), rgba(31, 61, 58, 0.5), transparent);
+  color: #FFF7E8;
+  z-index: 3;
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  color: #FFF7E8;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-  margin-bottom: 16px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
 }
 
 .hero-content p {
-  font-size: 1.5rem;
-  color: #FFF7E8;
-  margin-bottom: 24px;
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  margin-bottom: 16px;
 }
 
 .hero-btn {
@@ -278,6 +305,10 @@
 
 /* Mobile: ≤ 768px */
 @media (max-width: 768px) {
+  .hero-content h1 { font-size: 1.8rem; }
+  .hero-content p { font-size: 1rem; }
+  .hero-btn { padding: 10px 24px; font-size: 0.9rem; }
+  
   .app-page {
     padding: 24px 16px 32px;
   }
@@ -295,6 +326,10 @@
 
 /* Extra small phones: ≤ 480px */
 @media (max-width: 480px) {
+  .hero-content h1 { font-size: 1.5rem; }
+  .hero-content p { font-size: 0.9rem; }
+  .hero-btn { padding: 8px 20px; font-size: 0.85rem; }
+  
   .app-page {
     padding: 20px 12px 28px;
   }

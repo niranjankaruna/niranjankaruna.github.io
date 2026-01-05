@@ -1,25 +1,24 @@
+<!-- Hero Card (matches event detail style) -->
+<section class="hero" style="background-image: url('/assets/hero-bg.jpg')">
+  <div class="media-overlay"></div>
+  <span class="after"></span>
+
+  <div class="hero-content">
+    <h1>Explore Events</h1>
+    <p>Find the perfect occasion to celebrate</p>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="sparkle sparkle-1"></div>
+
+  <div class="sparkle sparkle-3"></div>
+
+  <!-- Soft Glows -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+</section>
+
 <section class="app-page">
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-
-    <!-- Hero Content -->
-    <div class="hero-content">
-      <h1>Explore Events</h1>
-      <p>Find the perfect occasion to celebrate</p>
-    </div>
-
-    <!-- Sparkles -->
-    <div class="sparkle sparkle-1"></div>
-    <div class="sparkle sparkle-2"></div>
-    <div class="sparkle sparkle-3"></div>
-
-    <!-- Soft Glows -->
-    <div class="glow glow-1"></div>
-    <div class="glow glow-2"></div>
-  </section>
-
   <div class="app-grid">
     <article *ngFor="let evt of events" class="app-card" [routerLink]="['/event', evt.id]">
       <!-- Background image -->
