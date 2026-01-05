@@ -81,6 +81,42 @@ No drafts, no approvals - direct publishing.
 
 ---
 
+## Admin & OAuth Bridge
+
+### OAuth Bridge Worker
+The OAuth bridge is a **Cloudflare Worker** that handles GitHub authentication for Decap CMS.
+
+**Location:**
+- Cloudflare Dashboard: https://dash.cloudflare.com/
+- Managed by: `niranjankaruna` account
+- Worker URL: `https://oauth-bridge.decor-rentals.workers.dev`
+- Source code: `/oauth-bridge/worker.js`
+
+**Setup:**
+1. Create a GitHub OAuth App:
+   - Go to GitHub → Settings → Developer settings → OAuth Apps → create new app
+   - Set homepage URL to your site domain
+   - Set Authorization callback URL to: `https://oauth-bridge.decor-rentals.workers.dev/callback`
+
+2. Store credentials as Cloudflare Worker secrets:
+   ```bash
+   cd oauth-bridge
+   npx wrangler secret put CLIENT_ID          # Paste GitHub OAuth App Client ID
+   npx wrangler secret put CLIENT_SECRET      # Paste GitHub OAuth App Client Secret
+   ```
+
+3. Deploy changes:
+   ```bash
+   npx wrangler deploy
+   ```
+
+**Maintenance:**
+- Rotate CLIENT_SECRET periodically
+- Check Cloudflare dashboard for worker logs/errors
+- Only the Cloudflare account owner can manage this worker
+
+---
+
 ## License
 
 MIT
