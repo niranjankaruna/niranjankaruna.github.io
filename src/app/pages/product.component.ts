@@ -7,7 +7,8 @@ import { SeoService } from '../services/seo.service';
 @Component({
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './product.component.html'
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css']
 })
 export class ProductComponent {
   private route = inject(ActivatedRoute);
@@ -16,10 +17,12 @@ export class ProductComponent {
 
   product: any;
   usedIn: any[] = [];
+  selectedImage: string | null = null;
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.product = await this.content.getProduct(id);
+    this.selectedImage = (this.product.images || [])[0] || null;
     const collections = await this.content.getCollectionsIndex();
     this.usedIn = collections.filter((p:any) => (p.productIds||[]).includes(id));
 
@@ -38,5 +41,19 @@ export class ProductComponent {
         "price": String(this.product.rental?.price ?? "")
       }
     });
+  }
+
+  setSelected(image: string) {
+    this.selectedImage = image;
+  }
+
+  get heroImage(): string {
+    const src = this.selectedImage || (this.product?.images || [])[0];
+    return src ? `url('${src}')` : 'linear-gradient(135deg, rgba(248,106,46,0.6), rgba(249,196,65,0.6), rgba(44,168,217,0.6))';
+  }
+
+  get mainImage(): string {
+    const src = this.selectedImage || (this.product?.images || [])[0];
+    return src ? `url('${src}')` : 'none';
   }
 }

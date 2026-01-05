@@ -1,34 +1,58 @@
 <ng-container *ngIf="product as p">
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="md:col-span-2">
-      <div class="aspect-[16/9] bg-gray-200 rounded-2xl mb-4"></div>
-      <div class="grid grid-cols-3 gap-2">
-        <div class="aspect-square bg-gray-200 rounded-xl" *ngFor="let i of [1,2,3,4,5,6]"></div>
+  <!-- Hero section hidden -->
+  <section class="product-hero"></section>
+
+  <section class="product-body">
+    <!-- Gallery Column -->
+    <div class="gallery">
+      <!-- Main Image -->
+      <div class="main-media" [ngStyle]="{'background-image': mainImage}"></div>
+
+      <!-- Thumbnails -->
+      <div class="thumbs" *ngIf="p.images?.length">
+        <button
+          *ngFor="let img of p.images"
+          class="thumb"
+          type="button"
+          [class.active]="img === selectedImage"
+          [ngStyle]="{'background-image': 'url(' + img + ')'}"
+          (click)="setSelected(img)"
+          [attr.aria-label]="'View image'">
+        </button>
       </div>
-      <div class="mt-6" *ngIf="p.videos?.length">
-        <h3 class="text-lg font-semibold mb-2">Videos</h3>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <iframe *ngFor="let v of p.videos" class="w-full aspect-video rounded-xl" [src]="v" allowfullscreen></iframe>
+
+      <!-- Videos Section -->
+      <div class="videos" *ngIf="p.videos?.length">
+        <h3>Videos</h3>
+        <div class="video-grid">
+          <iframe *ngFor="let v of p.videos" class="video" [src]="v" allowfullscreen></iframe>
         </div>
       </div>
     </div>
 
-    <div>
-      <h1 class="text-3xl font-bold">{{p.name}}</h1>
-      <div class="mt-2 text-gray-700">{{p.seo?.description}}</div>
-      <div class="mt-4">
-        <div class="text-2xl font-semibold">{{p.rental?.price | currency:p.rental?.currency}}</div>
-        <div class="text-sm text-gray-600">Standalone rental</div>
+    <!-- Details Column -->
+    <div class="details">
+      <!-- Product Name -->
+      <h2>{{p.name}}</h2>
+
+      <!-- Description -->
+      <p class="summary">{{p.summary || p.seo?.description}}</p>
+
+      <!-- Price Card -->
+      <div class="price-card" *ngIf="p.rental">
+        <div class="amount">{{p.rental?.price | currency:p.rental?.currency}}</div>
+        <div class="note">Standalone rental</div>
       </div>
 
-      <div class="mt-6 card" *ngIf="usedIn.length">
-        <h3 class="text-lg font-semibold mb-2">Appears In Collections</h3>
-        <ul class="space-y-2">
+      <!-- Collections -->
+      <div class="collections" *ngIf="usedIn.length">
+        <h3>Appears In Collections</h3>
+        <ul>
           <li *ngFor="let pkg of usedIn">
-            <a class="text-brand-700 hover:underline" [routerLink]="['/collection', pkg.id]">{{pkg.name}}</a>
+            <a [routerLink]="['/collection', pkg.id]">{{pkg.name}}</a>
           </li>
         </ul>
       </div>
     </div>
-  </div>
+  </section>
 </ng-container>
