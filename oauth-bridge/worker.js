@@ -48,15 +48,21 @@ export default {
             .status { margin: 20px 0; padding: 10px; border-radius: 4px; }
             .success { background: #d4edda; color: #155724; }
             .error { background: #f8d7da; color: #721c24; }
+            .debug { margin-top: 12px; font-size: 0.95rem; color: #333; word-break: break-all; }
           </style>
         </head>
         <body>
           <h3>GitHub Authorization</h3>
           <div id="status" class="status">Completing authentication...</div>
+          <div class="debug">
+            <div><strong>Request origin:</strong> ${url.origin}</div>
+            <div><strong>Expected redirect_uri:</strong> ${new URL('/callback', url.origin).toString()}</div>
+          </div>
           <script>
             (function() {
               const provider = "github";
               const baseUrl = "${url.origin}";
+              const redirectUri = "${new URL('/callback', url.origin).toString()}";
               const token = "${tokenJson.access_token}";
               const statusEl = document.getElementById('status');
               
@@ -71,6 +77,7 @@ export default {
               }
               
               log('Starting handshake with opener');
+              log('Redirect URI used: ' + redirectUri);
               
               // Step 1: Send the handshake message
               const handshakeMsg = "authorizing:" + provider;
