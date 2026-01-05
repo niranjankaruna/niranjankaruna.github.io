@@ -3,5 +3,6 @@
   "name": "House Warming",
   "id": "house-warming",
   "summary": "A warm gathering to celebrate a new home and share happiness, blessings, and new beginnings.",
-  "tileImage": "/assets/uploads/housewarming.png"
+  "tileImage": "/assets/uploads/housewarming.png",
+  "heroImage": "/assets/uploads/housewarming-hero.png"
 }
