@@ -9,8 +9,8 @@ const urls = new Set([
 async function pushAll(dir, routeBase) {
   const files = (await readdir(dir)).filter(f=>f.endsWith('.json') && f!=='index.json');
   for (const f of files) {
-    const slug = f.replace('.json','');
-    urls.add(`${routeBase}/${slug}`);
+    const id = f.replace('.json','');
+    urls.add(`${routeBase}/${id}`);
   }
 }
 await pushAll('content/event-types', '/event');

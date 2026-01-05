@@ -21,7 +21,7 @@
   <div class="packages-section" *ngIf="collections.length > 0">
     <h2 class="section-title">Available Collections</h2>
     <div class="app-grid">
-      <article *ngFor="let p of collections" class="app-card" [routerLink]="['/collection', p.slug]">
+      <article *ngFor="let p of collections" class="app-card" [routerLink]="['/collection', p.id]">
         <div
           class="app-media"
           *ngIf="p.tileImage"
@@ -51,6 +51,6 @@
 
   <div class="no-packages" *ngIf="collections.length === 0 && event">
     <p>No collections available for this event type yet.</p>
-    <a routerLink="/" class="back-btn">← Back to Events</a>
+    <a routerLink="/events" class="back-btn">← Back to Events</a>
   </div>
 </section>

@@ -18,8 +18,8 @@ export class CollectionComponent {
   tierIndex = 0;
 
   async ngOnInit() {
-    const slug = this.route.snapshot.paramMap.get('slug')!;
-    const collection = await this.content.getCollection(slug);
+    const id = this.route.snapshot.paramMap.get('id')!;
+    const collection = await this.content.getCollection(id);
     this.collection = await this.content.resolveCollection(collection);
 
     this.seo.setTitle(`${this.collection.name} – Decor Rentals`);

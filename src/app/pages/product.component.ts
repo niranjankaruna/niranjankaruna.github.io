@@ -18,10 +18,10 @@ export class ProductComponent {
   usedIn: any[] = [];
 
   async ngOnInit() {
-    const slug = this.route.snapshot.paramMap.get('slug')!;
-    this.product = await this.content.getProduct(slug);
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.product = await this.content.getProduct(id);
     const collections = await this.content.getCollectionsIndex();
-    this.usedIn = collections.filter((p:any) => (p.productSlugs||[]).includes(slug));
+    this.usedIn = collections.filter((p:any) => (p.productIds||[]).includes(id));
 
     this.seo.setTitle(`${this.product.name} – Decor Rentals`);
     this.seo.setDescription(this.product.seo?.description || '');

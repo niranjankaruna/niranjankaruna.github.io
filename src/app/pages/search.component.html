@@ -9,7 +9,7 @@
       <h2 class="text-xl font-semibold mb-3">Products</h2>
       <ul class="space-y-2">
         <li *ngFor="let p of filteredProducts">
-          <a [routerLink]="['/product', p.slug]" class="text-brand-700 hover:underline">{{p.name}}</a>
+          <a [routerLink]="['/product', p.id]" class="text-brand-700 hover:underline">{{p.name}}</a>
           <span class="text-sm text-gray-600 ml-2" *ngIf="p.price">{{p.price | currency:p.currency}}</span>
         </li>
       </ul>
@@ -18,7 +18,7 @@
       <h2 class="text-xl font-semibold mb-3">Collections</h2>
       <ul class="space-y-2">
         <li *ngFor="let p of filteredCollections">
-          <a [routerLink]="['/collection', p.slug]" class="text-brand-700 hover:underline">{{p.name}}</a>
+          <a [routerLink]="['/collection', p.id]" class="text-brand-700 hover:underline">{{p.name}}</a>
         </li>
       </ul>
     </div>

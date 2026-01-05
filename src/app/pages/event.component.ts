@@ -13,14 +13,14 @@ export class EventComponent {
   private route = inject(ActivatedRoute);
   private content = inject(ContentService);
 
-  slug = '';
+  id = '';
   event: any;
   collections: any[] = [];
 
   async ngOnInit() {
-    this.slug = this.route.snapshot.paramMap.get('slug')!;
-    this.event = await this.content.getEvent(this.slug);
+    this.id = this.route.snapshot.paramMap.get('id')!;
+    this.event = await this.content.getEvent(this.id);
     const allCollections = await this.content.getCollectionsIndex();
-    this.collections = allCollections.filter((p:any) => p.eventType === this.slug);
+    this.collections = allCollections.filter((p:any) => p.eventType === this.id);
   }
 }
