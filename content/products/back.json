@@ -1,0 +1,11 @@
+{
+  "rental": {
+    "currency": "EUR",
+    "price": 52
+  },
+  "status": "published",
+  "name": "Backdrop",
+  "id": "back",
+  "description": "drop",
+  "category": "backdrop"
+}
