@@ -1,15 +1,15 @@
 <section class="app-page">
   <div class="app-grid">
-    <article *ngFor="let evt of events" class="app-card" [routerLink]="['/event', evt.slug]">
+    <article *ngFor="let evt of events" class="app-card" [routerLink]="['/event', evt.id]">
       <!-- Background image -->
       <div
         class="app-media"
-        *ngIf="evt.tileImage"
-        [ngStyle]="{ 'background-image': 'url(' + evt.tileImage + ')' }"
+        *ngIf="evt.image"
+        [ngStyle]="{ 'background-image': 'url(' + evt.image + ')' }"
       ></div>
       <div
         class="app-media app-media-fallback"
-        *ngIf="!evt.tileImage"
+        *ngIf="!evt.image"
       ></div>
 
       <!-- dark overlay on image -->
@@ -18,7 +18,6 @@
       <!-- animated caption -->
       <figcaption class="caption">
         <div class="show-cont">
-          <h3 class="media-title">{{ evt.name }}</h3>
           <p class="card-content">{{ evt.summary }}</p>
           <span class="explore-btn">Explore</span>
         </div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../services/content.service';
@@ -10,11 +10,15 @@ import { ContentService } from '../services/content.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private content = inject(ContentService);
+  private cdr = inject(ChangeDetectorRef);
   events: any[] = [];
 
   async ngOnInit() {
-    this.events = await this.content.getEventsIndex();
+    const allEvents = await this.content.getEventsIndex();
+    this.events = allEvents.filter((e: any) => e.status === 'published');
+    console.log('Events loaded:', this.events);
+    this.cdr.detectChanges();
   }
 }
