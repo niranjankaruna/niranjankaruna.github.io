@@ -1,22 +1,38 @@
 /* Event Page */
 .event-page {
   min-height: 50vh;
+  padding: 0;
+  margin: 0;
 }
 
-/* Event Hero/Header */
+/* Event Header */
+.event-header {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  width: 100vw;
+  background-color: #FFF7E8;
+}
+
+/* Event Hero/Header - Full Width Card Style */
 .event-hero {
   position: relative;
-  height: 400px;
-  border-radius: 20px;
+  height: 25vh;
+  min-height: 200px;
+  width: 100%;
+  border-radius: 0;
   overflow: hidden;
   background-size: cover;
   background-position: center;
-  margin-bottom: 40px;
-  transition: transform 0.6s ease, filter 0.6s ease;
+  transition: transform 0.6s ease, filter 0.6s ease, box-shadow 0.6s ease;
+  box-shadow: none;
 }
 
 .event-hero:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 16px 50px rgba(248, 106, 46, 0.2);
 }
 
 .event-hero-fallback {
@@ -32,7 +48,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.1);
   z-index: 1;
-  border-radius: 20px;
+  border-radius: 0;
 }
 
 /* Overlay gradient span - same as card effect */
@@ -44,7 +60,7 @@
   bottom: 0;
   opacity: 0.7;
   z-index: 2;
-  border-radius: 20px;
+  border-radius: 0;
   mix-blend-mode: multiply;
   transition: opacity 0.4s ease;
 }
@@ -60,9 +76,11 @@
   left: 0;
   right: 0;
   padding: 30px;
-  background: linear-gradient(to top, rgba(31, 61, 58, 0.9), transparent);
+  background: linear-gradient(to top, rgba(31, 61, 58, 0.95), rgba(31, 61, 58, 0.5), transparent);
   color: #FFF7E8;
   z-index: 3;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .event-hero .hero-content h1 {
@@ -70,16 +88,19 @@
   font-weight: 800;
   margin-bottom: 10px;
   text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: 1px;
 }
 
 .event-hero .hero-content p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  line-height: 1.5;
 }
 
 /* Packages Section */
 .packages-section {
-  margin-top: 20px;
+  margin-top: 60px;
+  padding: 0 20px;
 }
 
 .section-title {
