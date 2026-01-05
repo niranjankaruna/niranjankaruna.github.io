@@ -10,7 +10,7 @@ echo
 CLIENT_REMOTE_NAME="origin"  # daily work remote
 PERSONAL_REMOTE_NAME="personal"
 
-CLIENT_REPO_URL="https://github.com/decor-rentals-ireland/decor-rentals.github.io.git"
+CLIENT_REPO_URL="https://github.com/decor-rentals/decor-rentals.github.io.git"
 PERSONAL_REPO_URL="https://github.com/niranjankaruna/niranjankaruna.github.io.git"
 
 MAIN_BRANCH="main"
