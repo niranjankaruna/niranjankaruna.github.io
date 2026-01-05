@@ -3,5 +3,6 @@
   "name": "Birthday",
   "id": "birthday",
   "summary": "A joyful celebration filled with fun, laughter, and special moments to mark another year of life.",
-  "tileImage": "/assets/uploads/birthday.png"
+  "tileImage": "/assets/uploads/birthday.png",
+  "heroImage": "/assets/uploads/birthday_hero.png"
 }
