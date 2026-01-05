@@ -6,24 +6,54 @@
 /* Event Hero/Header */
 .event-hero {
   position: relative;
-  height: 280px;
+  height: 400px;
   border-radius: 20px;
   overflow: hidden;
   background-size: cover;
   background-position: center;
   margin-bottom: 40px;
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+.event-hero:hover {
+  transform: scale(1.02);
 }
 
 .event-hero-fallback {
   background: linear-gradient(135deg, rgba(248,106,46,0.8), rgba(249,196,65,0.7), rgba(44,168,217,0.7));
 }
 
-.event-hero .hero-overlay {
+/* Dark overlay on image */
+.event-hero .media-overlay {
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 20px;
 }
 
+/* Overlay gradient span - same as card effect */
+.event-hero .after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.7;
+  z-index: 2;
+  border-radius: 20px;
+  mix-blend-mode: multiply;
+  transition: opacity 0.4s ease;
+}
+
+.event-hero:hover .after {
+  opacity: 0.9;
+}
+
+/* Hero content positioned at bottom left with gradient background */
 .event-hero .hero-content {
   position: absolute;
   bottom: 0;
@@ -32,6 +62,7 @@
   padding: 30px;
   background: linear-gradient(to top, rgba(31, 61, 58, 0.9), transparent);
   color: #FFF7E8;
+  z-index: 3;
 }
 
 .event-hero .hero-content h1 {

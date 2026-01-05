@@ -58,6 +58,7 @@ collections:
       - { label: ID, name: id, widget: string }
       - { label: Summary, name: summary, widget: text, required: true }
       - { label: Tile Image, name: tileImage, widget: image, required: false }
+      - { label: Hero Image, name: heroImage, widget: image, required: false }
       - label: Images
         name: images
         widget: list

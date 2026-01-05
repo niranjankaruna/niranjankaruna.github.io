@@ -1,15 +1,23 @@
 <section class="event-page">
   <!-- Event Header -->
   <div class="event-header" *ngIf="event">
-    <div class="event-hero" *ngIf="event?.tileImage" [ngStyle]="{'background-image': 'url(' + event.tileImage + ')'}">
-      <div class="hero-overlay"></div>
+    <div class="event-hero" *ngIf="event?.heroImage" [ngStyle]="{'background-image': 'url(' + event.heroImage + ')'}">
+      <!-- Media overlay for darkening effect -->
+      <div class="media-overlay"></div>
+      <!-- Gradient overlay span for multiply blend effect -->
+      <span class="after"></span>
+      <!-- Hero content positioned at bottom left -->
       <div class="hero-content">
         <h1>{{event?.name}}</h1>
         <p>{{event?.summary}}</p>
       </div>
     </div>
-    <div class="event-hero event-hero-fallback" *ngIf="!event?.tileImage">
-      <div class="hero-overlay"></div>
+    <div class="event-hero event-hero-fallback" *ngIf="!event?.heroImage">
+      <!-- Media overlay for darkening effect -->
+      <div class="media-overlay"></div>
+      <!-- Gradient overlay span for multiply blend effect -->
+      <span class="after"></span>
+      <!-- Hero content positioned at bottom left -->
       <div class="hero-content">
         <h1>{{event?.name}}</h1>
         <p>{{event?.summary}}</p>
