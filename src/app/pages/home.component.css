@@ -22,10 +22,10 @@
   justify-content: center;
 }
 
-/* Event Card */
+/* Event Card - Desktop Base (≥ 1025px) */
 .app-card {
   position: relative;
-  width: min(90vw, 320px);
+  width: 320px;
   height: 420px;
   background: #FFF7E8;
   border-radius: 24px;
@@ -148,24 +148,55 @@
   transform: scale(1.05);
 }
 
-/* Responsive - smaller screens */
-@media (max-width: 768px) {
-  .app-card {
-    width: min(92vw, 340px);
-    height: 380px;
+/* Responsive Breakpoints */
+
+/* Tablet: 769px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .app-page {
+    padding: 28px 20px;
   }
+  .app-grid {
+    gap: 24px;
+  }
+  .app-card {
+    width: 280px;
+    height: 400px;
+  }
+  .media-title { font-size: 1.3rem; }
+  .card-content { font-size: 0.85rem; }
 }
 
-@media (max-width: 540px) {
+/* Mobile: ≤ 768px */
+@media (max-width: 768px) {
   .app-page {
     padding: 24px 16px 32px;
   }
+  .app-grid {
+    gap: 20px;
+  }
   .app-card {
-    width: 92vw;
+    width: min(90vw, 350px);
     height: 360px;
   }
   .media-title { font-size: 1.2rem; }
   .card-content { font-size: 0.9rem; }
+  .explore-btn { padding: 6px 14px; font-size: 0.85rem; }
+}
+
+/* Extra small phones: ≤ 480px */
+@media (max-width: 480px) {
+  .app-page {
+    padding: 20px 12px 28px;
+  }
+  .app-grid {
+    gap: 16px;
+  }
+  .app-card {
+    width: 90vw;
+    height: 340px;
+  }
+  .media-title { font-size: 1.1rem; }
+  .card-content { font-size: 0.85rem; }
 }
 
 /* Touch devices - show caption by default */
