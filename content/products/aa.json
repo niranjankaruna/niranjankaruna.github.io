@@ -1,0 +1,11 @@
+{
+  "rental": {
+    "currency": "EUR",
+    "price": 45
+  },
+  "status": "published",
+  "name": "arch",
+  "id": "aa",
+  "description": "arch",
+  "category": "arch"
+}
