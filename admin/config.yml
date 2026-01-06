@@ -31,7 +31,7 @@ collections:
     identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: ID, name: id, widget: string }
+      - { label: ID, name: id, widget: string, pattern: ['^[a-z0-9-]+$', 'ID must be lowercase with no spaces'] }
       - label: Used In Products
         name: products_using_category
         widget: relation
@@ -55,7 +55,7 @@ collections:
     identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: ID, name: id, widget: string }
+      - { label: ID, name: id, widget: string, pattern: ['^[a-z0-9-]+$', 'ID must be lowercase with no spaces'] }
       - { label: Summary, name: summary, widget: text, required: true }
       - { label: Tile Image, name: tileImage, widget: image, required: false }
       - { label: Hero Image, name: heroImage, widget: image, required: false }
@@ -94,7 +94,7 @@ collections:
     identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: ID, name: id, widget: string }
+      - { label: ID, name: id, widget: string, pattern: ['^[a-z0-9-]+$', 'ID must be lowercase with no spaces'] }
       - { label: Description, name: description, widget: string }
       - label: Category
         name: category
@@ -158,7 +158,7 @@ collections:
     identifier_field: id
     fields:
       - { label: Name, name: name, widget: string }
-      - { label: ID, name: id, widget: string }
+      - { label: ID, name: id, widget: string, pattern: ['^[a-z0-9-]+$', 'ID must be lowercase with no spaces'] }
       - label: Event Type
         name: eventType
         widget: relation
