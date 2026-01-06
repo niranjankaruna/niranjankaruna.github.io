@@ -1,0 +1,53 @@
+{
+  "variants": [
+    {
+      "rental": {
+        "currency": "EUR",
+        "price": "45"
+      },
+      "name": "Large",
+      "dimensions": {
+        "width": "100",
+        "height": "200",
+        "unit": "cm"
+      },
+      "color": "Brown"
+    },
+    {
+      "rental": {
+        "currency": "EUR",
+        "price": "40"
+      },
+      "name": "Medium",
+      "dimensions": {
+        "width": "80",
+        "height": "180",
+        "unit": "cm"
+      },
+      "color": "Brown"
+    },
+    {
+      "rental": {
+        "currency": "EUR",
+        "price": "35"
+      },
+      "name": "Small",
+      "dimensions": {
+        "height": "100",
+        "width": "65",
+        "unit": "cm"
+      },
+      "color": "Brown"
+    }
+  ],
+  "status": "published",
+  "name": "Arch Stand",
+  "id": "arch-stand",
+  "description": "Elegant Golden Metal Arch Stand – versatile decorative frame ideal for weddings, birthdays, celebrations and event setups, usable both indoors and outdoors to support flowers, balloons, drapes and backdrops with a sleek, stylish look.",
+  "category": "arch",
+  "images": [
+    "/assets/uploads/arch-stand1.avif",
+    "/assets/uploads/arch-stand2.avif",
+    "/assets/uploads/arch-stand3.avif"
+  ]
+}
