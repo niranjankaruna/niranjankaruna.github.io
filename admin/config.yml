@@ -113,7 +113,7 @@ collections:
           - { label: Width, name: width, widget: number, required: false }
           - { label: Height, name: height, widget: number, required: false }
           - { label: Depth, name: depth, widget: number, required: false }
-          - { label: Unit, name: unit, widget: select, options: [cm, in], required: false }
+          - { label: Unit, name: unit, widget: select, options: [cm, inch, feet], required: false }
       - { label: Color, name: color, widget: string, required: false }
       - label: Rental
         name: rental
