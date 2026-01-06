@@ -46,12 +46,12 @@
       <article *ngFor="let p of collections" class="app-card" [routerLink]="['/collection', p.id]">
         <div
           class="app-media"
-          *ngIf="p.tileImage"
-          [ngStyle]="{ 'background-image': 'url(' + p.tileImage + ')' }"
+          *ngIf="p.image"
+          [ngStyle]="{ 'background-image': 'url(' + normalizeAssetPath(p.image) + ')' }"
         ></div>
         <div
           class="app-media app-media-fallback"
-          *ngIf="!p.tileImage"
+          *ngIf="!p.image"
         ></div>
 
         <div class="media-overlay"></div>

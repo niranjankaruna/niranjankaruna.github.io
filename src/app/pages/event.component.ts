@@ -23,4 +23,9 @@ export class EventComponent {
     const allCollections = await this.content.getCollectionsIndex();
     this.collections = allCollections.filter((p:any) => p.eventType === this.id);
   }
+
+  normalizeAssetPath(url: string | null | undefined): string {
+    if (!url) return '';
+    return url.startsWith('/') ? url.slice(1) : url;
+  }
 }
