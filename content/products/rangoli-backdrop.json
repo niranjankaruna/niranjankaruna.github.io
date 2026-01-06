@@ -1,0 +1,26 @@
+{
+  "variants": [
+    {
+      "rental": {
+        "currency": "EUR",
+        "price": "5"
+      },
+      "dimensions": {
+        "height": "8",
+        "width": "5",
+        "unit": "feet"
+      },
+      "color": "Green and yellow "
+    }
+  ],
+  "status": "published",
+  "name": "Rangoli Backdrop",
+  "id": "rangoli-backdrop",
+  "description": "A colorful rangoli backdrop that adds a cheerful, festive touch to the space.",
+  "category": "backdrop",
+  "images": [
+    "/assets/uploads/rangoli_backdrop1.jpg",
+    "/assets/uploads/rangoli_backdrop2.jpg",
+    "/assets/uploads/rangoli_backdrop3.jpg"
+  ]
+}
