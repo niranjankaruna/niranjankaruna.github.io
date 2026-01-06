@@ -1,4 +1,4 @@
-/* Product page layout */
+/* Collection details page layout (mirrors product detail layout) */
 .product-hero {
   display: none;
 }
@@ -9,7 +9,6 @@
   gap: 24px;
   max-width: 1400px;
   margin: 24px auto;
-  /* main (root layout) already provides horizontal padding */
   padding: 0;
   align-items: start;
 }
@@ -110,12 +109,12 @@
   line-height: 1.6;
 }
 
-/* Variants */
-.variants {
+/* Tiers selector (like variants) */
+.tiers {
   padding-top: 12px;
 }
 
-.variants h3 {
+.tiers h3 {
   margin: 0 0 12px;
   font-size: 0.85rem;
   font-weight: 700;
@@ -124,13 +123,13 @@
   color: #1F3D3A;
 }
 
-.variant-grid {
+.tier-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 10px;
 }
 
-.variant-btn {
+.tier-btn {
   width: 100%;
   border: 1px solid #000;
   background: transparent;
@@ -143,16 +142,17 @@
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.variant-btn:hover {
+.tier-btn:hover {
   border-color: #000;
 }
 
-.variant-btn.active {
+.tier-btn.active {
   border-color: #000;
   background: #fff;
   color: #000;
 }
 
+/* Price */
 .price-card {
   padding: 16px 0;
   border-top: 1px solid #e8e8e8;
@@ -171,52 +171,14 @@
   color: #999;
 }
 
-.collections {
-  padding-top: 12px;
-}
-
-.collections h3 {
-  margin: 0 0 12px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #1F3D3A;
-}
-
-.collections ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.collections li {
-  margin: 0;
-  padding: 0;
-}
-
-.collections a {
-  color: #1F3D3A;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
-
-.collections a:hover {
-  color: #F86A2E;
-}
-
-/* Specifications */
-.specs {
+/* Included items (like specifications) */
+.included {
   padding: 16px 0;
   border-top: 1px solid #e8e8e8;
   border-bottom: 1px solid #e8e8e8;
 }
 
-.specs h3 {
+.included h3 {
   margin: 0 0 12px;
   font-size: 0.85rem;
   font-weight: 700;
@@ -225,30 +187,37 @@
   color: #1F3D3A;
 }
 
-.spec-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+.included-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.included-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
 }
 
-.spec-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.spec-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.spec-value {
-  font-size: 0.95rem;
-  font-weight: 500;
+.included-item a {
   color: #1F3D3A;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.included-item a:hover {
+  color: #F86A2E;
+}
+
+.included-qty {
+  font-size: 0.9rem;
+  color: #666;
+  white-space: nowrap;
 }
 
 /* Tablet layout */
@@ -313,14 +282,6 @@
   .details {
     order: 3;
   }
-
-  .details h2 {
-    font-size: 1.4rem;
-  }
-
-  .spec-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 /* Small phones */
@@ -342,13 +303,5 @@
 
   .main-content {
     min-height: 280px;
-  }
-
-  .details h2 {
-    font-size: 1.2rem;
-  }
-
-  .price-card .amount {
-    font-size: 1.3rem;
   }
 }

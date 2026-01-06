@@ -113,8 +113,8 @@
   margin-bottom: 8px;
   color: #FFF7E8;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 /* Card tiers info */

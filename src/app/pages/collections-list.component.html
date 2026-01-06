@@ -19,12 +19,7 @@
       <figcaption class="caption">
         <div class="show-cont">
           <h3 class="media-title">{{ collection.name }}</h3>
-          <div class="card-tiers" *ngIf="collection.tiers && collection.tiers.length > 0">
-            <span class="tier-badge" *ngFor="let tier of collection.tiers | slice:0:2">
-              {{ tier.name }}: {{ tier.price }} {{ tier.currency }}
-            </span>
-          </div>
-          <span class="explore-btn">Explore</span>
+          <span class="explore-btn">View</span>
         </div>
       </figcaption>
 
