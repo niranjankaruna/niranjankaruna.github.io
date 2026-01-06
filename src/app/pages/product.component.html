@@ -57,31 +57,31 @@
       <p class="summary">{{p.summary || p.description || p.seo?.description}}</p>
 
       <!-- Dimensions -->
-      <div class="specs" *ngIf="p.dimensions">
+      <div class="specs" *ngIf="displayDimensions">
         <h3>Specifications</h3>
         <div class="spec-grid">
-          <div class="spec-item" *ngIf="p.dimensions.length">
+          <div class="spec-item" *ngIf="displayDimensions.length">
             <span class="spec-label">Length</span>
-            <span class="spec-value">{{p.dimensions.length}} {{p.dimensions.unit || 'cm'}}</span>
+            <span class="spec-value">{{displayDimensions.length}} {{displayDimensions.unit || 'cm'}}</span>
           </div>
-          <div class="spec-item" *ngIf="p.dimensions.width">
+          <div class="spec-item" *ngIf="displayDimensions.width">
             <span class="spec-label">Width</span>
-            <span class="spec-value">{{p.dimensions.width}} {{p.dimensions.unit || 'cm'}}</span>
+            <span class="spec-value">{{displayDimensions.width}} {{displayDimensions.unit || 'cm'}}</span>
           </div>
-          <div class="spec-item" *ngIf="p.dimensions.height">
+          <div class="spec-item" *ngIf="displayDimensions.height">
             <span class="spec-label">Height</span>
-            <span class="spec-value">{{p.dimensions.height}} {{p.dimensions.unit || 'cm'}}</span>
+            <span class="spec-value">{{displayDimensions.height}} {{displayDimensions.unit || 'cm'}}</span>
           </div>
-          <div class="spec-item" *ngIf="p.color">
+          <div class="spec-item" *ngIf="displayColor">
             <span class="spec-label">Color</span>
-            <span class="spec-value">{{p.color}}</span>
+            <span class="spec-value">{{displayColor}}</span>
           </div>
         </div>
       </div>
 
       <!-- Price Card -->
-      <div class="price-card" *ngIf="p.rental">
-        <div class="amount">{{p.rental?.price | currency:p.rental?.currency}}</div>
+      <div class="price-card" *ngIf="displayRental">
+        <div class="amount">{{displayRental?.price | currency:displayRental?.currency}}</div>
         <div class="note">Standalone rental</div>
       </div>
 

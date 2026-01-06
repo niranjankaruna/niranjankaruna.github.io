@@ -104,23 +104,30 @@ collections:
         display_fields: [name]
         value_field: id
         required: true
-      - label: Dimensions
-        name: dimensions
-        widget: object
-        collapsed: true
+      - label: Variants
+        name: variants
+        widget: list
         required: false
+        summary: "{{fields.name}}"
         fields:
-          - { label: Length, name: length, widget: string, required: false }
-          - { label: Width, name: width, widget: string, required: false }
-          - { label: Height, name: height, widget: string, required: false }
-          - { label: Unit, name: unit, widget: select, options: [cm, inch, feet], required: false }
-      - { label: Color, name: color, widget: string, required: false }
-      - label: Rental
-        name: rental
-        widget: object
-        fields:
-          - { label: Price, name: price, widget: string, value_type: float, min: 0 }
-          - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP], default: EUR }
+          - { label: Variant Name, name: name, widget: string, required: false }
+          - label: Dimensions
+            name: dimensions
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - { label: Length, name: length, widget: string, required: false }
+              - { label: Width, name: width, widget: string, required: false }
+              - { label: Height, name: height, widget: string, required: false }
+              - { label: Unit, name: unit, widget: select, options: [cm, inch, feet], required: false }
+          - { label: Color, name: color, widget: string, required: false }
+          - label: Rental
+            name: rental
+            widget: object
+            fields:
+              - { label: Price, name: price, widget: string, value_type: float, min: 0 }
+              - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP], default: EUR }
       - { label: Tags, name: tags, widget: list, required: false }
       - label: Images
         name: images

@@ -13,6 +13,26 @@ const INDEX_DIR = 'content/indexes';
 const readJSON = async (p) => JSON.parse(await readFile(p, 'utf-8'));
 const writeJSON = async (p, data) => writeFile(p, JSON.stringify(data, null, 2));
 
+const normalizeAssetPath = (url) => {
+  if (typeof url !== 'string') return '';
+  // Important for GitHub Pages subdirectory deployments:
+  // leading '/' ignores <base href> and breaks asset resolution.
+  return url.startsWith('/') ? url.slice(1) : url;
+};
+
+const firstImage = (images) => {
+  if (!Array.isArray(images) || images.length === 0) return '';
+  const first = images[0];
+  if (typeof first === 'string') return normalizeAssetPath(first);
+  if (first && typeof first === 'object') {
+    // Handle CMS list shapes like [{ image: '...' }]
+    return normalizeAssetPath(first.image || first.url || '');
+  }
+  return '';
+};
+
+const productRental = (p) => p?.rental || p?.variants?.[0]?.rental || null;
+
 await mkdir(INDEX_DIR, { recursive: true });
 
 /**
@@ -57,8 +77,13 @@ await indexDir('content/event-types', 'event-types.json', (e) => ({
  * - Null coalescing handles missing rental object gracefully
  */
 await indexDir('content/products', 'products.json', (p) => ({
-  id: p.id, name: p.name, price: p.rental?.price ?? null, currency: p.rental?.currency ?? null,
-  image: (p.images?.[0] || ''), category: p.category || '', status: p.status || 'published'
+  id: p.id,
+  name: p.name,
+  price: productRental(p)?.price ?? null,
+  currency: productRental(p)?.currency ?? null,
+  image: firstImage(p.images),
+  category: p.category || '',
+  status: p.status || 'published'
 }));
 
 /**

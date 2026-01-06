@@ -23,6 +23,22 @@ export class ProductComponent {
   showVideo = false;
   sanitizedVideos: SafeResourceUrl[] = [];
 
+  get primaryVariant(): any | null {
+    return (this.product?.variants || [])[0] || null;
+  }
+
+  get displayDimensions(): any | null {
+    return this.product?.dimensions || this.primaryVariant?.dimensions || null;
+  }
+
+  get displayColor(): string | null {
+    return this.product?.color || this.primaryVariant?.color || null;
+  }
+
+  get displayRental(): any | null {
+    return this.product?.rental || this.primaryVariant?.rental || null;
+  }
+
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.product = await this.content.getProduct(id);
@@ -46,8 +62,8 @@ export class ProductComponent {
       "description": this.product.seo?.description || "",
       "offers": {
         "@type": "Offer",
-        "priceCurrency": this.product.rental?.currency || "EUR",
-        "price": String(this.product.rental?.price ?? "")
+        "priceCurrency": this.displayRental?.currency || "EUR",
+        "price": String(this.displayRental?.price ?? "")
       }
     });
   }
