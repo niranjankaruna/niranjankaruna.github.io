@@ -18,32 +18,40 @@
 </section>
 
 <section class="app-page">
-  <div class="app-grid">
-    <article *ngFor="let collection of collections" class="app-card" [routerLink]="['/collection', collection.id]">
-      <!-- Background image -->
-      <div
-        class="app-media"
-        *ngIf="collection.image"
-        [ngStyle]="{ 'background-image': 'url(' + collection.image + ')' }"
-      ></div>
-      <div
-        class="app-media app-media-fallback"
-        *ngIf="!collection.image"
-      ></div>
+  <ng-container *ngFor="let group of eventGroups">
+    <details class="group-section" open>
+      <summary class="group-label">{{ group.eventName }}</summary>
 
-      <!-- dark overlay on image -->
-      <div class="media-overlay"></div>
+      <div class="group-content">
+        <div class="app-grid">
+          <article *ngFor="let collection of group.collections" class="app-card" [routerLink]="['/collection', collection.id]">
+            <!-- Background image -->
+            <div
+              class="app-media"
+              *ngIf="collection.image"
+              [ngStyle]="{ 'background-image': 'url(' + normalizeAssetPath(collection.image) + ')' }"
+            ></div>
+            <div
+              class="app-media app-media-fallback"
+              *ngIf="!collection.image"
+            ></div>
 
-      <!-- animated caption -->
-      <figcaption class="caption">
-        <div class="show-cont">
-          <h3 class="media-title">{{ collection.name }}</h3>
-          <span class="explore-btn">View</span>
+            <!-- dark overlay on image -->
+            <div class="media-overlay"></div>
+
+            <!-- caption -->
+            <figcaption class="caption">
+              <div class="show-cont">
+                <h3 class="media-title">{{ collection.name }}</h3>
+                <span class="explore-btn">View</span>
+              </div>
+            </figcaption>
+
+            <!-- overlay gradient -->
+            <span class="after"></span>
+          </article>
         </div>
-      </figcaption>
-
-      <!-- overlay gradient -->
-      <span class="after"></span>
-    </article>
-  </div>
+      </div>
+    </details>
+  </ng-container>
 </section>

@@ -130,6 +130,40 @@
   z-index: 10;
 }
 
+/* Event group container (border + label like reference) */
+.group-section {
+  position: relative;
+  max-width: 1400px;
+  margin: 18px auto 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background: #FFF7E8;
+}
+
+.group-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  margin-left: 14px;
+  margin-top: -12px;
+  background: #FFF7E8;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #1F3D3A;
+  cursor: pointer;
+  user-select: none;
+}
+
+.group-label::-webkit-details-marker {
+  margin-right: 8px;
+}
+
+.group-content {
+  padding: 8px 12px 6px;
+}
+
 /* Grid layout */
 .app-grid {
   display: flex;
@@ -139,6 +173,13 @@
   margin: 0 auto;
   justify-content: center;
   padding: 24px 20px 32px;
+}
+
+/* When inside a group container, let the container own the spacing */
+.group-section .app-grid {
+  max-width: none;
+  margin: 0;
+  padding: 14px 8px 14px;
 }
 
 /* Card - Desktop Base (≥ 1025px) */

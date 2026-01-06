@@ -13,11 +13,49 @@ import { ContentService } from '../services/content.service';
 export class CollectionsListComponent implements OnInit {
   private content = inject(ContentService);
   private cdr = inject(ChangeDetectorRef);
-  collections: any[] = [];
+  eventGroups: Array<{ eventId: string; eventName: string; collections: any[] }> = [];
 
   async ngOnInit() {
-    const allCollections = await this.content.getCollectionsIndex();
-    this.collections = allCollections.filter((c: any) => c.status === 'published');
+    const [allEvents, allCollections] = await Promise.all([
+      this.content.getEventsIndex(),
+      this.content.getCollectionsIndex()
+    ]);
+
+    const publishedEvents = (allEvents || []).filter((e: any) => e.status === 'published');
+    const publishedCollections = (allCollections || []).filter((c: any) => c.status === 'published');
+
+    const byEventType = new Map<string, any[]>();
+    for (const c of publishedCollections) {
+      const key = c?.eventType || 'other';
+      const arr = byEventType.get(key) || [];
+      arr.push(c);
+      byEventType.set(key, arr);
+    }
+
+    const groups: Array<{ eventId: string; eventName: string; collections: any[] }> = [];
+
+    // Preserve event ordering from the index.
+    for (const e of publishedEvents) {
+      const cols = byEventType.get(e.id) || [];
+      if (cols.length) {
+        groups.push({ eventId: e.id, eventName: e.name || e.id, collections: cols });
+        byEventType.delete(e.id);
+      }
+    }
+
+    // Append any collections with unknown/missing eventType.
+    for (const [eventId, cols] of byEventType.entries()) {
+      if (!cols.length) continue;
+      const label = eventId === 'other' ? 'Other' : eventId;
+      groups.push({ eventId, eventName: label, collections: cols });
+    }
+
+    this.eventGroups = groups;
     this.cdr.detectChanges();
+  }
+
+  normalizeAssetPath(url: string | null | undefined): string {
+    if (!url) return '';
+    return url.startsWith('/') ? url.slice(1) : url;
   }
 }
