@@ -25,6 +25,12 @@ export class CollectionComponent {
   sanitizedVideos: SafeResourceUrl[] = [];
   selectedVideoIndex = 0;
 
+  get mediaCount(): number {
+    const images = Array.isArray(this.collection?.images) ? this.collection.images.length : 0;
+    const videos = Array.isArray(this.collection?.videos) ? this.collection.videos.length : 0;
+    return images + videos;
+  }
+
   get selectedTier(): any | null {
     return this.collection?.tiers?.[this.tierIndex] || null;
   }

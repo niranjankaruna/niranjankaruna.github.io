@@ -3,26 +3,28 @@
 
   <section class="product-body">
     <!-- Thumbnails Sidebar (Left) -->
-    <div class="thumbnails-sidebar">
-      <!-- Image Thumbnails -->
-      <button
-        *ngFor="let img of p.images"
-        class="thumb"
-        type="button"
-        [class.active]="img === selectedImage && !showVideo"
-        [style.backgroundImage]="getImageUrl(img)"
-        (click)="setSelected(img)">
-      </button>
+      <div class="thumbnails-sidebar" [class.is-empty]="mediaCount <= 1">
+      <ng-container *ngIf="mediaCount > 1">
+        <!-- Image Thumbnails -->
+        <button
+          *ngFor="let img of p.images"
+          class="thumb"
+          type="button"
+          [class.active]="img === selectedImage && !showVideo"
+          [style.backgroundImage]="getImageUrl(img)"
+          (click)="setSelected(img)">
+        </button>
 
-      <!-- Video Thumbnails -->
-      <button
-        *ngFor="let v of p.videos; let i = index"
-        class="thumb video-thumb"
-        type="button"
-        [class.active]="showVideo"
-        (click)="playVideo(i)">
-        <span class="play-icon">▶</span>
-      </button>
+        <!-- Video Thumbnails -->
+        <button
+          *ngFor="let v of p.videos; let i = index"
+          class="thumb video-thumb"
+          type="button"
+          [class.active]="showVideo"
+          (click)="playVideo(i)">
+          <span class="play-icon">▶</span>
+        </button>
+      </ng-container>
     </div>
 
     <!-- Main View (Center) -->

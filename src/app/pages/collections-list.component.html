@@ -1,3 +1,22 @@
+<!-- Hero Card (matches event list hero style) -->
+<section class="hero" style="background-image: url('/assets/hero-bg.jpg')">
+  <div class="media-overlay"></div>
+  <span class="after"></span>
+
+  <div class="hero-content">
+    <h1>Explore Collections</h1>
+    <p>Pick a curated tiered bundle</p>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="sparkle sparkle-1"></div>
+  <div class="sparkle sparkle-3"></div>
+
+  <!-- Soft Glows -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+</section>
+
 <section class="app-page">
   <div class="app-grid">
     <article *ngFor="let collection of collections" class="app-card" [routerLink]="['/collection', collection.id]">
