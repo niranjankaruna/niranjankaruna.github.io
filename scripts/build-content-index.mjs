@@ -31,7 +31,25 @@ const firstImage = (images) => {
   return '';
 };
 
-const productRental = (p) => p?.rental || p?.variants?.[0]?.rental || null;
+const variantPrices = (p) => {
+  const variants = Array.isArray(p?.variants) ? p.variants : [];
+  const prices = variants
+    .map(v => Number.parseFloat(v?.rental?.price))
+    .filter(n => Number.isFinite(n));
+  if (prices.length === 0) return null;
+  return { min: Math.min(...prices), max: Math.max(...prices) };
+};
+
+const variantCurrency = (p) => {
+  const variants = Array.isArray(p?.variants) ? p.variants : [];
+  return variants.map(v => v?.rental?.currency).find(Boolean) || null;
+};
+
+const formatPriceNumber = (n) => {
+  // Keep simple numeric formatting like "42" or "42.5" (no currency symbol)
+  if (!Number.isFinite(n)) return '';
+  return Number.isInteger(n) ? String(n) : String(n);
+};
 
 await mkdir(INDEX_DIR, { recursive: true });
 
@@ -79,8 +97,16 @@ await indexDir('content/event-types', 'event-types.json', (e) => ({
 await indexDir('content/products', 'products.json', (p) => ({
   id: p.id,
   name: p.name,
-  price: productRental(p)?.price ?? null,
-  currency: productRental(p)?.currency ?? null,
+  currency: variantCurrency(p),
+  priceMin: variantPrices(p)?.min ?? null,
+  priceMax: variantPrices(p)?.max ?? null,
+  priceLabel: (() => {
+    const cur = variantCurrency(p);
+    const pr = variantPrices(p);
+    if (!cur || !pr) return null;
+    if (pr.min === pr.max) return `${formatPriceNumber(pr.min)} ${cur}`;
+    return `${formatPriceNumber(pr.min)} - ${formatPriceNumber(pr.max)} ${cur}`;
+  })(),
   image: firstImage(p.images),
   category: p.category || '',
   status: p.status || 'published'

@@ -22,26 +22,36 @@ export class ProductComponent {
   selectedImage: string | null = null;
   showVideo = false;
   sanitizedVideos: SafeResourceUrl[] = [];
+  selectedVariantIndex = 0;
 
-  get primaryVariant(): any | null {
-    return (this.product?.variants || [])[0] || null;
+  get variants(): any[] {
+    return Array.isArray(this.product?.variants) ? this.product.variants : [];
+  }
+
+  get selectedVariant(): any | null {
+    return this.variants[this.selectedVariantIndex] || this.variants[0] || null;
+  }
+
+  selectVariant(index: number) {
+    this.selectedVariantIndex = index;
   }
 
   get displayDimensions(): any | null {
-    return this.product?.dimensions || this.primaryVariant?.dimensions || null;
+    return this.selectedVariant?.dimensions || null;
   }
 
   get displayColor(): string | null {
-    return this.product?.color || this.primaryVariant?.color || null;
+    return this.selectedVariant?.color || null;
   }
 
   get displayRental(): any | null {
-    return this.product?.rental || this.primaryVariant?.rental || null;
+    return this.selectedVariant?.rental || null;
   }
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.product = await this.content.getProduct(id);
+    this.selectedVariantIndex = 0;
     this.selectedImage = (this.product.images || [])[0] || null;
     const collections = await this.content.getCollectionsIndex();
     this.usedIn = collections.filter((p:any) => (p.productIds||[]).includes(id));
@@ -102,15 +112,5 @@ export class ProductComponent {
     const normalized = this.normalizeAssetPath(url);
     if (!normalized) return 'none';
     return `url("${normalized}")`;
-  }
-
-  get heroImage(): string {
-    const src = this.selectedImage || (this.product?.images || [])[0];
-    return src ? `url('${src}')` : 'linear-gradient(135deg, rgba(248,106,46,0.6), rgba(249,196,65,0.6), rgba(44,168,217,0.6))';
-  }
-
-  get mainImage(): string {
-    const src = this.selectedImage || (this.product?.images || [])[0];
-    return src ? `url('${src}')` : 'none';
   }
 }

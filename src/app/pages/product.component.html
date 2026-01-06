@@ -56,6 +56,21 @@
       <!-- Description -->
       <p class="summary">{{p.summary || p.description || p.seo?.description}}</p>
 
+      <!-- Variants -->
+      <div class="variants" *ngIf="variants.length > 1">
+        <h3>Variants</h3>
+        <div class="variant-grid">
+          <button
+            type="button"
+            class="variant-btn"
+            *ngFor="let v of variants; let i = index"
+            [class.active]="i === selectedVariantIndex"
+            (click)="selectVariant(i)">
+            {{ v.name || ('Variant ' + (i + 1)) }}
+          </button>
+        </div>
+      </div>
+
       <!-- Dimensions -->
       <div class="specs" *ngIf="displayDimensions">
         <h3>Specifications</h3>
