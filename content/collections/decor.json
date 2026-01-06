@@ -1,0 +1,57 @@
+{
+  "tiers": [
+    {
+      "currency": "EUR",
+      "items": [
+        {
+          "qty": 1,
+          "product": "rangoli-backdrop"
+        }
+      ],
+      "name": "Silver",
+      "price": "45"
+    },
+    {
+      "currency": "EUR",
+      "name": "Gold",
+      "price": "50",
+      "items": [
+        {
+          "qty": 1,
+          "product": "rangoli-backdrop"
+        },
+        {
+          "qty": 1,
+          "product": "arch-stand"
+        }
+      ]
+    },
+    {
+      "currency": "EUR",
+      "name": "Diamond",
+      "price": "60",
+      "items": [
+        {
+          "qty": 1,
+          "product": "rangoli-backdrop"
+        },
+        {
+          "qty": 1,
+          "product": "easel-stand"
+        },
+        {
+          "qty": 1,
+          "product": "arch-stand"
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "name": "Decor",
+  "id": "decor",
+  "eventType": "birthday",
+  "summary": "A relaxed birthday gathering with beautiful setup, smiles, and plenty of celebration.",
+  "images": [
+    "/assets/uploads/birthday.png"
+  ]
+}
