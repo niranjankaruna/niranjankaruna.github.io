@@ -3,40 +3,81 @@
   <section class="product-hero"></section>
 
   <section class="product-body">
-    <!-- Gallery Column -->
-    <div class="gallery">
-      <!-- Main Image -->
-      <div class="main-media" [ngStyle]="{'background-image': mainImage}"></div>
+    <!-- Thumbnails Sidebar (Left) -->
+    <div class="thumbnails-sidebar">
+      <!-- Image Thumbnails -->
+      <button
+        *ngFor="let img of p.images"
+        class="thumb"
+        type="button"
+        [class.active]="img === selectedImage && !showVideo"
+        [style.backgroundImage]="getImageUrl(img)"
+        (click)="setSelected(img)">
+      </button>
 
-      <!-- Thumbnails -->
-      <div class="thumbs" *ngIf="p.images?.length">
-        <button
-          *ngFor="let img of p.images"
-          class="thumb"
-          type="button"
-          [class.active]="img === selectedImage"
-          [ngStyle]="{'background-image': 'url(' + img + ')'}"
-          (click)="setSelected(img)"
-          [attr.aria-label]="'View image'">
-        </button>
+      <!-- Video Thumbnails -->
+      <button
+        *ngFor="let v of p.videos; let i = index"
+        class="thumb video-thumb"
+        type="button"
+        [class.active]="showVideo"
+        (click)="playVideo()">
+        <span class="play-icon">▶</span>
+      </button>
+    </div>
+
+    <!-- Main View (Center) -->
+    <div class="main-content">
+      <!-- Main Image -->
+      <div class="main-media" *ngIf="!showVideo && (selectedImage || p.images?.[0])">
+        <img
+          class="main-media-img"
+          [src]="normalizeAssetPath(selectedImage || p.images?.[0])"
+          [alt]="p.name"
+          loading="eager" />
       </div>
 
-      <!-- Videos Section -->
-      <div class="videos" *ngIf="p.videos?.length">
-        <h3>Videos</h3>
-        <div class="video-grid">
-          <iframe *ngFor="let v of p.videos" class="video" [src]="v" allowfullscreen></iframe>
-        </div>
+      <!-- Video Player -->
+      <div class="video-container" *ngIf="showVideo && sanitizedVideos.length">
+        <iframe 
+          class="main-video" 
+          [src]="sanitizedVideos[0]" 
+          allowfullscreen
+          frameborder="0">
+        </iframe>
       </div>
     </div>
 
-    <!-- Details Column -->
+    <!-- Details Column (Right) -->
     <div class="details">
       <!-- Product Name -->
       <h2>{{p.name}}</h2>
 
       <!-- Description -->
-      <p class="summary">{{p.summary || p.seo?.description}}</p>
+      <p class="summary">{{p.summary || p.description || p.seo?.description}}</p>
+
+      <!-- Dimensions -->
+      <div class="specs" *ngIf="p.dimensions">
+        <h3>Specifications</h3>
+        <div class="spec-grid">
+          <div class="spec-item" *ngIf="p.dimensions.length">
+            <span class="spec-label">Length</span>
+            <span class="spec-value">{{p.dimensions.length}} {{p.dimensions.unit || 'cm'}}</span>
+          </div>
+          <div class="spec-item" *ngIf="p.dimensions.width">
+            <span class="spec-label">Width</span>
+            <span class="spec-value">{{p.dimensions.width}} {{p.dimensions.unit || 'cm'}}</span>
+          </div>
+          <div class="spec-item" *ngIf="p.dimensions.height">
+            <span class="spec-label">Height</span>
+            <span class="spec-value">{{p.dimensions.height}} {{p.dimensions.unit || 'cm'}}</span>
+          </div>
+          <div class="spec-item" *ngIf="p.color">
+            <span class="spec-label">Color</span>
+            <span class="spec-value">{{p.color}}</span>
+          </div>
+        </div>
+      </div>
 
       <!-- Price Card -->
       <div class="price-card" *ngIf="p.rental">

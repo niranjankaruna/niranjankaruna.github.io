@@ -53,36 +53,36 @@
 }
 
 /* Balloon shapes + animation duration */
-.shape-1, .shape-1.clone { left:5%; top:90%; width:80px; height:110px; background: rgba(248, 106, 46, 0.5); animation: floatUp 20s linear infinite; }
-.shape-2, .shape-2.clone { left:15%; top:70%; width:100px; height:140px; background: rgba(249, 196, 65, 0.5); animation: floatUp 22s linear infinite; }
-.shape-3, .shape-3.clone { left:25%; top:85%; width:90px; height:120px; background: rgba(44, 168, 217, 0.5); animation: floatUp 18s linear infinite; }
-.shape-4, .shape-4.clone { left:35%; top:60%; width:120px; height:160px; background: rgba(11, 247, 188, 0.5); animation: floatUp 25s linear infinite; }
-.shape-5, .shape-5.clone { left:45%; top:75%; width:110px; height:150px; background: rgba(255, 91, 153, 0.5); animation: floatUp 21s linear infinite; }
-.shape-6, .shape-6.clone { left:55%; top:80%; width:75px; height:100px; background: rgba(142, 68, 173, 0.5); animation: floatUp 23s linear infinite; }
-.shape-7, .shape-7.clone { left:65%; top:65%; width:130px; height:170px; background: rgba(255, 180, 0, 0.5); animation: floatUp 19s linear infinite; }
-.shape-8, .shape-8.clone { left:75%; top:85%; width:90px; height:120px; background: rgba(0, 206, 209, 0.5); animation: floatUp 24s linear infinite; }
-.shape-9, .shape-9.clone { left:85%; top:70%; width:100px; height:140px; background: rgba(255, 111, 97, 0.5); animation: floatUp 22s linear infinite; }
-.shape-10, .shape-10.clone { left:10%; top:60%; width:85px; height:115px; background: rgba(60, 179, 113, 0.5); animation: floatUp 20s linear infinite; }
-.shape-11, .shape-11.clone { left:20%; top:55%; width:120px; height:160px; background: rgba(255, 215, 0, 0.5); animation: floatUp 23s linear infinite; }
-.shape-12, .shape-12.clone { left:30%; top:50%; width:95px; height:130px; background: rgba(255, 105, 180, 0.5); animation: floatUp 21s linear infinite; }
-.shape-13, .shape-13.clone { left:40%; top:45%; width:100px; height:140px; background: rgba(64, 224, 208, 0.5); animation: floatUp 24s linear infinite; }
-.shape-14, .shape-14.clone { left:50%; top:40%; width:90px; height:120px; background: rgba(255, 99, 71, 0.5); animation: floatUp 22s linear infinite; }
-.shape-15, .shape-15.clone { left:60%; top:35%; width:130px; height:170px; background: rgba(186, 85, 211, 0.5); animation: floatUp 20s linear infinite; }
-.shape-16, .shape-16.clone { left:70%; top:30%; width:100px; height:140px; background: rgba(248, 106, 46, 0.5); animation: floatUp 23s linear infinite; }
-.shape-17, .shape-17.clone { left:80%; top:25%; width:90px; height:120px; background: rgba(249, 196, 65, 0.5); animation: floatUp 21s linear infinite; }
-.shape-18, .shape-18.clone { left:90%; top:20%; width:120px; height:160px; background: rgba(44, 168, 217, 0.5); animation: floatUp 24s linear infinite; }
-.shape-19, .shape-19.clone { left:15%; top:15%; width:110px; height:150px; background: rgba(11, 247, 188, 0.5); animation: floatUp 22s linear infinite; }
-.shape-20, .shape-20.clone { left:25%; top:10%; width:75px; height:100px; background: rgba(255, 91, 153, 0.5); animation: floatUp 20s linear infinite; }
-.shape-21, .shape-21.clone { left:35%; top:5%; width:130px; height:170px; background: rgba(142, 68, 173, 0.5); animation: floatUp 23s linear infinite; }
-.shape-22, .shape-22.clone { left:45%; top:30%; width:90px; height:120px; background: rgba(255, 180, 0, 0.5); animation: floatUp 21s linear infinite; }
-.shape-23, .shape-23.clone { left:55%; top:25%; width:100px; height:140px; background: rgba(0, 206, 209, 0.5); animation: floatUp 22s linear infinite; }
-.shape-24, .shape-24.clone { left:65%; top:20%; width:85px; height:115px; background: rgba(255, 111, 97, 0.5); animation: floatUp 20s linear infinite; }
-.shape-25, .shape-25.clone { left:75%; top:15%; width:120px; height:160px; background: rgba(60, 179, 113, 0.5); animation: floatUp 23s linear infinite; }
-.shape-26, .shape-26.clone { left:85%; top:10%; width:95px; height:130px; background: rgba(255, 215, 0, 0.5); animation: floatUp 21s linear infinite; }
-.shape-27, .shape-27.clone { left:5%; top:5%; width:100px; height:140px; background: rgba(255, 105, 180, 0.5); animation: floatUp 24s linear infinite; }
-.shape-28, .shape-28.clone { left:15%; top:8%; width:90px; height:120px; background: rgba(64, 224, 208, 0.5); animation: floatUp 22s linear infinite; }
-.shape-29, .shape-29.clone { left:25%; top:12%; width:130px; height:170px; background: rgba(255, 99, 71, 0.5); animation: floatUp 20s linear infinite; }
-.shape-30, .shape-30.clone { left:35%; top:18%; width:100px; height:140px; background: rgba(186, 85, 211, 0.5); animation: floatUp 23s linear infinite; }
+.shape-1, .shape-1.clone { left:5%; top:90%; width:80px; height:110px; background: rgba(248, 106, 46, 0.1); animation: floatUp 20s linear infinite; }
+.shape-2, .shape-2.clone { left:15%; top:70%; width:100px; height:140px; background: rgba(249, 196, 65, 0.1); animation: floatUp 22s linear infinite; }
+.shape-3, .shape-3.clone { left:25%; top:85%; width:90px; height:120px; background: rgba(44, 168, 217, 0.1); animation: floatUp 18s linear infinite; }
+.shape-4, .shape-4.clone { left:35%; top:60%; width:120px; height:160px; background: rgba(11, 247, 188, 0.1); animation: floatUp 25s linear infinite; }
+.shape-5, .shape-5.clone { left:45%; top:75%; width:110px; height:150px; background: rgba(255, 91, 153, 0.1); animation: floatUp 21s linear infinite; }
+.shape-6, .shape-6.clone { left:55%; top:80%; width:75px; height:100px; background: rgba(142, 68, 173, 0.1); animation: floatUp 23s linear infinite; }
+.shape-7, .shape-7.clone { left:65%; top:65%; width:130px; height:170px; background: rgba(255, 180, 0, 0.1); animation: floatUp 19s linear infinite; }
+.shape-8, .shape-8.clone { left:75%; top:85%; width:90px; height:120px; background: rgba(0, 206, 209, 0.1); animation: floatUp 24s linear infinite; }
+.shape-9, .shape-9.clone { left:85%; top:70%; width:100px; height:140px; background: rgba(255, 111, 97, 0.1); animation: floatUp 22s linear infinite; }
+.shape-10, .shape-10.clone { left:10%; top:60%; width:85px; height:115px; background: rgba(60, 179, 113, 0.1); animation: floatUp 20s linear infinite; }
+.shape-11, .shape-11.clone { left:20%; top:55%; width:120px; height:160px; background: rgba(255, 215, 0, 0.1); animation: floatUp 23s linear infinite; }
+.shape-12, .shape-12.clone { left:30%; top:50%; width:95px; height:130px; background: rgba(255, 105, 180, 0.1); animation: floatUp 21s linear infinite; }
+.shape-13, .shape-13.clone { left:40%; top:45%; width:100px; height:140px; background: rgba(64, 224, 208, 0.1); animation: floatUp 24s linear infinite; }
+.shape-14, .shape-14.clone { left:50%; top:40%; width:90px; height:120px; background: rgba(255, 99, 71, 0.1); animation: floatUp 22s linear infinite; }
+.shape-15, .shape-15.clone { left:60%; top:35%; width:130px; height:170px; background: rgba(186, 85, 211, 0.1); animation: floatUp 20s linear infinite; }
+.shape-16, .shape-16.clone { left:70%; top:30%; width:100px; height:140px; background: rgba(248, 106, 46, 0.1); animation: floatUp 23s linear infinite; }
+.shape-17, .shape-17.clone { left:80%; top:25%; width:90px; height:120px; background: rgba(249, 196, 65, 0.1); animation: floatUp 21s linear infinite; }
+.shape-18, .shape-18.clone { left:90%; top:20%; width:120px; height:160px; background: rgba(44, 168, 217, 0.1); animation: floatUp 24s linear infinite; }
+.shape-19, .shape-19.clone { left:15%; top:15%; width:110px; height:150px; background: rgba(11, 247, 188, 0.1); animation: floatUp 22s linear infinite; }
+.shape-20, .shape-20.clone { left:25%; top:10%; width:75px; height:100px; background: rgba(255, 91, 153, 0.1); animation: floatUp 20s linear infinite; }
+.shape-21, .shape-21.clone { left:35%; top:5%; width:130px; height:170px; background: rgba(142, 68, 173, 0.1); animation: floatUp 23s linear infinite; }
+.shape-22, .shape-22.clone { left:45%; top:30%; width:90px; height:120px; background: rgba(255, 180, 0, 0.1); animation: floatUp 21s linear infinite; }
+.shape-23, .shape-23.clone { left:55%; top:25%; width:100px; height:140px; background: rgba(0, 206, 209, 0.1); animation: floatUp 22s linear infinite; }
+.shape-24, .shape-24.clone { left:65%; top:20%; width:85px; height:115px; background: rgba(255, 111, 97, 0.1); animation: floatUp 20s linear infinite; }
+.shape-25, .shape-25.clone { left:75%; top:15%; width:120px; height:160px; background: rgba(60, 179, 113, 0.1); animation: floatUp 23s linear infinite; }
+.shape-26, .shape-26.clone { left:85%; top:10%; width:95px; height:130px; background: rgba(255, 215, 0, 0.1); animation: floatUp 21s linear infinite; }
+.shape-27, .shape-27.clone { left:5%; top:5%; width:100px; height:140px; background: rgba(255, 105, 180, 0.1); animation: floatUp 24s linear infinite; }
+.shape-28, .shape-28.clone { left:15%; top:8%; width:90px; height:120px; background: rgba(64, 224, 208, 0.1); animation: floatUp 22s linear infinite; }
+.shape-29, .shape-29.clone { left:25%; top:12%; width:130px; height:170px; background: rgba(255, 99, 71, 0.1); animation: floatUp 20s linear infinite; }
+.shape-30, .shape-30.clone { left:35%; top:18%; width:100px; height:140px; background: rgba(186, 85, 211, 0.1); animation: floatUp 23s linear infinite; }
 
 /* Clones with half-cycle negative delay for continuous flow */
 .shape-1.clone { animation-delay: -10s; }
@@ -238,8 +238,9 @@
 main {
   flex: 1;
   padding: 64px 20px 60px;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   position: relative;
   z-index: 1;
 }

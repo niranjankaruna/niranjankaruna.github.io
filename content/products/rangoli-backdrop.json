@@ -12,9 +12,9 @@
   },
   "status": "published",
   "images": [
-    "/assets/uploads/rangoli_backdrop1.jpg",
-    "/assets/uploads/rangoli_backdrop2.jpg",
-    "/assets/uploads/rangoli_backdrop3.jpg"
+    "assets/uploads/rangoli_backdrop1.jpg",
+    "assets/uploads/rangoli_backdrop2.jpg",
+    "assets/uploads/rangoli_backdrop3.jpg"
   ],
   "videos": [
     "https://www.youtube.com/watch?v=tC7cMsbzdK0"
