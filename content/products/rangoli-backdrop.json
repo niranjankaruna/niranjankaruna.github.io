@@ -1,0 +1,25 @@
+{
+  "color": "Rangoli",
+  "rental": {
+    "currency": "EUR",
+    "price": "5"
+  },
+  "name": "Rangoli Backdrop",
+  "dimensions": {
+    "length": "8",
+    "width": "5",
+    "unit": "feet"
+  },
+  "status": "published",
+  "images": [
+    "/assets/uploads/rangoli_backdrop1.jpg",
+    "/assets/uploads/rangoli_backdrop2.jpg",
+    "/assets/uploads/rangoli_backdrop3.jpg"
+  ],
+  "videos": [
+    "https://www.youtube.com/watch?v=tC7cMsbzdK0"
+  ],
+  "id": "Rangoli-Backdrop",
+  "description": "A colorful rangoli backdrop that adds a cheerful, festive touch to the space.",
+  "category": "backdrop"
+}
