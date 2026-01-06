@@ -12,20 +12,24 @@ import { firstValueFrom } from 'rxjs';
  */
 @Injectable({ providedIn: 'root' })
 export class ContentService {
-  private cache = new Map<string, any>();
+  // Cache-buster for GitHub Pages / CDN / browser caching.
+  // This changes on every full page reload.
+  private readonly cacheBust = Date.now().toString(36);
   constructor(private http: HttpClient) {}
 
   /**
    * CONTEXT:
-   * - Generic fetch with session-level caching
-   * - Cache key is the raw path; assumes paths are unique across content types
-   * - No cache invalidation; acceptable for static site where content changes require rebuild
+   * - Generic fetch
+   * - Adds cache-busting query param because static hosts can serve stale JSON
    */
   async get<T>(path: string): Promise<T> {
-    if (this.cache.has(path)) return this.cache.get(path);
-    const data = await firstValueFrom(this.http.get<T>(path, { withCredentials: false }));
-    this.cache.set(path, data);
-    return data;
+    const url = this.withCacheBust(path);
+    return await firstValueFrom(this.http.get<T>(url, { withCredentials: false }));
+  }
+
+  private withCacheBust(path: string): string {
+    const sep = path.includes('?') ? '&' : '?';
+    return `${path}${sep}v=${this.cacheBust}`;
   }
 
   /**
