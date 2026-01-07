@@ -23,7 +23,11 @@
       <summary class="group-label">{{ group.eventName }}</summary>
 
       <div class="group-content">
-        <div class="app-grid">
+        <div class="empty-state" *ngIf="!group.collections?.length">
+          No collections available yet.
+        </div>
+
+        <div class="app-grid" *ngIf="group.collections?.length">
           <article *ngFor="let collection of group.collections" class="app-card" [routerLink]="['/collection', collection.id]">
             <!-- Background image -->
             <div

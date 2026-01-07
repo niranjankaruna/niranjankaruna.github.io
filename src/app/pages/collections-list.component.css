@@ -164,22 +164,36 @@
   padding: 8px 12px 6px;
 }
 
-/* Grid layout */
-.app-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  max-width: 1400px;
-  margin: 0 auto;
-  justify-content: center;
-  padding: 24px 20px 32px;
+.empty-state {
+  padding: 14px 12px 18px;
+  color: #666;
+  font-size: 0.95rem;
 }
 
-/* When inside a group container, let the container own the spacing */
-.group-section .app-grid {
-  max-width: none;
-  margin: 0;
+/* Carousel layout (per event) */
+.app-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 14px 8px 14px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-grid > .app-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.app-grid::-webkit-scrollbar {
+  height: 10px;
+}
+
+.app-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 9999px;
 }
 
 /* Card - Desktop Base (≥ 1025px) */

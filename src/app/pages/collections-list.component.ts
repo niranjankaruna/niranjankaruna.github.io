@@ -13,7 +13,7 @@ import { ContentService } from '../services/content.service';
 export class CollectionsListComponent implements OnInit {
   private content = inject(ContentService);
   private cdr = inject(ChangeDetectorRef);
-  eventGroups: Array<{ eventId: string; eventName: string; collections: any[] }> = [];
+  eventGroups: Array<{ eventId: string; eventName: string; tileImage?: string; collections: any[] }> = [];
 
   async ngOnInit() {
     const [allEvents, allCollections] = await Promise.all([
@@ -32,22 +32,20 @@ export class CollectionsListComponent implements OnInit {
       byEventType.set(key, arr);
     }
 
-    const groups: Array<{ eventId: string; eventName: string; collections: any[] }> = [];
+    const groups: Array<{ eventId: string; eventName: string; tileImage?: string; collections: any[] }> = [];
 
-    // Preserve event ordering from the index.
+    // Preserve event ordering from the index; include sections even if empty.
     for (const e of publishedEvents) {
       const cols = byEventType.get(e.id) || [];
-      if (cols.length) {
-        groups.push({ eventId: e.id, eventName: e.name || e.id, collections: cols });
-        byEventType.delete(e.id);
-      }
+      groups.push({ eventId: e.id, eventName: e.name || e.id, tileImage: e.tileImage || '', collections: cols });
+      byEventType.delete(e.id);
     }
 
     // Append any collections with unknown/missing eventType.
     for (const [eventId, cols] of byEventType.entries()) {
       if (!cols.length) continue;
       const label = eventId === 'other' ? 'Other' : eventId;
-      groups.push({ eventId, eventName: label, collections: cols });
+      groups.push({ eventId, eventName: label, tileImage: '', collections: cols });
     }
 
     this.eventGroups = groups;
@@ -57,5 +55,10 @@ export class CollectionsListComponent implements OnInit {
   normalizeAssetPath(url: string | null | undefined): string {
     if (!url) return '';
     return url.startsWith('/') ? url.slice(1) : url;
+  }
+
+  scrollCarousel(trackEl: HTMLElement, dir: number) {
+    const delta = Math.max(240, Math.round(trackEl.clientWidth * 0.9));
+    trackEl.scrollBy({ left: dir * delta, behavior: 'smooth' });
   }
 }

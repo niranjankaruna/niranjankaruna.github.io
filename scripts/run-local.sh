@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Local dev helper: clean ignored files, regenerate assets, start dev server
+# Local dev helper: optionally clean ignored files, then start dev server
 
 cd "$(dirname "$0")/.."
 
-clean_preview=$(git clean -fdXn)
-if [[ -n "$clean_preview" ]]; then
-  echo "The following ignored files/folders will be deleted:" >&2
-  echo "$clean_preview" >&2
-  read -p "Proceed with deletion? (yes/no): " confirm
-  if [[ "$confirm" != "yes" ]]; then
-    echo "Cancelled. Nothing deleted." >&2
-    exit 1
-  fi
+mode="${1:-}"
+if [[ -n "$mode" && "$mode" != "c" ]]; then
+  echo "Usage: bash ./scripts/run-local.sh [c]" >&2
+  echo "  (no args) : start dev server without deleting git-ignored files" >&2
+  echo "  c         : delete git-ignored files first, then start dev server" >&2
+  exit 2
+fi
+
+if [[ "$mode" == "c" ]]; then
+  echo "Cleaning git-ignored files (git clean -fdX)..." >&2
   git clean -fdX
-  echo "Ignored files removed." >&2
 else
-  echo "No ignored files to delete." >&2
+  echo "Skipping deletion of git-ignored files." >&2
 fi
 
 if [[ ! -d node_modules ]]; then
