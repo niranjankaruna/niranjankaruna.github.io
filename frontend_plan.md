@@ -40,6 +40,7 @@
 | Authentication     | Supabase JS Client                |
 | HTTP Client        | Axios / Fetch                     |
 | Charts             | Recharts / Chart.js               |
+| PWA Support        | vite-plugin-pwa                   |
 | Hosting            | GitHub Pages                      |
 
 ---
@@ -776,6 +777,41 @@ When adding a transaction, users can select the currency:
 
 ---
 
+---
+
+### 7. Progressive Web App (PWA)
+
+> **Native-like experience: Installable, Offline-capable, Fast.**
+
+**Core Features:**
+- **Installability**: Add to Home Screen (A2HS) on iOS and Android.
+- **Offline Support**: View dashboard and cached data without internet connection.
+- **Standalone Mode**: Runs in its own window, hiding browser UI components.
+- **Static Asset Caching**: Instant load times for repeat visits.
+
+**Technical Strategy:**
+- **Plugin**: `vite-plugin-pwa`
+- **Service Worker**: `generateSW` strategy for auto-handling static assets.
+- **Runtime Caching**: Cache API calls to `/api/v1/*` (NetworkFirst strategy).
+
+**Manifest Configuration:**
+```json
+{
+  "name": "CashFlow - Contractor Finance",
+  "short_name": "CashFlow",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F9FAFB",
+  "theme_color": "#2563EB",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}
+```
+
+---
+
 ## Supabase Authentication
 
 ### Setup
@@ -1212,5 +1248,6 @@ export const BottomTabBar = ({ onAddClick }) => (
 6. Implement transaction management
 7. Create forecast visualization
 8. Add CSV import functionality
-9. Configure GitHub Actions deployment
-10. Test and iterate on UI/UX
+9. **Configure PWA (Manifest & Service Worker)**
+10. Configure GitHub Actions deployment
+11. Test and iterate on UI/UX

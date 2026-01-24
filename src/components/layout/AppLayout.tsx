@@ -1,0 +1,26 @@
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { BottomTabBar } from './BottomTabBar';
+import { TransactionForm } from '../transactions/TransactionForm';
+
+export const AppLayout = () => {
+    const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+
+    return (
+        <div className="flex flex-col min-h-screen">
+            {/* Main Content Area */}
+            <div className="flex-1 pb-20">
+                {/* pb-20 ensures content isn't hidden behind bottom tab bar */}
+                <Outlet />
+            </div>
+
+            {/* Shared Components */}
+            <BottomTabBar onAddClick={() => setIsTransactionModalOpen(true)} />
+
+            <TransactionForm
+                isOpen={isTransactionModalOpen}
+                onClose={() => setIsTransactionModalOpen(false)}
+            />
+        </div>
+    );
+};

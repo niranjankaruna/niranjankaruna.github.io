@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+@theme {
+  --color-primary: #2563EB;
+  --color-success: #10B981;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+}
+
+body {
+  background-color: #F9FAFB;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1F2937;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbar for PWA feel */
+::-webkit-scrollbar {
+  display: none;
+}
