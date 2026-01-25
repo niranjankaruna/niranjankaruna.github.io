@@ -268,23 +268,29 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                             <TagSelector selectedTagIds={tagIds} onChange={setTagIds} />
                         </div>
 
-                        {/* Income-specific: Confidence */}
+                        {/* Income-specific: Confidence Toggle */}
                         {type === 'INCOME' && (
-                            <div>
-                                <CustomSelect
-                                    label="Confidence Level"
-                                    value={confidence}
-                                    onChange={(val) => setConfidence(val as IncomeConfidence)}
-                                    options={[
-                                        { label: 'Guaranteed', value: 'GUARANTEED' },
-                                        { label: 'Likely', value: 'LIKELY' }
-                                    ]}
-                                />
+                            <div className="flex items-center justify-between py-2">
+                                <div>
+                                    <label className="text-sm font-medium text-gray-700">Is Guaranteed?</label>
+                                    <p className="text-xs text-gray-500">Toggle ON if this income is 100% certain</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setConfidence(confidence === 'GUARANTEED' ? 'LIKELY' : 'GUARANTEED')}
+                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${confidence === 'GUARANTEED' ? 'bg-emerald-600' : 'bg-gray-200'
+                                        }`}
+                                >
+                                    <span
+                                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${confidence === 'GUARANTEED' ? 'translate-x-6' : 'translate-x-1'
+                                            }`}
+                                    />
+                                </button>
                             </div>
                         )}
 
-                        {/* Expense-specific: Recurring */}
-                        {type === 'EXPENSE' && (
+                        {/* Expense-specific: Recurring (only for new transactions) */}
+                        {type === 'EXPENSE' && !initialData && (
                             <>
                                 <div className="flex items-center justify-between py-2">
                                     <label className="text-sm font-medium text-gray-700">Recurring Transaction?</label>

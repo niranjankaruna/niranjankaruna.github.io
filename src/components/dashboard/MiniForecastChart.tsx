@@ -1,8 +1,8 @@
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import type { DailyForecast } from '../../types/transaction';
+import type { DailyBreakdown } from '../../types/transaction';
 
 interface MiniForecastChartProps {
-    data: DailyForecast[];
+    data: DailyBreakdown[];
     safeMode: boolean;
 }
 
@@ -10,7 +10,7 @@ export const MiniForecastChart: React.FC<MiniForecastChartProps> = ({ data }) =>
     // Transform data for chart
     const chartData = data.map(d => ({
         date: new Date(d.date).toLocaleDateString('en-IE', { day: 'numeric', month: 'short' }),
-        balance: d.balance
+        balance: d.closingBalance
     }));
 
     if (chartData.length === 0) return null;

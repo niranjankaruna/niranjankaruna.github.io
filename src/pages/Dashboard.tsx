@@ -7,7 +7,7 @@ import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
 import { MiniForecastChart } from '../components/dashboard/MiniForecastChart';
 import { transactionService, forecastService } from '../services/api/transactionService';
 import { useSettings } from '../contexts/SettingsContext';
-import type { Transaction, DailyForecast } from '../types/transaction';
+import type { Transaction, DailyBreakdown } from '../types/transaction';
 
 const Dashboard = () => {
     const { user } = useAuthStore();
@@ -15,7 +15,7 @@ const Dashboard = () => {
     const [safeMode, setSafeMode] = useState(false);
     const [balance, setBalance] = useState(0);
     const [safeToSpend, setSafeToSpend] = useState(0);
-    const [dailyForecasts, setDailyForecasts] = useState<DailyForecast[]>([]);
+    const [dailyForecasts, setDailyForecasts] = useState<DailyBreakdown[]>([]);
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -55,7 +55,7 @@ const Dashboard = () => {
                     );
                     setBalance(forecastData?.projectedBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
-                    setDailyForecasts(forecastData?.dailyForecasts ?? []);
+                    setDailyForecasts(forecastData?.dailyBreakdown ?? []);
                 } catch (forecastErr) {
                     console.error('Failed to fetch forecast:', forecastErr);
                     setBalance(0);

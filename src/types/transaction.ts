@@ -54,18 +54,36 @@ export interface CreateTransactionRequest {
 }
 
 export interface ForecastData {
-    startDate: string;
-    endDate: string;
+    forecastDays: number;
+    safeMode: boolean;
+    startingBalance: number;
     projectedBalance: number;
+    totalGuaranteedIncome: number;
+    totalLikelyIncome: number;
+    totalExpenses: number;
     safeToSpend: number;
-    lowBalanceWarning: boolean;
-    dailyForecasts: DailyForecast[];
+    dailyBreakdown: DailyBreakdown[];
+    warnings: ForecastWarning[];
 }
 
-export interface DailyForecast {
+export interface DailyBreakdown {
     date: string;
-    balance: number;
-    income: number;
-    expenses: number;
-    transactions: Transaction[];
+    openingBalance: number;
+    closingBalance: number;
+    income: TransactionSummary[];
+    expenses: TransactionSummary[];
+}
+
+export interface TransactionSummary {
+    description: string;
+    amount: number;
+    confidence?: string;
+    isRecurring: boolean;
+}
+
+export interface ForecastWarning {
+    date: string;
+    type: string;
+    message: string;
+    projectedBalance: number;
 }

@@ -41,9 +41,9 @@ const Forecast = () => {
                 setForecastData(data);
 
                 // Transform for chart
-                const chartPoints = data?.dailyForecasts?.map(day => ({
+                const chartPoints = data?.dailyBreakdown?.map(day => ({
                     date: day.date,
-                    balance: day.balance
+                    balance: day.closingBalance
                 })) || [];
                 setChartData(chartPoints);
             } catch (err) {
@@ -167,7 +167,7 @@ const Forecast = () => {
                             </div>
                         </div>
 
-                        {forecastData?.lowBalanceWarning && (
+                        {forecastData?.warnings?.some(w => w.type === 'LOW_BALANCE') && (
                             <div className="bg-amber-50 rounded-xl p-4 border border-amber-200 flex items-start gap-3">
                                 <span className="text-2xl">⚠️</span>
                                 <div>
@@ -179,7 +179,7 @@ const Forecast = () => {
                             </div>
                         )}
 
-                        {!forecastData?.dailyForecasts?.length && (
+                        {!forecastData?.dailyBreakdown?.length && (
                             <div className="text-center py-8 text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
                                 <p>No forecast data available.</p>
                                 <p className="text-sm">Try adding some recurring transactions.</p>

@@ -5,7 +5,7 @@ import { CurrencySettings } from '../components/settings/CurrencySettings';
 import { BankAccountSettings } from '../components/settings/BankAccountSettings';
 import { TagSettings } from '../components/settings/TagSettings';
 
-const FORECAST_OPTIONS = [7, 14, 30, 60, 90];
+const FORECAST_OPTIONS = [7, 14, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
 const DATE_FORMAT_OPTIONS = ['DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD'];
 const THEME_OPTIONS = ['light', 'dark'];
 
