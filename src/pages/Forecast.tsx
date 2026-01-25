@@ -36,8 +36,8 @@ const Forecast = () => {
 
                 // TODO: Backend currently only accepts days, implies start from today. 
                 // If we want custom start date, we might need backend update or filter locally.
-                // For now, we implemented period and safe mode.
-                const data = await forecastService.getForecast(forecastDays, isSafeMode, 0);
+                // Always fetch 30 days of data regardless of filter selection
+                const data = await forecastService.getForecast(30, isSafeMode, 0);
                 setForecastData(data);
 
                 // Transform for chart

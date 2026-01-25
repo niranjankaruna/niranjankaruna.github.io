@@ -37,10 +37,7 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                     <XAxis
                         dataKey="date"
-                        tick={{ fontSize: 10 }}
-                        tickLine={false}
-                        axisLine={false}
-                        interval={6}
+                        hide={true}
                     />
                     <YAxis
                         tick={{ fontSize: 10 }}
