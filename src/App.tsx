@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Forecast from './pages/Forecast';
+import Import from './pages/Import';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/transactions" element={<Transactions />} />
               <Route path="/forecast" element={<Forecast />} />
+              <Route path="/import" element={<Import />} />
               {/* Future routes: /recurring, /settings */}
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />

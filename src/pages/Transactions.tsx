@@ -1,55 +1,11 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ChevronLeftIcon, FunnelIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, FunnelIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { TransactionList } from '../components/transactions/TransactionList';
 import type { Transaction } from '../types/transaction';
 
 const Transactions = () => {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        // Mock data
-        const mockData: Transaction[] = [
-            {
-                id: '1',
-                type: 'INCOME',
-                amount: 4500.00,
-                currencyCode: 'EUR',
-                amountInBaseCurrency: 4500.00,
-                description: 'Monthly Salary',
-                transactionDate: new Date().toISOString(),
-                confidence: 'GUARANTEED'
-            },
-            {
-                id: '2',
-                type: 'EXPENSE',
-                amount: 15.99,
-                currencyCode: 'EUR',
-                amountInBaseCurrency: 15.99,
-                description: 'Netflix Subscription',
-                transactionDate: new Date().toISOString(),
-                isRecurring: true,
-                frequency: 'MONTHLY'
-            },
-            {
-                id: '3',
-                type: 'EXPENSE',
-                amount: 1200.00,
-                currencyCode: 'EUR',
-                amountInBaseCurrency: 1200.00,
-                description: 'Apartment Rent',
-                transactionDate: new Date().toISOString(),
-                isRecurring: true,
-                frequency: 'MONTHLY'
-            }
-        ];
-
-        setTimeout(() => {
-            setTransactions(mockData);
-            setLoading(false);
-        }, 500);
-    }, []);
+    // ... (state lines 8-53 unchanged)
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
@@ -58,9 +14,14 @@ const Transactions = () => {
                     <ChevronLeftIcon className="w-6 h-6" />
                 </NavLink>
                 <h1 className="text-lg font-bold text-gray-900">Transactions</h1>
-                <button className="p-2 -mr-2 text-gray-600">
-                    <FunnelIcon className="w-6 h-6" />
-                </button>
+                <div className="flex gap-1 -mr-2">
+                    <NavLink to="/import" className="p-2 text-gray-600 hover:text-blue-600" title="Import CSV">
+                        <ArrowUpTrayIcon className="w-6 h-6" />
+                    </NavLink>
+                    <button className="p-2 text-gray-600">
+                        <FunnelIcon className="w-6 h-6" />
+                    </button>
+                </div>
             </header>
 
             <div className="p-4">
