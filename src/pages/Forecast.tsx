@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import { AdjustmentsHorizontalIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { forecastService } from '../services/api/transactionService';
 import { ForecastChart } from '../components/forecast/ForecastChart';
+import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
 import { useSettings } from '../contexts/SettingsContext';
 import type { ForecastData } from '../types/transaction';
 
@@ -11,6 +13,18 @@ const Forecast = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Local state for controls
+    const [isSafeMode, setSafeMode] = useState(false);
+    const [forecastDays, setForecastDays] = useState(30);
+    const [showControls, setShowControls] = useState(false);
+
+    useEffect(() => {
+        if (!settingsLoading && settings) {
+            setSafeMode(settings.defaultSafeMode);
+            setForecastDays(settings.forecastPeriod);
+        }
+    }, [settings, settingsLoading]);
+
     useEffect(() => {
         // Wait for settings to load
         if (settingsLoading) return;
@@ -19,8 +33,11 @@ const Forecast = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const forecastPeriod = settings?.forecastPeriod ?? 30;
-                const data = await forecastService.getForecast(forecastPeriod, false, 0);
+
+                // TODO: Backend currently only accepts days, implies start from today. 
+                // If we want custom start date, we might need backend update or filter locally.
+                // For now, we implemented period and safe mode.
+                const data = await forecastService.getForecast(forecastDays, isSafeMode, 0);
                 setForecastData(data);
 
                 // Transform for chart
@@ -39,7 +56,7 @@ const Forecast = () => {
         };
 
         fetchForecast();
-    }, [settings?.forecastPeriod, settingsLoading]);
+    }, [forecastDays, isSafeMode, settingsLoading]);
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-IE', {
@@ -65,8 +82,42 @@ const Forecast = () => {
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
             <header className="bg-white px-6 py-4 shadow-sm sticky top-0 z-10">
-                <h1 className="text-xl font-bold text-gray-900">Forecast</h1>
-                <p className="text-xs text-gray-500">Predicted cash flow for {settings?.forecastPeriod ?? 30} days</p>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-xl font-bold text-gray-900">Forecast</h1>
+                        <p className="text-xs text-gray-500">Predicted cash flow</p>
+                    </div>
+                    <button
+                        onClick={() => setShowControls(!showControls)}
+                        className={`p-2 rounded-full ${showControls ? 'bg-blue-50 text-primary' : 'text-gray-500 hover:bg-gray-100'}`}
+                    >
+                        <AdjustmentsHorizontalIcon className="w-6 h-6" />
+                    </button>
+                </div>
+
+                {showControls && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-xl space-y-4 border border-gray-100 animate-in slide-in-from-top-2">
+                        <SafeModeToggle enabled={isSafeMode} onChange={setSafeMode} />
+
+                        <div>
+                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
+                                Forecast Period
+                            </label>
+                            <div className="flex items-center gap-2">
+                                <CalendarIcon className="w-5 h-5 text-gray-400" />
+                                <select
+                                    value={forecastDays}
+                                    onChange={(e) => setForecastDays(Number(e.target.value))}
+                                    className="block w-full rounded-lg border-gray-300 py-2 pl-3 pr-10 text-base focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
+                                >
+                                    {[7, 14, 30, 60, 90, 180, 365].map(days => (
+                                        <option key={days} value={days}>{days} Days</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </header>
 
             <div className="p-4 space-y-4">
@@ -82,41 +133,56 @@ const Forecast = () => {
                     <>
                         <ForecastChart data={chartData} />
 
-                        <div className="bg-white rounded-xl p-4 shadow-sm">
-                            <h3 className="font-semibold text-gray-900 mb-2">Insights</h3>
-                            {chartData.length > 0 ? (
-                                <p className="text-sm text-gray-600">
-                                    Based on your transactions, your lowest balance will be{' '}
-                                    <span className={`font-bold ${lowestDay.balance < (settings?.lowBalanceWarning ?? 500) ? 'text-red-500' : 'text-gray-900'}`}>
-                                        {formatCurrency(lowestDay.balance)}
-                                    </span>{' '}
-                                    on <span className="font-medium">
-                                        {lowestDay.date ? new Date(lowestDay.date).toLocaleDateString('en-IE', { month: 'short', day: 'numeric' }) : 'N/A'}
-                                    </span>.
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-blue-50 rounded-xl p-4 border border-blue-100 col-span-2">
+                                <h3 className="font-semibold text-blue-900 mb-1">Safe to Spend</h3>
+                                <p className="text-3xl font-bold text-blue-700">
+                                    {forecastData ? formatCurrency(forecastData.safeToSpend ?? 0) : '€0.00'}
                                 </p>
-                            ) : (
-                                <p className="text-sm text-gray-500">
-                                    Add transactions to see insights about your cash flow.
+                                <p className="text-xs text-blue-600 mt-1">
+                                    Available after covering all upcoming expenses
                                 </p>
-                            )}
-                        </div>
+                            </div>
 
-                        <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                            <h3 className="font-semibold text-blue-900 mb-1">Safe to Spend</h3>
-                            <p className="text-2xl font-bold text-blue-700">
-                                {forecastData ? formatCurrency(forecastData.safeToSpend ?? 0) : '€0.00'}
-                            </p>
-                            <p className="text-xs text-blue-600 mt-1">
-                                Calculated as (Lowest Projected Balance - Safety Buffer)
-                            </p>
+                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                                <p className="text-xs text-gray-500 mb-1">Lowest Balance</p>
+                                <p className={`text-lg font-bold ${lowestDay.balance < (settings?.lowBalanceWarning ?? 500) ? 'text-red-500' : 'text-gray-900'}`}>
+                                    {formatCurrency(lowestDay.balance)}
+                                </p>
+                                <p className="text-[10px] text-gray-400">
+                                    on {lowestDay.date ? new Date(lowestDay.date).toLocaleDateString('en-IE', { month: 'short', day: 'numeric' }) : 'N/A'}
+                                </p>
+                            </div>
+
+                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                                <p className="text-xs text-gray-500 mb-1">Period End</p>
+                                <p className="text-lg font-bold text-gray-900">
+                                    {chartData.length > 0
+                                        ? formatCurrency(chartData[chartData.length - 1].balance)
+                                        : '€0.00'}
+                                </p>
+                                <p className="text-[10px] text-gray-400">
+                                    in {forecastDays} days
+                                </p>
+                            </div>
                         </div>
 
                         {forecastData?.lowBalanceWarning && (
-                            <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
-                                <h3 className="font-semibold text-amber-900 mb-1">⚠️ Low Balance Warning</h3>
-                                <p className="text-sm text-amber-700">
-                                    Your balance is projected to drop below {formatCurrency(settings?.lowBalanceWarning ?? 500)}
-                                </p>
+                            <div className="bg-amber-50 rounded-xl p-4 border border-amber-200 flex items-start gap-3">
+                                <span className="text-2xl">⚠️</span>
+                                <div>
+                                    <h3 className="font-semibold text-amber-900">Low Balance Warning</h3>
+                                    <p className="text-sm text-amber-700 mt-1">
+                                        Your balance is projected to drop below {formatCurrency(settings?.lowBalanceWarning ?? 500)} within the next {forecastDays} days.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {!forecastData?.dailyForecasts?.length && (
+                            <div className="text-center py-8 text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
+                                <p>No forecast data available.</p>
+                                <p className="text-sm">Try adding some recurring transactions.</p>
                             </div>
                         )}
                     </>
@@ -125,5 +191,6 @@ const Forecast = () => {
         </div>
     );
 };
+
 
 export default Forecast;

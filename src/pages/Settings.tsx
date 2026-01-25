@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
 import { useAuthStore } from '../store/authStore';
+import { CurrencySettings } from '../components/settings/CurrencySettings';
+import { BankAccountSettings } from '../components/settings/BankAccountSettings';
+import { TagSettings } from '../components/settings/TagSettings';
 
 const FORECAST_OPTIONS = [7, 14, 30, 60, 90];
 const DATE_FORMAT_OPTIONS = ['DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD'];
@@ -59,7 +62,7 @@ export default function Settings() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6 space-y-8">
+        <div className="max-w-2xl mx-auto p-6 pb-24 space-y-8">
             <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
 
             {/* Profile Section */}
@@ -79,6 +82,11 @@ export default function Settings() {
                     </button>
                 </div>
             </section>
+
+            {/* Financial Settings */}
+            <CurrencySettings />
+            <BankAccountSettings />
+            <TagSettings />
 
             {/* Forecast Settings */}
             <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -188,12 +196,41 @@ export default function Settings() {
                 </div>
             </section>
 
+            {/* Data Management */}
+            <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>💾</span> Data Management
+                </h2>
+                <div className="space-y-3">
+                    <p className="text-sm text-gray-600">
+                        Download a copy of your transaction history.
+                    </p>
+                    <button
+                        onClick={async () => {
+                            try {
+                                const { exportService } = await import('../services/exportService');
+                                await exportService.exportTransactionsToCSV();
+                                setMessage({ type: 'success', text: 'Export started successfully!' });
+                            } catch (e) {
+                                setMessage({ type: 'error', text: 'Failed to export data.' });
+                            }
+                        }}
+                        className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium flex items-center gap-2"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Export Transactions (CSV)
+                    </button>
+                </div>
+            </section>
+
             {/* Message */}
             {message && (
                 <div
                     className={`p-4 rounded-lg ${message.type === 'success'
-                            ? 'bg-green-50 text-green-700 border border-green-200'
-                            : 'bg-red-50 text-red-700 border border-red-200'
+                        ? 'bg-green-50 text-green-700 border border-green-200'
+                        : 'bg-red-50 text-red-700 border border-red-200'
                         }`}
                 >
                     {message.text}

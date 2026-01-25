@@ -10,6 +10,8 @@ import Transactions from './pages/Transactions';
 import Forecast from './pages/Forecast';
 import Import from './pages/Import';
 import Settings from './pages/Settings';
+import RecurringRules from './pages/RecurringRules';
+import Reminders from './pages/Reminders';
 
 function App() {
   return (
@@ -25,8 +27,10 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/forecast" element={<Forecast />} />
-                <Route path="/import" element={<Import />} />
+                <Route path="/recurring" element={<RecurringRules />} />
+                <Route path="/reminders" element={<Reminders />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/import" element={<Import />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

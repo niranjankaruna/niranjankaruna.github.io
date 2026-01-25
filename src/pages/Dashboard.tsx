@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { BalanceCard } from '../components/dashboard/BalanceCard';
 import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
+import { MiniForecastChart } from '../components/dashboard/MiniForecastChart';
 import { transactionService, forecastService } from '../services/api/transactionService';
 import { useSettings } from '../contexts/SettingsContext';
-import type { Transaction } from '../types/transaction';
+import type { Transaction, DailyForecast } from '../types/transaction';
 
 const Dashboard = () => {
     const { user } = useAuthStore();
@@ -13,6 +14,7 @@ const Dashboard = () => {
     const [safeMode, setSafeMode] = useState(false);
     const [balance, setBalance] = useState(0);
     const [safeToSpend, setSafeToSpend] = useState(0);
+    const [dailyForecasts, setDailyForecasts] = useState<DailyForecast[]>([]);
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -45,10 +47,12 @@ const Dashboard = () => {
                     );
                     setBalance(forecastData?.currentBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
+                    setDailyForecasts(forecastData?.dailyForecasts ?? []);
                 } catch (forecastErr) {
                     console.error('Failed to fetch forecast:', forecastErr);
                     setBalance(0);
                     setSafeToSpend(0);
+                    setDailyForecasts([]);
                 }
 
                 // Fetch recent transactions
@@ -65,6 +69,7 @@ const Dashboard = () => {
                 setBalance(0);
                 setSafeToSpend(0);
                 setRecentTransactions([]);
+                setDailyForecasts([]);
             } finally {
                 setLoading(false);
             }
@@ -134,6 +139,9 @@ const Dashboard = () => {
                             safeToSpend={safeToSpend}
                         />
 
+                        {/* Mini Forecast Chart */}
+                        <MiniForecastChart data={dailyForecasts} safeMode={safeMode} />
+
                         {/* Recent Transactions */}
                         <div className="bg-white rounded-xl p-4 shadow-sm">
                             <div className="flex justify-between items-center mb-4">
@@ -152,8 +160,8 @@ const Dashboard = () => {
                                         <div key={transaction.id} className="flex justify-between items-center">
                                             <div className="flex items-center space-x-3">
                                                 <div className={`p-2 rounded-full ${transaction.type === 'EXPENSE'
-                                                        ? 'bg-red-100 text-red-600'
-                                                        : 'bg-green-100 text-green-600'
+                                                    ? 'bg-red-100 text-red-600'
+                                                    : 'bg-green-100 text-green-600'
                                                     }`}>
                                                     {transaction.type === 'EXPENSE' ? '💸' : '💰'}
                                                 </div>
