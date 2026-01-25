@@ -5,8 +5,7 @@ import {
     ChartBarIcon,
     PlusCircleIcon,
     ArrowPathIcon,
-    Cog6ToothIcon,
-    BellAlertIcon
+    Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -19,7 +18,6 @@ const tabs = [
     { to: '/forecast', icon: ChartBarIcon, label: 'Forecast' },
     { to: null, icon: PlusCircleIcon, label: 'Add', isAction: true },
     { to: '/recurring', icon: ArrowPathIcon, label: 'Rules' },
-    { to: '/reminders', icon: BellAlertIcon, label: 'Alerts' },
     { to: '/settings', icon: Cog6ToothIcon, label: 'Settings' },
 ];
 

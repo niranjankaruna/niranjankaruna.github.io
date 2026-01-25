@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { BellAlertIcon } from '@heroicons/react/24/outline';
 import { useAuthStore } from '../store/authStore';
 import { BalanceCard } from '../components/dashboard/BalanceCard';
 import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
@@ -35,6 +36,13 @@ const Dashboard = () => {
             try {
                 setLoading(true);
                 setError(null);
+
+                // Sync recurring transactions first
+                try {
+                    await transactionService.syncProjections();
+                } catch (err) {
+                    console.error('Failed to sync projections:', err);
+                }
 
                 // Fetch forecast - use defaults if settings not available
                 const forecastPeriod = settings?.forecastPeriod ?? 30;
@@ -115,9 +123,14 @@ const Dashboard = () => {
                         <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
                         <p className="text-xs text-gray-500">Welcome, {user?.email?.split('@')[0] ?? 'User'}</p>
                     </div>
-                    <Link to="/settings" className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center text-primary font-bold hover:bg-blue-200 transition-colors">
-                        {user?.email?.[0]?.toUpperCase() ?? 'U'}
-                    </Link>
+                    <div className="flex items-center gap-3">
+                        <Link to="/reminders" className="p-2 text-gray-400 hover:text-primary transition-colors">
+                            <BellAlertIcon className="h-6 w-6" />
+                        </Link>
+                        <Link to="/settings" className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center text-primary font-bold hover:bg-blue-200 transition-colors">
+                            {user?.email?.[0]?.toUpperCase() ?? 'U'}
+                        </Link>
+                    </div>
                 </div>
             </header>
 

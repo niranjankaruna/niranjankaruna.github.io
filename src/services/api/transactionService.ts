@@ -64,6 +64,10 @@ export const transactionService = {
             params: { confidence }
         });
         return response.data;
+    },
+
+    syncProjections: async (): Promise<void> => {
+        await apiClient.post('/sync/projections');
     }
 };
 

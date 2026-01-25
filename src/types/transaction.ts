@@ -47,6 +47,7 @@ export interface CreateTransactionRequest {
     expenseStatus?: ExpenseStatus;
     isRecurring?: boolean;
     frequency?: RecurrenceFrequency;
+    endDate?: string;
     reminderDays?: number;
     bankAccountId?: string;
     tagIds?: string[];

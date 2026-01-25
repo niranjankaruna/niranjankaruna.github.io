@@ -25,6 +25,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
     const [currencyCode, setCurrencyCode] = useState('EUR');
     const [bankAccountId, setBankAccountId] = useState<string | undefined>(undefined);
     const [tagIds, setTagIds] = useState<string[]>([]);
+    const [endDate, setEndDate] = useState('');
 
     // Currency logic
     const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -95,6 +96,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
         setConfidence('LIKELY');
         setIsRecurring(false);
         setFrequency('MONTHLY');
+        setEndDate('');
         setError(null);
         // Don't reset type, keep user's last choice or default
     };
@@ -114,7 +116,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                 bankAccountId,
                 tagIds,
                 ...(type === 'INCOME' && { confidence }),
-                ...(type === 'EXPENSE' && isRecurring && { isRecurring, frequency }),
+                ...(type === 'EXPENSE' && isRecurring && { isRecurring, frequency, endDate: endDate || undefined }),
                 ...(type === 'EXPENSE' && !isRecurring && { isRecurring: false })
             };
 
@@ -300,20 +302,33 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
 
                                 {isRecurring && (
                                     <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 animate-in slide-in-from-top-2">
-                                        <label className="block text-sm font-medium text-gray-700">Recurrence Frequency</label>
-                                        <select
-                                            value={frequency}
-                                            onChange={(e) => setFrequency(e.target.value as RecurrenceFrequency)}
-                                            className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2"
-                                        >
-                                            <option value="DAILY">Daily</option>
-                                            <option value="WEEKLY">Weekly</option>
-                                            <option value="BIWEEKLY">Biweekly</option>
-                                            <option value="MONTHLY">Monthly</option>
-                                            <option value="QUARTERLY">Quarterly</option>
-                                            <option value="HALF_YEARLY">Half Yearly</option>
-                                            <option value="YEARLY">Yearly</option>
-                                        </select>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700">Frequency</label>
+                                                <select
+                                                    value={frequency}
+                                                    onChange={(e) => setFrequency(e.target.value as RecurrenceFrequency)}
+                                                    className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2"
+                                                >
+                                                    <option value="DAILY">Daily</option>
+                                                    <option value="WEEKLY">Weekly</option>
+                                                    <option value="BIWEEKLY">Biweekly</option>
+                                                    <option value="MONTHLY">Monthly</option>
+                                                    <option value="QUARTERLY">Quarterly</option>
+                                                    <option value="HALF_YEARLY">Half Yearly</option>
+                                                    <option value="YEARLY">Yearly</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700">End Date (Opt)</label>
+                                                <input
+                                                    type="date"
+                                                    value={endDate}
+                                                    onChange={(e) => setEndDate(e.target.value)}
+                                                    className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </>
