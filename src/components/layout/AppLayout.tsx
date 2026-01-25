@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { BottomTabBar } from './BottomTabBar';
 import { TransactionForm } from '../transactions/TransactionForm';
 
 export const AppLayout = () => {
     const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleTransactionSuccess = () => {
+        // Force refresh by navigating to same route
+        navigate(location.pathname, { replace: true });
+        // Or reload the window for simpler approach
+        window.location.reload();
+    };
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -20,6 +29,7 @@ export const AppLayout = () => {
             <TransactionForm
                 isOpen={isTransactionModalOpen}
                 onClose={() => setIsTransactionModalOpen(false)}
+                onSuccess={handleTransactionSuccess}
             />
         </div>
     );

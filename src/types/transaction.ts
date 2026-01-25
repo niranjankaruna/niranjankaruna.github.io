@@ -1,6 +1,8 @@
 export type TransactionType = 'INCOME' | 'EXPENSE';
 export type IncomeConfidence = 'GUARANTEED' | 'LIKELY';
-export type RecurrenceFrequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+export type IncomeStatus = 'PENDING' | 'RECEIVED' | 'CANCELLED';
+export type ExpenseStatus = 'UPCOMING' | 'PAID' | 'SKIPPED';
+export type RecurrenceFrequency = 'DAILY' | 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'HALF_YEARLY' | 'YEARLY';
 
 export interface Transaction {
     id: string;
@@ -9,25 +11,61 @@ export interface Transaction {
     currencyCode: string;
     amountInBaseCurrency: number;
     description?: string;
-    transactionDate: string; // ISO Date
+    transactionDate: string;
+    actualDate?: string;
 
-    // Income
+    // Income fields
     confidence?: IncomeConfidence;
+    incomeStatus?: IncomeStatus;
 
-    // Expense
+    // Expense fields
+    expenseStatus?: ExpenseStatus;
     isRecurring?: boolean;
     frequency?: RecurrenceFrequency;
+    reminderDays?: number;
+    bankAccountId?: string;
 
-    created_at?: string;
+    // Tags
+    tagIds?: string[];
+
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface CreateTransactionRequest {
     type: TransactionType;
     amount: number;
-    currencyCode?: string; // default EUR
+    currencyCode?: string;
     description?: string;
     transactionDate: string;
+
+    // Income
     confidence?: IncomeConfidence;
+    incomeStatus?: IncomeStatus;
+
+    // Expense
+    expenseStatus?: ExpenseStatus;
     isRecurring?: boolean;
     frequency?: RecurrenceFrequency;
+    reminderDays?: number;
+    bankAccountId?: string;
+    tagIds?: string[];
+}
+
+export interface ForecastData {
+    startDate: string;
+    endDate: string;
+    currentBalance: number;
+    projectedBalance: number;
+    safeToSpend: number;
+    lowBalanceWarning: boolean;
+    dailyForecasts: DailyForecast[];
+}
+
+export interface DailyForecast {
+    date: string;
+    balance: number;
+    income: number;
+    expenses: number;
+    transactions: Transaction[];
 }

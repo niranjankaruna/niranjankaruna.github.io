@@ -2,16 +2,30 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ChevronLeftIcon, FunnelIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { TransactionList } from '../components/transactions/TransactionList';
+import { transactionService } from '../services/api/transactionService';
 import type { Transaction } from '../types/transaction';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        // TODO: Fetch transactions from API
-        setLoading(false);
-        setTransactions([]);
+        const fetchTransactions = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const data = await transactionService.getAll();
+                setTransactions(data);
+            } catch (err) {
+                console.error('Failed to fetch transactions:', err);
+                setError('Failed to load transactions');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTransactions();
     }, []);
 
     return (
@@ -36,10 +50,19 @@ const Transactions = () => {
                     <div className="flex justify-center py-12">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                     </div>
+                ) : error ? (
+                    <div className="bg-red-50 text-red-600 p-4 rounded-lg text-center">
+                        {error}
+                    </div>
+                ) : transactions.length === 0 ? (
+                    <div className="text-center py-12 text-gray-500">
+                        <p className="text-lg mb-2">No transactions yet</p>
+                        <p className="text-sm">Tap the + button to add your first transaction</p>
+                    </div>
                 ) : (
                     <TransactionList
                         transactions={transactions}
-                        onTransactionClick={(id) => console.log('View', id)}
+                        onTransactionClick={(id) => console.log('View transaction:', id)}
                     />
                 )}
             </div>
