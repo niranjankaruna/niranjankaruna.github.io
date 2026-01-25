@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserSettings, defaultSettings, fetchSettings, updateSettings as updateSettingsApi } from '../services/settingsApi';
-import { useAuth } from '../components/auth/AuthProvider';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import type { UserSettings } from '../services/settingsApi';
+import { defaultSettings, fetchSettings, updateSettings as updateSettingsApi } from '../services/settingsApi';
+import { useAuthStore } from '../store/authStore';
 
 interface SettingsContextType {
     settings: UserSettings;
@@ -14,7 +15,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export function SettingsProvider({ children }: { children: ReactNode }) {
     const [settings, setSettings] = useState<UserSettings>(defaultSettings);
     const [loading, setLoading] = useState(true);
-    const { user } = useAuth();
+    const { user } = useAuthStore();
 
     const loadSettings = async () => {
         if (!user) {

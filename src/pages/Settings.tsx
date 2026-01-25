@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
-import { useAuth } from '../components/auth/AuthProvider';
-import { supabase } from '../lib/supabase';
+import { useAuthStore } from '../store/authStore';
 
 const FORECAST_OPTIONS = [7, 14, 30, 60, 90];
 const DATE_FORMAT_OPTIONS = ['DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD'];
@@ -9,7 +8,7 @@ const THEME_OPTIONS = ['light', 'dark'];
 
 export default function Settings() {
     const { settings, loading, updateSettings } = useSettings();
-    const { user, signOut } = useAuth();
+    const { user, signOut } = useAuthStore();
 
     const [forecastPeriod, setForecastPeriod] = useState(settings.forecastPeriod);
     const [defaultSafeMode, setDefaultSafeMode] = useState(settings.defaultSafeMode);
@@ -40,7 +39,7 @@ export default function Settings() {
                 dateFormat,
             });
             setMessage({ type: 'success', text: 'Settings saved successfully!' });
-        } catch (error) {
+        } catch {
             setMessage({ type: 'error', text: 'Failed to save settings. Please try again.' });
         } finally {
             setSaving(false);

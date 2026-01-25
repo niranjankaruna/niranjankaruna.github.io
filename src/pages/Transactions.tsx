@@ -5,7 +5,14 @@ import { TransactionList } from '../components/transactions/TransactionList';
 import type { Transaction } from '../types/transaction';
 
 const Transactions = () => {
-    // ... (state lines 8-53 unchanged)
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // TODO: Fetch transactions from API
+        setLoading(false);
+        setTransactions([]);
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
