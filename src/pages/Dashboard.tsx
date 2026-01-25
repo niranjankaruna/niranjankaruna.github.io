@@ -9,7 +9,7 @@ import type { Transaction } from '../types/transaction';
 
 const Dashboard = () => {
     const { user } = useAuthStore();
-    const { settings } = useSettings();
+    const { settings, loading: settingsLoading } = useSettings();
     const [safeMode, setSafeMode] = useState(false);
     const [balance, setBalance] = useState(0);
     const [safeToSpend, setSafeToSpend] = useState(0);
@@ -19,33 +19,49 @@ const Dashboard = () => {
 
     // Set default safe mode from settings
     useEffect(() => {
-        setSafeMode(settings.defaultSafeMode);
-    }, [settings.defaultSafeMode]);
+        if (!settingsLoading) {
+            setSafeMode(settings?.defaultSafeMode ?? false);
+        }
+    }, [settings?.defaultSafeMode, settingsLoading]);
 
     // Fetch forecast and transactions
     useEffect(() => {
+        // Wait for settings to load
+        if (settingsLoading) return;
+
         const fetchData = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                // Fetch forecast
-                const forecastData = await forecastService.getForecast(
-                    settings.forecastPeriod,
-                    safeMode,
-                    0 // starting balance - could be fetched from user settings
-                );
-                setBalance(forecastData.currentBalance);
-                setSafeToSpend(forecastData.safeToSpend);
+                // Fetch forecast - use defaults if settings not available
+                const forecastPeriod = settings?.forecastPeriod ?? 30;
+
+                try {
+                    const forecastData = await forecastService.getForecast(
+                        forecastPeriod,
+                        safeMode,
+                        0
+                    );
+                    setBalance(forecastData?.currentBalance ?? 0);
+                    setSafeToSpend(forecastData?.safeToSpend ?? 0);
+                } catch (forecastErr) {
+                    console.error('Failed to fetch forecast:', forecastErr);
+                    setBalance(0);
+                    setSafeToSpend(0);
+                }
 
                 // Fetch recent transactions
-                const transactions = await transactionService.getAll();
-                // Get last 5 transactions
-                setRecentTransactions(transactions.slice(0, 5));
+                try {
+                    const transactions = await transactionService.getAll();
+                    setRecentTransactions(Array.isArray(transactions) ? transactions.slice(0, 5) : []);
+                } catch (txErr) {
+                    console.error('Failed to fetch transactions:', txErr);
+                    setRecentTransactions([]);
+                }
             } catch (err) {
                 console.error('Failed to fetch dashboard data:', err);
                 setError('Failed to load data');
-                // Set defaults on error
                 setBalance(0);
                 setSafeToSpend(0);
                 setRecentTransactions([]);
@@ -55,7 +71,7 @@ const Dashboard = () => {
         };
 
         fetchData();
-    }, [safeMode, settings.forecastPeriod]);
+    }, [safeMode, settings?.forecastPeriod, settingsLoading]);
 
     const formatAmount = (amount: number, type: string) => {
         const formatted = new Intl.NumberFormat('en-IE', {
@@ -76,6 +92,15 @@ const Dashboard = () => {
         return date.toLocaleDateString('en-IE', { day: 'numeric', month: 'short' });
     };
 
+    // Show loading while settings are loading
+    if (settingsLoading) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
             {/* Header */}
@@ -83,10 +108,10 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center">
                     <div>
                         <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
-                        <p className="text-xs text-gray-500">Welcome, {user?.email?.split('@')[0]}</p>
+                        <p className="text-xs text-gray-500">Welcome, {user?.email?.split('@')[0] ?? 'User'}</p>
                     </div>
                     <Link to="/settings" className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center text-primary font-bold hover:bg-blue-200 transition-colors">
-                        {user?.email?.[0].toUpperCase()}
+                        {user?.email?.[0]?.toUpperCase() ?? 'U'}
                     </Link>
                 </div>
             </header>
