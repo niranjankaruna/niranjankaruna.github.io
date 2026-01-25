@@ -12,12 +12,11 @@ export interface BankAccount {
     id: string;
     userId: string;
     name: string;
-    accountType: string;
-    accountNumber: string;
-    currencyCode: string;
-    currentBalance: number;
+    bankName?: string;
+
+    currency: string;
     isDefault: boolean;
-    color: string;
+    color?: string;
 }
 
 export interface Tag {
@@ -38,10 +37,9 @@ export interface CreateCurrencyRequest {
 
 export interface CreateBankAccountRequest {
     name: string;
-    accountType: string;
-    accountNumber?: string;
-    currencyCode: string;
-    currentBalance: number;
+    bankName?: string;
+
+    currency: string;
     isDefault: boolean;
     color?: string;
 }

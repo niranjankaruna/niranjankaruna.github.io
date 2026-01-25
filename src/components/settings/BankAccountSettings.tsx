@@ -12,10 +12,8 @@ export const BankAccountSettings = () => {
     const [isAdding, setIsAdding] = useState(false);
     const [newAccount, setNewAccount] = useState<CreateBankAccountRequest>({
         name: '',
-        accountType: 'CHECKING',
-        accountNumber: '',
-        currencyCode: 'EUR',
-        currentBalance: 0,
+        bankName: '',
+        currency: 'EUR',
         isDefault: false,
         color: '#3B82F6'
     });
@@ -48,10 +46,8 @@ export const BankAccountSettings = () => {
             setIsAdding(false);
             setNewAccount({
                 name: '',
-                accountType: 'CHECKING',
-                accountNumber: '',
-                currencyCode: 'EUR',
-                currentBalance: 0,
+                bankName: '',
+                currency: 'EUR',
                 isDefault: false,
                 color: '#3B82F6'
             });
@@ -72,9 +68,6 @@ export const BankAccountSettings = () => {
             setError('Failed to delete account');
         }
     };
-
-    // Note: Set default would likely be an update call in a real scenario, handled by update()
-    // For now we just show the badge
 
     if (loading && accounts.length === 0) return <div className="text-center py-4">Loading accounts...</div>;
 
@@ -103,35 +96,24 @@ export const BankAccountSettings = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <input
                             type="text"
-                            placeholder="Account Name"
+                            placeholder="Display Name (e.g. Main Checking)"
                             required
                             value={newAccount.name}
                             onChange={e => setNewAccount({ ...newAccount, name: e.target.value })}
                             className="p-2 border rounded"
                         />
-                        <select
-                            value={newAccount.accountType}
-                            onChange={e => setNewAccount({ ...newAccount, accountType: e.target.value })}
-                            className="p-2 border rounded"
-                        >
-                            <option value="CHECKING">Checking</option>
-                            <option value="SAVINGS">Savings</option>
-                            <option value="CREDIT">Credit Card</option>
-                            <option value="CASH">Cash</option>
-                        </select>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
                         <input
                             type="text"
-                            placeholder="Account Number (Last 4)"
-                            maxLength={4}
-                            value={newAccount.accountNumber || ''}
-                            onChange={e => setNewAccount({ ...newAccount, accountNumber: e.target.value })}
+                            placeholder="Bank Name (e.g. AIB)"
+                            value={newAccount.bankName}
+                            onChange={e => setNewAccount({ ...newAccount, bankName: e.target.value })}
                             className="p-2 border rounded"
                         />
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
                         <select
-                            value={newAccount.currencyCode}
-                            onChange={e => setNewAccount({ ...newAccount, currencyCode: e.target.value })}
+                            value={newAccount.currency}
+                            onChange={e => setNewAccount({ ...newAccount, currency: e.target.value })}
                             className="p-2 border rounded"
                         >
                             {currencies.map(c => (
@@ -139,17 +121,7 @@ export const BankAccountSettings = () => {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <input
-                            type="number"
-                            placeholder="Current Balance"
-                            required
-                            step="0.01"
-                            value={newAccount.currentBalance}
-                            onChange={e => setNewAccount({ ...newAccount, currentBalance: parseFloat(e.target.value) })}
-                            className="w-full p-2 border rounded"
-                        />
-                    </div>
+
                     <div className="flex justify-end gap-2">
                         <button
                             type="button"
@@ -184,7 +156,7 @@ export const BankAccountSettings = () => {
                                     {account.isDefault && <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">Default</span>}
                                 </h4>
                                 <p className="text-xs text-gray-500">
-                                    {account.accountType} • {account.currencyCode} {account.currentBalance.toLocaleString()}
+                                    {account.bankName ? `${account.bankName} • ` : ''}{account.currency}
                                 </p>
                             </div>
                         </div>
