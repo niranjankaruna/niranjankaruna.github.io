@@ -6,10 +6,11 @@ import type { Transaction } from '../../types/transaction';
 
 interface TransactionCardProps {
     transaction: Transaction;
+    currencySymbol?: string;
     onClick?: () => void;
 }
 
-export const TransactionCard: React.FC<TransactionCardProps> = ({ transaction, onClick }) => {
+export const TransactionCard: React.FC<TransactionCardProps> = ({ transaction, currencySymbol, onClick }) => {
     const isExpense = transaction.type === 'EXPENSE';
     const isRecurring = transaction.isRecurring;
 
@@ -39,7 +40,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ transaction, o
                     "text-sm font-bold block",
                     isExpense ? "text-gray-900" : "text-emerald-600"
                 )}>
-                    {isExpense ? '-' : '+'}{transaction.currencyCode} {Math.abs(transaction.amount).toLocaleString('en-IE', { minimumFractionDigits: 2 })}
+                    {isExpense ? '-' : '+'}{currencySymbol || transaction.currencyCode} {Math.abs(transaction.amount).toLocaleString('en-IE', { minimumFractionDigits: 2 })}
                 </span>
                 <span className="text-[10px] text-gray-400 capitalize">
                     {isExpense ? 'Paid' : (transaction.confidence?.toLowerCase() || 'Pending')}

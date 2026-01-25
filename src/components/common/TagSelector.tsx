@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { TagIcon, CheckIcon } from '@heroicons/react/24/outline';
-import { Combobox } from '@headlessui/react';
+import { Combobox, Transition } from '@headlessui/react';
 import { tagService } from '../../services/api/tagService';
 import type { Tag } from '../../types/settings';
 
@@ -83,43 +83,51 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ selectedTagIds, onChan
                             <TagIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                         </Combobox.Button>
                     </div>
-                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">
-                        {filteredTags.length === 0 && query !== '' ? (
-                            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                                Nothing found.
-                            </div>
-                        ) : (
-                            filteredTags.map((tag) => (
-                                <Combobox.Option
-                                    key={tag.id}
-                                    className={({ active }) =>
-                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-primary text-white' : 'text-gray-900'
-                                        }`
-                                    }
-                                    value={tag.id}
-                                >
-                                    {({ selected, active }) => (
-                                        <>
-                                            <span
-                                                className={`block truncate ${selected ? 'font-medium' : 'font-normal'
-                                                    }`}
-                                            >
-                                                {tag.name}
-                                            </span>
-                                            {selected ? (
+                    <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                        afterLeave={() => setQuery('')}
+                    >
+                        <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                            {filteredTags.length === 0 && query !== '' ? (
+                                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                                    Nothing found.
+                                </div>
+                            ) : (
+                                filteredTags.map((tag) => (
+                                    <Combobox.Option
+                                        key={tag.id}
+                                        className={({ active }) =>
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-primary/10 text-primary' : 'text-gray-900'
+                                            }`
+                                        }
+                                        value={tag.id}
+                                    >
+                                        {({ selected, active }) => (
+                                            <>
                                                 <span
-                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-white' : 'text-primary'
+                                                    className={`block truncate ${selected ? 'font-medium' : 'font-normal'
                                                         }`}
                                                 >
-                                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                    {tag.name}
                                                 </span>
-                                            ) : null}
-                                        </>
-                                    )}
-                                </Combobox.Option>
-                            ))
-                        )}
-                    </Combobox.Options>
+                                                {selected ? (
+                                                    <span
+                                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-primary' : 'text-primary'
+                                                            }`}
+                                                    >
+                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                    </span>
+                                                ) : null}
+                                            </>
+                                        )}
+                                    </Combobox.Option>
+                                ))
+                            )}
+                        </Combobox.Options>
+                    </Transition>
                 </div>
             </Combobox>
         </div>

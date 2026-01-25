@@ -53,7 +53,7 @@ const Dashboard = () => {
                         safeMode,
                         0
                     );
-                    setBalance(forecastData?.currentBalance ?? 0);
+                    setBalance(forecastData?.projectedBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
                     setDailyForecasts(forecastData?.dailyForecasts ?? []);
                 } catch (forecastErr) {
@@ -150,6 +150,7 @@ const Dashboard = () => {
                         <BalanceCard
                             balance={balance}
                             safeToSpend={safeToSpend}
+                            forecastDays={settings?.forecastPeriod ?? 30}
                         />
 
                         {/* Mini Forecast Chart */}

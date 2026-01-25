@@ -56,7 +56,6 @@ export interface CreateTransactionRequest {
 export interface ForecastData {
     startDate: string;
     endDate: string;
-    currentBalance: number;
     projectedBalance: number;
     safeToSpend: number;
     lowBalanceWarning: boolean;

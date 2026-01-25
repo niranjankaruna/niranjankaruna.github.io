@@ -27,7 +27,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         try {
             setLoading(true);
             const userSettings = await fetchSettings();
-            setSettings(userSettings);
+            // Fallback to defaultSettings if API returns partial or null
+            setSettings({ ...defaultSettings, ...userSettings });
         } catch (error) {
             console.error('Failed to load settings:', error);
             setSettings(defaultSettings);

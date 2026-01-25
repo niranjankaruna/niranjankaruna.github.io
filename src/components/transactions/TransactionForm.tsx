@@ -9,6 +9,7 @@ import { TagSelector } from '../common/TagSelector';
 import type { Transaction, CreateTransactionRequest, IncomeConfidence, RecurrenceFrequency } from '../../types/transaction';
 import type { Currency } from '../../types/settings';
 import { currencyService } from '../../services/api/currencyService';
+import { CustomSelect } from '../common/CustomSelect';
 
 interface TransactionFormProps {
     isOpen: boolean;
@@ -18,7 +19,7 @@ interface TransactionFormProps {
 }
 
 export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClose, onSuccess, initialData }) => {
-    const [type, setType] = useState<'INCOME' | 'EXPENSE'>('EXPENSE');
+    const [type, setType] = useState<'INCOME' | 'EXPENSE'>('INCOME');
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [transactionDate, setTransactionDate] = useState(new Date().toISOString().split('T')[0]);
@@ -270,15 +271,15 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                         {/* Income-specific: Confidence */}
                         {type === 'INCOME' && (
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Confidence Level</label>
-                                <select
+                                <CustomSelect
+                                    label="Confidence Level"
                                     value={confidence}
-                                    onChange={(e) => setConfidence(e.target.value as IncomeConfidence)}
-                                    className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2"
-                                >
-                                    <option value="GUARANTEED">Guaranteed</option>
-                                    <option value="LIKELY">Likely</option>
-                                </select>
+                                    onChange={(val) => setConfidence(val as IncomeConfidence)}
+                                    options={[
+                                        { label: 'Guaranteed', value: 'GUARANTEED' },
+                                        { label: 'Likely', value: 'LIKELY' }
+                                    ]}
+                                />
                             </div>
                         )}
 
@@ -304,20 +305,20 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                     <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 animate-in slide-in-from-top-2">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700">Frequency</label>
-                                                <select
+                                                <CustomSelect
+                                                    label="Frequency"
                                                     value={frequency}
-                                                    onChange={(e) => setFrequency(e.target.value as RecurrenceFrequency)}
-                                                    className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2"
-                                                >
-                                                    <option value="DAILY">Daily</option>
-                                                    <option value="WEEKLY">Weekly</option>
-                                                    <option value="BIWEEKLY">Biweekly</option>
-                                                    <option value="MONTHLY">Monthly</option>
-                                                    <option value="QUARTERLY">Quarterly</option>
-                                                    <option value="HALF_YEARLY">Half Yearly</option>
-                                                    <option value="YEARLY">Yearly</option>
-                                                </select>
+                                                    onChange={(val) => setFrequency(val as RecurrenceFrequency)}
+                                                    options={[
+                                                        { label: 'Daily', value: 'DAILY' },
+                                                        { label: 'Weekly', value: 'WEEKLY' },
+                                                        { label: 'Biweekly', value: 'BIWEEKLY' },
+                                                        { label: 'Monthly', value: 'MONTHLY' },
+                                                        { label: 'Quarterly', value: 'QUARTERLY' },
+                                                        { label: 'Half Yearly', value: 'HALF_YEARLY' },
+                                                        { label: 'Yearly', value: 'YEARLY' }
+                                                    ]}
+                                                />
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700">End Date (Opt)</label>

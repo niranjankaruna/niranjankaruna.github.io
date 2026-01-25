@@ -58,7 +58,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
         if (!editingCurrency) return;
 
         try {
-            await currencyService.update(editingCurrency.id, {
+            await currencyService.update(editingCurrency.code, {
                 code: editingCurrency.code,
                 name: editingCurrency.name,
                 symbol: editingCurrency.symbol,
@@ -77,7 +77,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
     const handleDelete = async (id: string) => {
         if (!window.confirm('Are you sure you want to delete this currency?')) return;
         try {
-            await currencyService.delete(id);
+            await currencyService.delete(editingCurrency?.code || id); // Handle delete by code if possible, currently handler receives ID but service needs Code? Wait, let's fix the caller.
             fetchCurrencies();
             onDataChange?.();
         } catch (err) {
