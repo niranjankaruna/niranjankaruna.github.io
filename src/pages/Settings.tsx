@@ -61,6 +61,14 @@ export default function Settings() {
         );
     }
 
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const handleCurrencyChange = () => {
+        setRefreshKey(prev => prev + 1);
+    };
+
+    // ... handleSave ...
+
     return (
         <div className="max-w-2xl mx-auto p-6 pb-24 space-y-8">
             <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
@@ -84,8 +92,8 @@ export default function Settings() {
             </section>
 
             {/* Financial Settings */}
-            <CurrencySettings />
-            <BankAccountSettings />
+            <CurrencySettings onDataChange={handleCurrencyChange} />
+            <BankAccountSettings key={refreshKey} />
             <TagSettings />
 
             {/* Forecast Settings */}

@@ -7,6 +7,8 @@ import { BankAccountSelector } from '../common/BankAccountSelector';
 import { CurrencySelector } from '../common/CurrencySelector';
 import { TagSelector } from '../common/TagSelector';
 import type { Transaction, CreateTransactionRequest, IncomeConfidence, RecurrenceFrequency } from '../../types/transaction';
+import type { Currency } from '../../types/settings';
+import { currencyService } from '../../services/api/currencyService';
 
 interface TransactionFormProps {
     isOpen: boolean;
@@ -23,6 +25,29 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
     const [currencyCode, setCurrencyCode] = useState('EUR');
     const [bankAccountId, setBankAccountId] = useState<string | undefined>(undefined);
     const [tagIds, setTagIds] = useState<string[]>([]);
+
+    // Currency logic
+    const [currencies, setCurrencies] = useState<Currency[]>([]);
+    const [currencySymbol, setCurrencySymbol] = useState('€');
+
+    useEffect(() => {
+        const fetchCurrencies = async () => {
+            try {
+                const data = await currencyService.getAll();
+                setCurrencies(data);
+            } catch (error) {
+                console.error('Failed to load currencies', error);
+            }
+        };
+        fetchCurrencies();
+    }, []);
+
+    useEffect(() => {
+        const currency = currencies.find(c => c.code === currencyCode);
+        if (currency) {
+            setCurrencySymbol(currency.symbol);
+        }
+    }, [currencyCode, currencies]);
 
     // Income specific
     const [confidence, setConfidence] = useState<IncomeConfidence>('LIKELY');
@@ -183,7 +208,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                 <label className="block text-sm font-medium text-gray-700">Amount</label>
                                 <div className="mt-1 relative rounded-md shadow-sm">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span className="text-gray-500 sm:text-sm">€</span>
+                                        <span className="text-gray-500 sm:text-sm">{currencySymbol}</span>
                                     </div>
                                     <input
                                         type="number"
