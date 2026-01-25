@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './components/auth/AuthProvider';
+import { SettingsProvider } from './contexts/SettingsContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AppLayout } from './components/layout/AppLayout';
 import Login from './pages/Login';
@@ -8,26 +9,29 @@ import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Forecast from './pages/Forecast';
 import Import from './pages/Import';
+import Settings from './pages/Settings';
 
 function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+        <SettingsProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/transactions" element={<Transactions />} />
-              <Route path="/forecast" element={<Forecast />} />
-              <Route path="/import" element={<Import />} />
-              {/* Future routes: /recurring, /settings */}
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/transactions" element={<Transactions />} />
+                <Route path="/forecast" element={<Forecast />} />
+                <Route path="/import" element={<Import />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
+          </Routes>
+        </SettingsProvider>
       </AuthProvider>
     </BrowserRouter>
   );

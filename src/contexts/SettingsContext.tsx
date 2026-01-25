@@ -1,0 +1,69 @@
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { UserSettings, defaultSettings, fetchSettings, updateSettings as updateSettingsApi } from '../services/settingsApi';
+import { useAuth } from '../components/auth/AuthProvider';
+
+interface SettingsContextType {
+    settings: UserSettings;
+    loading: boolean;
+    updateSettings: (newSettings: Partial<UserSettings>) => Promise<void>;
+    refreshSettings: () => Promise<void>;
+}
+
+const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+
+export function SettingsProvider({ children }: { children: ReactNode }) {
+    const [settings, setSettings] = useState<UserSettings>(defaultSettings);
+    const [loading, setLoading] = useState(true);
+    const { user } = useAuth();
+
+    const loadSettings = async () => {
+        if (!user) {
+            setSettings(defaultSettings);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const userSettings = await fetchSettings();
+            setSettings(userSettings);
+        } catch (error) {
+            console.error('Failed to load settings:', error);
+            setSettings(defaultSettings);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadSettings();
+    }, [user]);
+
+    const updateSettings = async (newSettings: Partial<UserSettings>) => {
+        try {
+            const updated = await updateSettingsApi(newSettings);
+            setSettings(updated);
+        } catch (error) {
+            console.error('Failed to update settings:', error);
+            throw error;
+        }
+    };
+
+    const refreshSettings = async () => {
+        await loadSettings();
+    };
+
+    return (
+        <SettingsContext.Provider value={{ settings, loading, updateSettings, refreshSettings }}>
+            {children}
+        </SettingsContext.Provider>
+    );
+}
+
+export function useSettings() {
+    const context = useContext(SettingsContext);
+    if (context === undefined) {
+        throw new Error('useSettings must be used within a SettingsProvider');
+    }
+    return context;
+}
