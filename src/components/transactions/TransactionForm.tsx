@@ -328,12 +328,24 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700">End Date (Opt)</label>
-                                                <input
-                                                    type="date"
-                                                    value={endDate}
-                                                    onChange={(e) => setEndDate(e.target.value)}
-                                                    className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2"
-                                                />
+                                                <div className="relative mt-1">
+                                                    <input
+                                                        type="date"
+                                                        value={endDate}
+                                                        onChange={(e) => setEndDate(e.target.value)}
+                                                        className="block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2 pr-10"
+                                                    />
+                                                    {endDate && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setEndDate('')}
+                                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 focus:outline-none"
+                                                            aria-label="Clear end date"
+                                                        >
+                                                            <XMarkIcon className="h-4 w-4" />
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
