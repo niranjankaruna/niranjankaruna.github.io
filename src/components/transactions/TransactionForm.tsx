@@ -26,7 +26,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
     const [currencyCode, setCurrencyCode] = useState('EUR');
     const [bankAccountId, setBankAccountId] = useState<string | undefined>(undefined);
     const [tagIds, setTagIds] = useState<string[]>([]);
-    const [endDate, setEndDate] = useState('');
+
 
     // Currency logic
     const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -97,7 +97,6 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
         setConfidence('LIKELY');
         setIsRecurring(false);
         setFrequency('MONTHLY');
-        setEndDate('');
         setError(null);
         // Don't reset type, keep user's last choice or default
     };
@@ -117,7 +116,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                 bankAccountId,
                 tagIds,
                 ...(type === 'INCOME' && { confidence }),
-                ...(type === 'EXPENSE' && isRecurring && { isRecurring, frequency, endDate: endDate || undefined }),
+                ...(type === 'EXPENSE' && isRecurring && { isRecurring, frequency }),
                 ...(type === 'EXPENSE' && !isRecurring && { isRecurring: false })
             };
 
@@ -325,27 +324,6 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                                         { label: 'Yearly', value: 'YEARLY' }
                                                     ]}
                                                 />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700">End Date (Opt)</label>
-                                                <div className="relative mt-1">
-                                                    <input
-                                                        type="date"
-                                                        value={endDate}
-                                                        onChange={(e) => setEndDate(e.target.value)}
-                                                        className="block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2 pr-10"
-                                                    />
-                                                    {endDate && (
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setEndDate('')}
-                                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 focus:outline-none"
-                                                            aria-label="Clear end date"
-                                                        >
-                                                            <XMarkIcon className="h-4 w-4" />
-                                                        </button>
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

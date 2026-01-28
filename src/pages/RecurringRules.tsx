@@ -90,32 +90,42 @@ const RecurringRules = () => {
                         <p className="text-sm">Create one to automate your transactions.</p>
                     </div>
                 ) : (
-                    rules.map(rule => (
-                        <div key={rule.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <h3 className="font-semibold text-gray-900">{rule.description}</h3>
-                                    <p className="text-sm text-gray-500">
-                                        {new Intl.NumberFormat('en-IE', { style: 'currency', currency: rule.currencyCode }).format(rule.amount)} • {rule.frequency}
-                                    </p>
-                                    <p className="text-xs text-gray-400 mt-1">
-                                        Next run: {rule.nextRunDate || 'Finished'}
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className={`px-2 py-1 text-xs rounded-full ${rule.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                                        {rule.active ? 'Active' : 'Inactive'}
-                                    </span>
-                                    <button onClick={() => handleEdit(rule)} className="text-gray-400 hover:text-primary">
-                                        <PencilSquareIcon className="w-5 h-5" />
-                                    </button>
-                                    <button onClick={() => handleDelete(rule.id)} className="text-gray-400 hover:text-red-500">
-                                        <TrashIcon className="w-5 h-5" />
-                                    </button>
+                    rules.map(rule => {
+                        const isExpired = new Date(rule.startDate) < new Date(new Date().setFullYear(new Date().getFullYear() - 2));
+
+                        return (
+                            <div key={rule.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h3 className="font-semibold text-gray-900">{rule.description}</h3>
+                                        <p className="text-sm text-gray-500">
+                                            {new Intl.NumberFormat('en-IE', { style: 'currency', currency: rule.currencyCode }).format(rule.amount)} • {rule.frequency}
+                                        </p>
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            Started: {new Date(rule.startDate).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        {isExpired ? (
+                                            <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">
+                                                Expired
+                                            </span>
+                                        ) : (
+                                            <span className={`px-2 py-1 text-xs rounded-full ${rule.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                                                {rule.active ? 'Active' : 'Inactive'}
+                                            </span>
+                                        )}
+                                        <button onClick={() => handleEdit(rule)} className="text-gray-400 hover:text-primary">
+                                            <PencilSquareIcon className="w-5 h-5" />
+                                        </button>
+                                        <button onClick={() => handleDelete(rule.id)} className="text-gray-400 hover:text-red-500">
+                                            <TrashIcon className="w-5 h-5" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        )
+                    })
                 )}
             </div>
 

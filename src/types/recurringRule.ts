@@ -9,8 +9,6 @@ export interface RecurringRule {
     description: string;
     frequency: RecurrenceFrequency;
     startDate: string;
-    endDate?: string;
-    nextRunDate?: string;
     lastRunDate?: string;
     reminderDays: number;
     active: boolean;
@@ -33,7 +31,6 @@ export interface CreateRecurringRuleRequest {
     description: string;
     frequency: RecurrenceFrequency;
     startDate: string;
-    endDate?: string; // Optional
     reminderDays?: number;
     active: boolean;
     bankAccountId?: string;
