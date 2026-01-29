@@ -37,15 +37,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    // Theme Effect
-    useEffect(() => {
-        const root = window.document.documentElement;
-        if (settings.theme === 'dark') {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
-        }
-    }, [settings.theme]);
+
 
     useEffect(() => {
         loadSettings();

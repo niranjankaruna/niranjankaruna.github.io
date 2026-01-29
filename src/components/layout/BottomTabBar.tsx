@@ -22,7 +22,7 @@ const tabs = [
 ];
 
 export const BottomTabBar: React.FC<BottomTabBarProps> = ({ onAddClick }) => (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around items-center pb-[env(safe-area-inset-bottom)] z-40 transition-colors duration-300">
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 flex justify-around items-center pb-[env(safe-area-inset-bottom)] z-40 transition-colors duration-300">
         {tabs.map((tab) =>
             tab.isAction ? (
                 <button

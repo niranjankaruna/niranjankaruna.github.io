@@ -123,13 +123,13 @@ const Transactions = () => {
     const isFiltered = filterType !== 'ALL' || (dateRange.startDate && dateRange.endDate);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 transition-colors duration-300">
-            <header className="bg-white dark:bg-gray-800 px-4 py-4 shadow-sm sticky top-0 z-10 space-y-3 transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 pb-24 transition-colors duration-300">
+            <header className="bg-white px-4 py-4 shadow-sm sticky top-0 z-10 space-y-3 transition-colors duration-300">
                 <div className="flex items-center">
                     <NavLink to="/" className="p-2 -ml-2 text-gray-600 hover:text-gray-900">
                         <ChevronLeftIcon className="w-6 h-6" />
                     </NavLink>
-                    <h1 className="text-xl font-bold text-gray-900 dark:text-white ml-1">Transactions</h1>
+                    <h1 className="text-xl font-bold text-gray-900 ml-1">Transactions</h1>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -139,7 +139,7 @@ const Transactions = () => {
                             placeholder="Search transactions..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-gray-200 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                         {searchQuery && (
                             <button
@@ -154,8 +154,8 @@ const Transactions = () => {
                     <button
                         onClick={() => setIsFilterOpen(true)}
                         className={`p-2.5 rounded-xl border transition-colors ${isFiltered
-                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600 dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-400'
-                            : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700'
+                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600'
+                            : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
                             }`}
                         title="Filter Transactions"
                     >
@@ -197,8 +197,8 @@ const Transactions = () => {
                                     });
                                 }}
                                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${isSelected
-                                    ? 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700'
+                                    ? 'bg-blue-100 text-blue-800 border-blue-200'
+                                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
                                     }`}
                             >
                                 {days} Days
@@ -210,7 +210,7 @@ const Transactions = () => {
                     {(dateRange.startDate || dateRange.endDate) && (
                         <button
                             onClick={handleFilterClear}
-                            className="px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700 dark:hover:bg-gray-700 whitespace-nowrap"
+                            className="px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 whitespace-nowrap"
                         >
                             Clear
                         </button>
@@ -227,7 +227,7 @@ const Transactions = () => {
                             </span>
                         )}
                         {dateRange.startDate && (
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
                                 {formatDate(dateRange.startDate)} - {formatDate(dateRange.endDate)}
                             </span>
                         )}

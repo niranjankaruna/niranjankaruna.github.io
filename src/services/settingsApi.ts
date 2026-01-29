@@ -6,7 +6,7 @@ export interface UserSettings {
     forecastPeriod: number;
     defaultSafeMode: boolean;
     lowBalanceWarning: number;
-    theme: string;
+
     dateFormat: string;
 }
 
@@ -14,7 +14,7 @@ export const defaultSettings: UserSettings = {
     forecastPeriod: 30,
     defaultSafeMode: false,
     lowBalanceWarning: 500,
-    theme: 'light',
+
     dateFormat: 'DD/MM/YYYY',
 };
 

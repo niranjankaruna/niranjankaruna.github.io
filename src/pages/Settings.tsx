@@ -7,7 +7,7 @@ import { TagSettings } from '../components/settings/TagSettings';
 
 const FORECAST_OPTIONS = [7, 14, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
 
-const THEME_OPTIONS = ['light', 'dark'];
+
 
 export default function Settings() {
     const { settings, loading, updateSettings } = useSettings();
@@ -16,7 +16,7 @@ export default function Settings() {
     const [forecastPeriod, setForecastPeriod] = useState(settings.forecastPeriod);
     const [defaultSafeMode, setDefaultSafeMode] = useState(settings.defaultSafeMode);
     const [lowBalanceWarning, setLowBalanceWarning] = useState(settings.lowBalanceWarning);
-    const [theme, setTheme] = useState(settings.theme);
+
     const [dateFormat, setDateFormat] = useState(settings.dateFormat);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -25,7 +25,7 @@ export default function Settings() {
         setForecastPeriod(settings.forecastPeriod);
         setDefaultSafeMode(settings.defaultSafeMode);
         setLowBalanceWarning(settings.lowBalanceWarning);
-        setTheme(settings.theme);
+
         setDateFormat(settings.dateFormat);
     }, [settings]);
 
@@ -38,7 +38,7 @@ export default function Settings() {
                 forecastPeriod,
                 defaultSafeMode,
                 lowBalanceWarning,
-                theme,
+
                 dateFormat,
             });
             setMessage({ type: 'success', text: 'Settings saved successfully!' });
@@ -161,33 +161,7 @@ export default function Settings() {
                 </div>
             </section>
 
-            {/* Display Settings */}
-            <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <span>🎨</span> Display
-                </h2>
 
-                <div className="space-y-5">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Theme
-                        </label>
-                        <select
-                            value={theme}
-                            onChange={(e) => setTheme(e.target.value)}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                            {THEME_OPTIONS.map((t) => (
-                                <option key={t} value={t}>
-                                    {t.charAt(0).toUpperCase() + t.slice(1)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-
-                </div>
-            </section>
 
             {/* Data Management */}
             <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
