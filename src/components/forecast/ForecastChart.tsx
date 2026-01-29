@@ -16,14 +16,14 @@ interface ForecastChartProps {
 
 export const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
     return (
-        <div className="h-64 w-full bg-white rounded-xl shadow-sm p-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">30 Day Projection</h3>
+        <div className="h-64 w-full bg-white rounded-xl shadow-sm p-4 overflow-hidden">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">{data.length} Day Projection</h3>
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     data={data}
                     margin={{
-                        top: 5,
-                        right: 0,
+                        top: 10,
+                        right: 10,
                         left: -20,
                         bottom: 0,
                     }}

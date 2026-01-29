@@ -134,13 +134,13 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 pb-24 transition-colors duration-300">
             {/* Header */}
             <header className="bg-white px-6 py-4 shadow-sm sticky top-0 z-10 transition-colors duration-300">
                 <div className="flex justify-between items-center">
                     <div>
                         <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">Welcome, {user?.email?.split('@')[0] ?? 'User'}</p>
+                        <p className="text-xs text-gray-500">Welcome, {user?.email?.split('@')[0] ?? 'User'}</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Link to="/reminders" className="p-2 text-gray-400 hover:text-primary transition-colors">
@@ -182,7 +182,7 @@ const Dashboard = () => {
                         {/* Recent Transactions */}
                         <div className="bg-white rounded-xl p-4 shadow-sm transition-colors duration-300">
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Transactions</h3>
+                                <h3 className="font-semibold text-gray-900">Transactions</h3>
                                 <Link to="/transactions" className="text-xs text-primary font-medium hover:text-blue-400">View All</Link>
                             </div>
 
@@ -203,7 +203,7 @@ const Dashboard = () => {
                                                     {transaction.type === 'EXPENSE' ? '💸' : '💰'}
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                    <p className="text-sm font-medium text-gray-900">
                                                         {transaction.description || (transaction.type === 'INCOME' ? 'Income' : 'Expense')}
                                                     </p>
                                                     <p className="text-xs text-gray-500">
