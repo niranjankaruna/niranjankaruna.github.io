@@ -66,7 +66,20 @@ const Dashboard = () => {
                 // Fetch recent transactions
                 try {
                     const transactions = await transactionService.getAll();
-                    setRecentTransactions(Array.isArray(transactions) ? transactions.slice(0, 5) : []);
+
+                    // Filter: Show only Today & Future
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    const upcomingTransactions = transactions.filter((t: Transaction) => {
+                        const tDate = new Date(t.transactionDate);
+                        tDate.setHours(0, 0, 0, 0);
+                        return tDate >= today;
+                    });
+
+                    // Sort Ascending (Nearest/Soonest First)
+                    upcomingTransactions.sort((a: Transaction, b: Transaction) => new Date(a.transactionDate).getTime() - new Date(b.transactionDate).getTime());
+                    setRecentTransactions(Array.isArray(upcomingTransactions) ? upcomingTransactions.slice(0, 5) : []);
                 } catch (txErr) {
                     console.error('Failed to fetch transactions:', txErr);
                     setRecentTransactions([]);
@@ -154,12 +167,16 @@ const Dashboard = () => {
                         />
 
                         {/* Mini Forecast Chart */}
-                        <MiniForecastChart data={dailyForecasts} safeMode={safeMode} />
+                        <MiniForecastChart
+                            data={dailyForecasts}
+                            safeMode={safeMode}
+                            forecastDays={settings?.forecastPeriod ?? 30}
+                        />
 
                         {/* Recent Transactions */}
                         <div className="bg-white rounded-xl p-4 shadow-sm">
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-semibold text-gray-900">Recent Activity</h3>
+                                <h3 className="font-semibold text-gray-900">Transactions</h3>
                                 <Link to="/transactions" className="text-xs text-primary font-medium">View All</Link>
                             </div>
 

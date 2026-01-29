@@ -4,9 +4,10 @@ import type { DailyBreakdown } from '../../types/transaction';
 interface MiniForecastChartProps {
     data: DailyBreakdown[];
     safeMode: boolean;
+    forecastDays: number;
 }
 
-export const MiniForecastChart: React.FC<MiniForecastChartProps> = ({ data }) => {
+export const MiniForecastChart: React.FC<MiniForecastChartProps> = ({ data, forecastDays }) => {
     // Transform data for chart
     const chartData = data.map(d => ({
         date: new Date(d.date).toLocaleDateString('en-IE', { day: 'numeric', month: 'short' }),
@@ -22,7 +23,7 @@ export const MiniForecastChart: React.FC<MiniForecastChartProps> = ({ data }) =>
     return (
         <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-gray-900">30 Day Forecast</h3>
+                <h3 className="font-semibold text-gray-900">{forecastDays} Day Forecast</h3>
                 <span className={`text-sm font-medium ${isPositiveTrend ? 'text-green-600' : 'text-red-500'}`}>
                     {isPositiveTrend ? 'Trending Up' : 'Trending Down'}
                 </span>

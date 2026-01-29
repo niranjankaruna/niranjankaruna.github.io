@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ChevronLeftIcon, FunnelIcon, ArrowUpTrayIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, FunnelIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { TransactionList } from '../components/transactions/TransactionList';
 import { TransactionForm } from '../components/transactions/TransactionForm';
 import { FilterModal } from '../components/transactions/FilterModal';
@@ -36,6 +36,19 @@ const Transactions = () => {
             } else {
                 data = await transactionService.getAll();
             }
+
+            // Filter: Show only Today & Future Transactions
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            data = data.filter(t => {
+                const tDate = new Date(t.transactionDate);
+                tDate.setHours(0, 0, 0, 0);
+                return tDate >= today;
+            });
+
+            // Sort by Date Ascending (Nearest/Soonest First)
+            data.sort((a, b) => new Date(a.transactionDate).getTime() - new Date(b.transactionDate).getTime());
 
             setTransactions(data);
         } catch (err) {
@@ -98,44 +111,47 @@ const Transactions = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
-            <header className="bg-white px-4 py-4 shadow-sm sticky top-0 z-10 flex items-center justify-between">
+            <header className="bg-white px-4 py-4 shadow-sm sticky top-0 z-10 space-y-3">
                 <div className="flex items-center">
                     <NavLink to="/" className="p-2 -ml-2 text-gray-600 hover:text-gray-900">
                         <ChevronLeftIcon className="w-6 h-6" />
                     </NavLink>
-                    <h1 className="text-lg font-bold text-gray-900 ml-2">Transactions</h1>
+                    <h1 className="text-xl font-bold text-gray-900 ml-1">Transactions</h1>
                 </div>
-                <div className="flex gap-1 -mr-2">
-                    <div className="relative mr-2">
+
+                <div className="flex items-center gap-3">
+                    <div className="relative flex-1">
                         <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search transactions..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-32 py-1 pl-2 pr-8 text-sm border-b border-gray-300 focus:outline-none focus:border-primary bg-transparent transition-all focus:w-40"
+                            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                         {searchQuery && (
                             <button
                                 onClick={() => setSearchQuery('')}
-                                className="absolute right-0 top-1 text-gray-400 hover:text-gray-600"
+                                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                             >
                                 <XMarkIcon className="w-4 h-4" />
                             </button>
                         )}
                     </div>
-                    <NavLink to="/import" className="p-2 text-gray-600 hover:text-blue-600" title="Import CSV">
-                        <ArrowUpTrayIcon className="w-6 h-6" />
-                    </NavLink>
+
                     <button
                         onClick={() => setIsFilterOpen(true)}
-                        className={`p-2 ${isFiltered ? 'text-primary' : 'text-gray-600'}`}
+                        className={`p-2.5 rounded-xl border transition-colors ${isFiltered
+                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600'
+                            : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                            }`}
                         title="Filter Transactions"
                     >
                         <FunnelIcon className="w-6 h-6" />
                     </button>
+
                     <button
                         onClick={handleAddClick}
-                        className="p-2 text-blue-600 hover:text-blue-800"
+                        className="p-2.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors"
                         title="Add Transaction"
                     >
                         <PlusIcon className="w-6 h-6" />
