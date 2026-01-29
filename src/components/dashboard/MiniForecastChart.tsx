@@ -1,5 +1,6 @@
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import type { DailyBreakdown } from '../../types/transaction';
+import { formatDate } from '../../utils/dateUtils';
 
 interface MiniForecastChartProps {
     data: DailyBreakdown[];
@@ -10,7 +11,7 @@ interface MiniForecastChartProps {
 export const MiniForecastChart: React.FC<MiniForecastChartProps> = ({ data, forecastDays }) => {
     // Transform data for chart
     const chartData = data.map(d => ({
-        date: new Date(d.date).toLocaleDateString('en-IE', { day: 'numeric', month: 'short' }),
+        date: formatDate(d.date),
         balance: d.closingBalance
     }));
 
@@ -21,9 +22,9 @@ export const MiniForecastChart: React.FC<MiniForecastChartProps> = ({ data, fore
     const isPositiveTrend = endBalance >= startBalance;
 
     return (
-        <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm mb-4 transition-colors duration-300">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-gray-900">{forecastDays} Day Forecast</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100">{forecastDays} Day Forecast</h3>
                 <span className={`text-sm font-medium ${isPositiveTrend ? 'text-green-600' : 'text-red-500'}`}>
                     {isPositiveTrend ? 'Trending Up' : 'Trending Down'}
                 </span>

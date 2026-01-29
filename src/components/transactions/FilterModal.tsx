@@ -14,10 +14,9 @@ interface FilterModalProps {
         endDate: string;
     };
     onApply: (filters: { type: FilterType; startDate: string; endDate: string }) => void;
-    onClear: () => void;
 }
 
-export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose, currentFilters, onApply, onClear }) => {
+export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose, currentFilters, onApply }) => {
     const [type, setType] = useState<FilterType>(currentFilters.type);
     const [startDate, setStartDate] = useState(currentFilters.startDate);
     const [endDate, setEndDate] = useState(currentFilters.endDate);
@@ -38,8 +37,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose, curre
     };
 
     const handleClear = () => {
-        onClear();
-        onClose();
+        setType('ALL');
+        setStartDate('');
+        setEndDate('');
     };
 
     return (

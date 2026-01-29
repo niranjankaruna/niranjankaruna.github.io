@@ -6,7 +6,7 @@ import { BankAccountSettings } from '../components/settings/BankAccountSettings'
 import { TagSettings } from '../components/settings/TagSettings';
 
 const FORECAST_OPTIONS = [7, 14, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
-const DATE_FORMAT_OPTIONS = ['DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD'];
+
 const THEME_OPTIONS = ['light', 'dark'];
 
 export default function Settings() {
@@ -185,22 +185,7 @@ export default function Settings() {
                         </select>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Date Format
-                        </label>
-                        <select
-                            value={dateFormat}
-                            onChange={(e) => setDateFormat(e.target.value)}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                            {DATE_FORMAT_OPTIONS.map((format) => (
-                                <option key={format} value={format}>
-                                    {format}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+
                 </div>
             </section>
 

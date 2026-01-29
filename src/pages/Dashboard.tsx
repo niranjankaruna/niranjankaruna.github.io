@@ -7,6 +7,7 @@ import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
 import { MiniForecastChart } from '../components/dashboard/MiniForecastChart';
 import { transactionService, forecastService } from '../services/api/transactionService';
 import { useSettings } from '../contexts/SettingsContext';
+import { formatDate } from '../utils/dateUtils';
 import type { Transaction, DailyBreakdown } from '../types/transaction';
 
 const Dashboard = () => {
@@ -107,7 +108,7 @@ const Dashboard = () => {
         return type === 'INCOME' ? `+${formatted}` : `-${formatted}`;
     };
 
-    const formatDate = (dateString: string) => {
+    const formatDateDisplay = (dateString: string) => {
         const date = new Date(dateString);
         const today = new Date();
         const yesterday = new Date(today);
@@ -115,7 +116,12 @@ const Dashboard = () => {
 
         if (date.toDateString() === today.toDateString()) return 'Today';
         if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
-        return date.toLocaleDateString('en-IE', { day: 'numeric', month: 'short' });
+
+        if (date.toDateString() === today.toDateString()) return 'Today';
+        if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+
+        // Use standard format
+        return formatDate(date);
     };
 
     // Show loading while settings are loading
@@ -128,13 +134,13 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-24">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 transition-colors duration-300">
             {/* Header */}
-            <header className="bg-white px-6 py-4 shadow-sm sticky top-0 z-10">
+            <header className="bg-white dark:bg-gray-800 px-6 py-4 shadow-sm sticky top-0 z-10 transition-colors duration-300">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
-                        <p className="text-xs text-gray-500">Welcome, {user?.email?.split('@')[0] ?? 'User'}</p>
+                        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Welcome, {user?.email?.split('@')[0] ?? 'User'}</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Link to="/reminders" className="p-2 text-gray-400 hover:text-primary transition-colors">
@@ -174,10 +180,10 @@ const Dashboard = () => {
                         />
 
                         {/* Recent Transactions */}
-                        <div className="bg-white rounded-xl p-4 shadow-sm">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm transition-colors duration-300">
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-semibold text-gray-900">Transactions</h3>
-                                <Link to="/transactions" className="text-xs text-primary font-medium">View All</Link>
+                                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Transactions</h3>
+                                <Link to="/transactions" className="text-xs text-primary font-medium hover:text-blue-400">View All</Link>
                             </div>
 
                             {recentTransactions.length === 0 ? (
@@ -197,11 +203,11 @@ const Dashboard = () => {
                                                     {transaction.type === 'EXPENSE' ? '💸' : '💰'}
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">
+                                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                                                         {transaction.description || (transaction.type === 'INCOME' ? 'Income' : 'Expense')}
                                                     </p>
                                                     <p className="text-xs text-gray-500">
-                                                        {formatDate(transaction.transactionDate)}
+                                                        {formatDateDisplay(transaction.transactionDate)}
                                                     </p>
                                                 </div>
                                             </div>

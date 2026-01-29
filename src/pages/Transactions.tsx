@@ -7,6 +7,7 @@ import { FilterModal } from '../components/transactions/FilterModal';
 import type { FilterType } from '../components/transactions/FilterModal';
 import { transactionService } from '../services/api/transactionService';
 import type { Transaction } from '../types/transaction';
+import { formatDate } from '../utils/dateUtils';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -18,9 +19,21 @@ const Transactions = () => {
 
     // Filter State
     const [filterType, setFilterType] = useState<FilterType>('ALL');
-    const [dateRange, setDateRange] = useState({
-        startDate: '',
-        endDate: ''
+    const [dateRange, setDateRange] = useState(() => {
+        const start = new Date();
+        const end = new Date();
+        end.setDate(end.getDate() + 30);
+
+        // Helper to get YYYY-MM-DD in local time
+        const toLocalISO = (d: Date) => {
+            const offset = d.getTimezoneOffset() * 60000;
+            return new Date(d.getTime() - offset).toISOString().split('T')[0];
+        };
+
+        return {
+            startDate: toLocalISO(start),
+            endDate: toLocalISO(end)
+        };
     });
 
     const fetchTransactions = useCallback(async () => {
@@ -110,13 +123,13 @@ const Transactions = () => {
     const isFiltered = filterType !== 'ALL' || (dateRange.startDate && dateRange.endDate);
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-24">
-            <header className="bg-white px-4 py-4 shadow-sm sticky top-0 z-10 space-y-3">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24 transition-colors duration-300">
+            <header className="bg-white dark:bg-gray-800 px-4 py-4 shadow-sm sticky top-0 z-10 space-y-3 transition-colors duration-300">
                 <div className="flex items-center">
                     <NavLink to="/" className="p-2 -ml-2 text-gray-600 hover:text-gray-900">
                         <ChevronLeftIcon className="w-6 h-6" />
                     </NavLink>
-                    <h1 className="text-xl font-bold text-gray-900 ml-1">Transactions</h1>
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-white ml-1">Transactions</h1>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -126,7 +139,7 @@ const Transactions = () => {
                             placeholder="Search transactions..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full py-2.5 pl-4 pr-10 text-sm border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-gray-200 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                         {searchQuery && (
                             <button
@@ -141,8 +154,8 @@ const Transactions = () => {
                     <button
                         onClick={() => setIsFilterOpen(true)}
                         className={`p-2.5 rounded-xl border transition-colors ${isFiltered
-                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600'
-                            : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600 dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-400'
+                            : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700'
                             }`}
                         title="Filter Transactions"
                     >
@@ -157,6 +170,52 @@ const Transactions = () => {
                         <PlusIcon className="w-6 h-6" />
                     </button>
                 </div>
+
+                {/* Quick Filters */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                    {([30, 60, 90] as const).map((days) => {
+                        // Calculate target date string comparison
+                        const today = new Date();
+                        const targetDate = new Date();
+                        targetDate.setDate(today.getDate() + days);
+
+                        const toLocalISO = (d: Date) => {
+                            const offset = d.getTimezoneOffset() * 60000;
+                            return new Date(d.getTime() - offset).toISOString().split('T')[0];
+                        };
+
+                        const targetDateStr = toLocalISO(targetDate);
+                        const isSelected = dateRange.endDate === targetDateStr && dateRange.startDate === toLocalISO(today);
+
+                        return (
+                            <button
+                                key={days}
+                                onClick={() => {
+                                    setDateRange({
+                                        startDate: toLocalISO(new Date()),
+                                        endDate: targetDateStr
+                                    });
+                                }}
+                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${isSelected
+                                    ? 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800'
+                                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700'
+                                    }`}
+                            >
+                                {days} Days
+                            </button>
+                        );
+                    })}
+
+                    {/* Clear Button */}
+                    {(dateRange.startDate || dateRange.endDate) && (
+                        <button
+                            onClick={handleFilterClear}
+                            className="px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700 dark:hover:bg-gray-700 whitespace-nowrap"
+                        >
+                            Clear
+                        </button>
+                    )}
+                </div>
             </header>
 
             <div className="p-4">
@@ -168,16 +227,10 @@ const Transactions = () => {
                             </span>
                         )}
                         {dateRange.startDate && (
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                {new Date(dateRange.startDate).toLocaleDateString()} - {new Date(dateRange.endDate).toLocaleDateString()}
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800">
+                                {formatDate(dateRange.startDate)} - {formatDate(dateRange.endDate)}
                             </span>
                         )}
-                        <button
-                            onClick={handleFilterClear}
-                            className="text-xs text-blue-600 font-medium hover:text-blue-800 whitespace-nowrap"
-                        >
-                            Clear All
-                        </button>
                     </div>
                 )}
 
@@ -231,7 +284,6 @@ const Transactions = () => {
                     endDate: dateRange.endDate
                 }}
                 onApply={handleFilterApply}
-                onClear={handleFilterClear}
             />
         </div>
     );
