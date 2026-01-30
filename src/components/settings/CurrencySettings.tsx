@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { PlusIcon, TrashIcon, StarIcon, BanknotesIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, TrashIcon, BanknotesIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { currencyService } from '../../services/api/currencyService';
 import type { Currency, CreateCurrencyRequest } from '../../types/settings';
@@ -86,16 +86,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
         }
     };
 
-    const handleSetBase = async (id: string) => {
-        try {
-            await currencyService.setBaseCurrency(id);
-            fetchCurrencies();
-            onDataChange?.();
-        } catch (err) {
-            console.error('Failed to set base currency:', err);
-            setError('Failed to set base currency');
-        }
-    };
+
 
     if (loading && currencies.length === 0) return <div className="text-center py-4">Loading currencies...</div>;
 
@@ -150,16 +141,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                             required
                             value={newCurrency.name}
                             onChange={e => setNewCurrency({ ...newCurrency, name: e.target.value })}
-                            className="p-2 border rounded"
-                        />
-                        <input
-                            type="number"
-                            placeholder="Exchange Rate (vs Base)"
-                            required
-                            step="0.000001"
-                            value={newCurrency.exchangeRate}
-                            onChange={e => setNewCurrency({ ...newCurrency, exchangeRate: parseFloat(e.target.value) })}
-                            className="p-2 border rounded"
+                            className="p-2 border rounded col-span-2"
                         />
                     </div>
                     <div className="flex justify-end gap-2">
@@ -195,9 +177,10 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                             type="text"
                             placeholder="Symbol"
                             required
+                            disabled={editingCurrency.isBaseCurrency}
                             value={editingCurrency.symbol}
                             onChange={e => setEditingCurrency({ ...editingCurrency, symbol: e.target.value })}
-                            className="p-2 border rounded"
+                            className={`p-2 border rounded ${editingCurrency.isBaseCurrency ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
                         />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -205,19 +188,10 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                             type="text"
                             placeholder="Name"
                             required
+                            disabled={editingCurrency.isBaseCurrency}
                             value={editingCurrency.name}
                             onChange={e => setEditingCurrency({ ...editingCurrency, name: e.target.value })}
-                            className="p-2 border rounded"
-                        />
-                        <input
-                            type="number"
-                            placeholder="Exchange Rate"
-                            required
-                            step="0.000001"
-                            disabled={editingCurrency.isBaseCurrency}
-                            value={editingCurrency.exchangeRate}
-                            onChange={e => setEditingCurrency({ ...editingCurrency, exchangeRate: parseFloat(e.target.value) })}
-                            className={`p-2 border rounded ${editingCurrency.isBaseCurrency ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                            className={`p-2 border rounded col-span-2 ${editingCurrency.isBaseCurrency ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
                         />
                     </div>
                     <div className="flex justify-end gap-2">
@@ -230,7 +204,8 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                         </button>
                         <button
                             type="submit"
-                            className="px-3 py-1 bg-primary text-white rounded shadow-sm"
+                            disabled={editingCurrency.isBaseCurrency}
+                            className={`px-3 py-1 text-white rounded shadow-sm ${editingCurrency.isBaseCurrency ? 'bg-gray-400 cursor-not-allowed hidden' : 'bg-primary'}`}
                         >
                             Save Changes
                         </button>
@@ -251,19 +226,13 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="text-right mr-2 hidden sm:block">
-                                <p className="text-sm font-medium">{currency.exchangeRate.toFixed(4)}</p>
-                                <p className="text-xs text-gray-400">Rate</p>
-                            </div>
                             <div className="flex bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    onClick={() => handleSetBase(currency.id)}
-                                    title={currency.isBaseCurrency ? "Base Currency" : "Set as Base"}
-                                    disabled={currency.isBaseCurrency}
-                                    className={`p-2 transition-colors ${currency.isBaseCurrency ? 'text-yellow-500 bg-yellow-50' : 'text-gray-300 hover:text-yellow-400 hover:bg-gray-50'}`}
-                                >
-                                    {currency.isBaseCurrency ? <StarIconSolid className="w-5 h-5" /> : <StarIcon className="w-5 h-5" />}
-                                </button>
+                                {/* Base Currency Indicator (Read-only) */}
+                                {currency.isBaseCurrency && (
+                                    <div className="p-2 text-yellow-500 bg-yellow-50" title="Base Currency">
+                                        <StarIconSolid className="w-5 h-5" />
+                                    </div>
+                                )}
                                 <div className="w-px bg-gray-100"></div>
                                 <button
                                     onClick={() => {
@@ -292,6 +261,6 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 };

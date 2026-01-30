@@ -72,7 +72,7 @@ export const transactionService = {
 };
 
 export const forecastService = {
-    getForecast: async (days: number = 30, safeMode: boolean = false, startingBalance: number = 0): Promise<ForecastData> => {
+    getForecast: async (days: number = 30, safeMode: boolean = false, startingBalance?: number): Promise<ForecastData> => {
         const response = await apiClient.get<ForecastData>('/forecast', {
             params: { days, safeMode, startingBalance }
         });

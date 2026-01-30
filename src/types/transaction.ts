@@ -13,6 +13,9 @@ export interface Transaction {
     description?: string;
     transactionDate: string;
     actualDate?: string;
+    exchangeRate?: number;
+    originalAmount?: number;
+    originalCurrencyCode?: string;
 
     // Income fields
     confidence?: IncomeConfidence;
@@ -50,6 +53,9 @@ export interface CreateTransactionRequest {
     reminderDays?: number;
     bankAccountId?: string;
     tagIds?: string[];
+    exchangeRate?: number;
+    originalAmount?: number;
+    originalCurrencyCode?: string;
 }
 
 export interface ForecastData {

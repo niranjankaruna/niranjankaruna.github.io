@@ -25,7 +25,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
     const [transactionDate, setTransactionDate] = useState(new Date().toISOString().split('T')[0]);
     const [currencyCode, setCurrencyCode] = useState('EUR');
     const [bankAccountId, setBankAccountId] = useState<string | undefined>(undefined);
+
     const [tagIds, setTagIds] = useState<string[]>([]);
+    const [exchangeRate, setExchangeRate] = useState(1.0);
 
 
     // Currency logic
@@ -48,6 +50,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
         const currency = currencies.find(c => c.code === currencyCode);
         if (currency) {
             setCurrencySymbol(currency.symbol);
+            // Only update rate if we are switching to a new currency, 
+            // but preserve user's custom rate if they are editing an existing transaction with a specific rate?
+            // For now, reset to default rate from settings when currency changes
+            setExchangeRate(currency.exchangeRate || 1.0);
         }
     }, [currencyCode, currencies]);
 
@@ -71,7 +77,24 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                 setTransactionDate(initialData.transactionDate.split('T')[0]);
                 setCurrencyCode(initialData.currencyCode || 'EUR');
                 setBankAccountId(initialData.bankAccountId);
+
                 setTagIds(initialData.tagIds || []);
+
+                // If editing, logic is tricky because we save converted amount.
+                // We should ideally load originalAmount if available.
+                // Assuming for now we load what we have. 
+                // If backend sends originalAmount and originalCurrency, use them.
+                if (initialData.originalAmount && initialData.originalCurrencyCode) {
+                    setAmount(initialData.originalAmount.toString());
+                    setCurrencyCode(initialData.originalCurrencyCode);
+                    setExchangeRate(initialData.exchangeRate || 1.0);
+                } else if (initialData.currencyCode !== 'EUR') {
+                    // Legacy non-EUR transaction (if any)
+                    setExchangeRate(initialData.exchangeRate || 1.0);
+                } else {
+                    // Standard EUR 
+                    setExchangeRate(1.0);
+                }
 
                 if (initialData.type === 'INCOME') {
                     setConfidence(initialData.confidence || 'LIKELY');
@@ -109,12 +132,19 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
         try {
             const payload: CreateTransactionRequest = {
                 type,
-                amount: parseFloat(amount),
+                // Convert to EUR if not EUR
+                amount: currencyCode === 'EUR' ? parseFloat(amount) : parseFloat(amount) / exchangeRate,
+                currencyCode: 'EUR', // Always save as EUR
                 description,
                 transactionDate,
-                currencyCode,
                 bankAccountId,
                 tagIds,
+                // Save original details if foreign currency
+                ...(currencyCode !== 'EUR' && {
+                    exchangeRate,
+                    originalAmount: parseFloat(amount),
+                    originalCurrencyCode: currencyCode
+                }),
                 ...(type === 'INCOME' && { confidence }),
                 ...(type === 'EXPENSE' && isRecurring && { isRecurring, frequency }),
                 ...(type === 'EXPENSE' && !isRecurring && { isRecurring: false })
@@ -225,10 +255,27 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                 </div>
                             </div>
 
-                            {/* Currency - New Selector */}
                             <div className="col-span-2 sm:col-span-1 mt-1">
                                 <CurrencySelector value={currencyCode} onChange={setCurrencyCode} />
                             </div>
+
+                            {/* Exchange Rate - Only show if not EUR */}
+                            {currencyCode !== 'EUR' && (
+                                <div className="col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700">Exchange Rate (1 EUR = ? {currencyCode})</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        step="0.0001"
+                                        value={exchangeRate}
+                                        onChange={(e) => setExchangeRate(parseFloat(e.target.value))}
+                                        className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2 bg-yellow-50"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        Amount in EUR: €{(parseFloat(amount || '0') / exchangeRate).toFixed(2)}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         {/* Description */}
