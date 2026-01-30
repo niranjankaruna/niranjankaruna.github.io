@@ -28,9 +28,13 @@ const RecurringRules = () => {
     }, []);
 
     const handleProcess = async () => {
+        if (!confirm('Are you sure you want to process all active recurring rules?')) {
+            return;
+        }
+
         try {
             await recurringRuleService.processDue();
-            alert('Due rules processed successfully');
+            alert('Recurring rules processed successfully');
             fetchRules();
         } catch (error) {
             console.error('Failed to process rules', error);
@@ -66,7 +70,7 @@ const RecurringRules = () => {
                     <button
                         onClick={handleProcess}
                         className="p-2 text-gray-600 hover:bg-gray-100 rounded-full"
-                        title="Process Due Rules"
+                        title="Process recurring rules"
                     >
                         <ArrowPathIcon className="w-6 h-6" />
                     </button>

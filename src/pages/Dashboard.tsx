@@ -38,12 +38,12 @@ const Dashboard = () => {
                 setLoading(true);
                 setError(null);
 
-                // Sync recurring transactions first
-                try {
-                    await transactionService.syncProjections();
-                } catch (err) {
-                    console.error('Failed to sync projections:', err);
-                }
+                // Sync recurring transactions first - REMOVED (User requested manual sync only)
+                // try {
+                //     await transactionService.syncProjections();
+                // } catch (err) {
+                //     console.error('Failed to sync projections:', err);
+                // }
 
                 // Fetch forecast - use defaults if settings not available
                 const forecastPeriod = settings?.forecastPeriod ?? 30;
