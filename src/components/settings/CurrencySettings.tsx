@@ -18,7 +18,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
         code: '',
         name: '',
         symbol: '',
-        exchangeRate: 1.0,
+        // exchangeRate: 1.0,
         isBaseCurrency: false
     });
 
@@ -44,7 +44,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
         try {
             await currencyService.create(newCurrency);
             setIsAdding(false);
-            setNewCurrency({ code: '', name: '', symbol: '', exchangeRate: 1.0, isBaseCurrency: false });
+            setNewCurrency({ code: '', name: '', symbol: '', /* exchangeRate: 1.0, */ isBaseCurrency: false });
             fetchCurrencies();
             onDataChange?.();
         } catch (err) {
@@ -62,7 +62,7 @@ export const CurrencySettings: React.FC<CurrencySettingsProps> = ({ onDataChange
                 code: editingCurrency.code,
                 name: editingCurrency.name,
                 symbol: editingCurrency.symbol,
-                exchangeRate: editingCurrency.exchangeRate,
+                // exchangeRate: editingCurrency.exchangeRate,
                 isBaseCurrency: editingCurrency.isBaseCurrency
             });
             setEditingCurrency(null);

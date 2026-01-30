@@ -53,7 +53,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
             // Only update rate if we are switching to a new currency, 
             // but preserve user's custom rate if they are editing an existing transaction with a specific rate?
             // For now, reset to default rate from settings when currency changes
-            setExchangeRate(currency.exchangeRate || 1.0);
+            setExchangeRate(1.0);
         }
     }, [currencyCode, currencies]);
 
@@ -271,6 +271,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                         onChange={(e) => setExchangeRate(parseFloat(e.target.value))}
                                         className="mt-1 block w-full border-gray-300 rounded-md focus:ring-primary focus:border-primary border p-2 bg-yellow-50"
                                     />
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        Eg: 1 EUR = 105 {currencyCode}, then enter 105.
+                                    </p>
                                     <p className="text-xs text-gray-500 mt-1">
                                         Amount in EUR: €{(parseFloat(amount || '0') / exchangeRate).toFixed(2)}
                                     </p>

@@ -4,7 +4,7 @@ export interface Currency {
     code: string;
     name: string;
     symbol: string;
-    exchangeRate: number;
+    // exchangeRate: number;
     isBaseCurrency: boolean;
 }
 
@@ -31,7 +31,7 @@ export interface CreateCurrencyRequest {
     code: string;
     name: string;
     symbol: string;
-    exchangeRate: number;
+    // exchangeRate: number;
     isBaseCurrency: boolean;
 }
 
