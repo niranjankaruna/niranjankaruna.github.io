@@ -64,7 +64,17 @@ const Dashboard = () => {
                     // Fix: Use End-of-Day balance from the first day (Today) as Current Balance
                     // startingBalance from backend is "Opening Balance"
                     if (forecastData?.dailyBreakdown && forecastData.dailyBreakdown.length > 0) {
-                        setStartingBalance(forecastData.dailyBreakdown[0].closingBalance);
+                        // Fallback to startingBalance (Opening) if closingBalance is 0 (suspect) and startingBalance is positive
+                        const endOfDayBalance = forecastData.dailyBreakdown[0].closingBalance;
+                        const openingBalance = forecastData.startingBalance ?? 0;
+
+                        // Use End-of-Day if available and non-zero, OR if it's genuinely 0 but Opening was also 0
+                        // Use Opening if End-of-Day is 0 but Opening was > 0 (implies calculation error or missing data)
+                        if (endOfDayBalance === 0 && openingBalance > 0) {
+                            setStartingBalance(openingBalance);
+                        } else {
+                            setStartingBalance(endOfDayBalance);
+                        }
                     } else {
                         setStartingBalance(forecastData?.startingBalance ?? 0);
                     }
