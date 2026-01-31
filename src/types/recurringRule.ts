@@ -13,6 +13,11 @@ export interface RecurringRule {
     reminderDays: number;
     active: boolean;
 
+    // Multi-currency support
+    originalAmount?: number;
+    originalCurrencyCode?: string;
+    exchangeRate?: number;
+
     // Linked Data
     bankAccountId?: string;
     tags?: any[]; // Simplified for now, or use Tag[] if available
@@ -36,4 +41,9 @@ export interface CreateRecurringRuleRequest {
     bankAccountId?: string;
     tagIds?: string[]; // To update tags
     confidence?: IncomeConfidence;
+
+    // Multi-currency support
+    originalAmount?: number;
+    originalCurrencyCode?: string;
+    exchangeRate?: number;
 }

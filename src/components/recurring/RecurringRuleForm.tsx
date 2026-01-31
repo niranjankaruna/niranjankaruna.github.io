@@ -22,6 +22,7 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
     const [frequency, setFrequency] = useState<RecurrenceFrequency>('MONTHLY');
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [currencyCode, setCurrencyCode] = useState('EUR');
+    const [exchangeRate, setExchangeRate] = useState(1.0); // New state for exchange rate
     const [bankAccountId, setBankAccountId] = useState<string | undefined>(undefined);
     const [tagIds, setTagIds] = useState<string[]>([]);
 
@@ -35,13 +36,27 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
         if (isOpen) {
             if (initialData) {
                 setDescription(initialData.description);
-                setAmount(initialData.amount.toString());
                 setType(initialData.type);
                 setFrequency(initialData.frequency);
                 setStartDate(initialData.startDate);
-                setCurrencyCode(initialData.currencyCode);
                 setBankAccountId(initialData.bankAccountId);
                 setTagIds(initialData.tagIds || []);
+
+                // Currency Handling
+                if (initialData.originalAmount && initialData.originalCurrencyCode) {
+                    setAmount(initialData.originalAmount.toString());
+                    setCurrencyCode(initialData.originalCurrencyCode);
+                    setExchangeRate(initialData.exchangeRate || 1.0);
+                } else if (initialData.currencyCode !== 'EUR') {
+                    // Legacy Fallback
+                    setAmount(initialData.amount.toString());
+                    setCurrencyCode(initialData.currencyCode);
+                    setExchangeRate(initialData.exchangeRate || 1.0);
+                } else {
+                    setAmount(initialData.amount.toString());
+                    setCurrencyCode('EUR');
+                    setExchangeRate(1.0);
+                }
 
                 // Check Expiration: StartDate older than 2 years
                 const ruleStart = new Date(initialData.startDate);
@@ -63,6 +78,7 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
         setFrequency('MONTHLY');
         setStartDate(new Date().toISOString().split('T')[0]);
         setCurrencyCode('EUR');
+        setExchangeRate(1.0);
         setBankAccountId(undefined);
         setTagIds([]);
         setError(null);
@@ -75,16 +91,30 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
         setError(null);
 
         try {
+            // Logic: 
+            // If EUR, amount is amount.
+            // If Other, amount is amount / exchangeRate (Converted to EUR).
+            // But we send originalAmount and originalCurrencyCode.
+
+            const finalAmountEUR = currencyCode === 'EUR'
+                ? parseFloat(amount)
+                : parseFloat(amount) / exchangeRate;
+
             const payload: CreateRecurringRuleRequest = {
                 description,
-                amount: parseFloat(amount),
+                amount: finalAmountEUR,
+                currencyCode: 'EUR', // Rule base currency is always EUR
                 type,
                 frequency,
                 startDate,
-                currencyCode,
                 bankAccountId,
                 tagIds,
-                active: true
+                active: true,
+                ...(currencyCode !== 'EUR' && {
+                    exchangeRate,
+                    originalAmount: parseFloat(amount),
+                    originalCurrencyCode: currencyCode
+                })
             };
 
             if (initialData) {
@@ -143,19 +173,39 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
                             <div className="grid grid-cols-2 gap-4 mt-4">
                                 <div className="col-span-1">
                                     <label className="block text-sm font-medium text-gray-700">Amount</label>
-                                    <input
-                                        type="number"
-                                        required
-                                        step="0.01"
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        className="mt-1 block w-full border-gray-300 rounded-md border p-2"
-                                    />
+                                    <div className="mt-1 relative rounded-md shadow-sm">
+                                        <input
+                                            type="number"
+                                            required
+                                            step="0.01"
+                                            value={amount}
+                                            onChange={(e) => setAmount(e.target.value)}
+                                            className="block w-full border-gray-300 rounded-md border p-2"
+                                        />
+                                    </div>
                                 </div>
                                 <div className="col-span-1">
                                     <CurrencySelector value={currencyCode} onChange={setCurrencyCode} className="mt-0" />
                                 </div>
                             </div>
+
+                            {/* Exchange Rate Input */}
+                            {currencyCode !== 'EUR' && (
+                                <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Exchange Rate (1 EUR = ? {currencyCode})</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        step="0.0001"
+                                        value={exchangeRate}
+                                        onChange={(e) => setExchangeRate(parseFloat(e.target.value))}
+                                        className="block w-full border-gray-300 rounded-md border p-2"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-2">
+                                        Calculated Base Amount: <strong>€{(parseFloat(amount || '0') / exchangeRate).toFixed(2)}</strong>
+                                    </p>
+                                </div>
+                            )}
 
                             <div className="mt-4">
                                 <label className="block text-sm font-medium text-gray-700">Description</label>
