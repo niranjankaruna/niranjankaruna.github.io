@@ -50,15 +50,7 @@ const Transactions = () => {
                 data = await transactionService.getAll();
             }
 
-            // Filter: Show only Today & Future Transactions
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
 
-            data = data.filter(t => {
-                const tDate = new Date(t.transactionDate);
-                tDate.setHours(0, 0, 0, 0);
-                return tDate >= today;
-            });
 
             // Sort by Date Ascending (Nearest/Soonest First)
             data.sort((a, b) => new Date(a.transactionDate).getTime() - new Date(b.transactionDate).getTime());

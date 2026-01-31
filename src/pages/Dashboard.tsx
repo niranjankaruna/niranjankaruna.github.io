@@ -14,7 +14,8 @@ const Dashboard = () => {
     const { user } = useAuthStore();
     const { settings, loading: settingsLoading } = useSettings();
     const [safeMode, setSafeMode] = useState(false);
-    const [balance, setBalance] = useState(0);
+    const [balance, setBalance] = useState(0); // This will now serve as projectedBalance
+    const [startingBalance, setStartingBalance] = useState(0);
     const [safeToSpend, setSafeToSpend] = useState(0);
     const [dailyForecasts, setDailyForecasts] = useState<DailyBreakdown[]>([]);
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
@@ -54,11 +55,13 @@ const Dashboard = () => {
                         safeMode,
                         0
                     );
+                    setStartingBalance(forecastData?.startingBalance ?? 0);
                     setBalance(forecastData?.projectedBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
                     setDailyForecasts(forecastData?.dailyBreakdown ?? []);
                 } catch (forecastErr) {
                     console.error('Failed to fetch forecast:', forecastErr);
+                    setStartingBalance(0);
                     setBalance(0);
                     setSafeToSpend(0);
                     setDailyForecasts([]);
@@ -88,6 +91,7 @@ const Dashboard = () => {
             } catch (err) {
                 console.error('Failed to fetch dashboard data:', err);
                 setError('Failed to load data');
+                setStartingBalance(0);
                 setBalance(0);
                 setSafeToSpend(0);
                 setRecentTransactions([]);
@@ -167,7 +171,8 @@ const Dashboard = () => {
                 ) : (
                     <>
                         <BalanceCard
-                            balance={balance}
+                            startingBalance={startingBalance}
+                            projectedBalance={balance}
                             safeToSpend={safeToSpend}
                             forecastDays={settings?.forecastPeriod ?? 30}
                         />
