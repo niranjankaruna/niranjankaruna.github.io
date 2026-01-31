@@ -21,3 +21,8 @@ export const formatCurrency = (amount: number, currency = 'EUR'): string => {
         currency: currency
     }).format(amount);
 };
+
+export const toLocalISOString = (date: Date): string => {
+    const offset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() - offset).toISOString().split('T')[0];
+};

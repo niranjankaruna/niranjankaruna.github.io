@@ -7,7 +7,7 @@ import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
 import { MiniForecastChart } from '../components/dashboard/MiniForecastChart';
 import { transactionService, forecastService } from '../services/api/transactionService';
 import { useSettings } from '../contexts/SettingsContext';
-import { formatDate } from '../utils/dateUtils';
+import { formatDate, toLocalISOString } from '../utils/dateUtils';
 import type { Transaction, DailyBreakdown } from '../types/transaction';
 
 const Dashboard = () => {
@@ -53,7 +53,8 @@ const Dashboard = () => {
                     const forecastData = await forecastService.getForecast(
                         forecastPeriod,
                         safeMode,
-                        0
+                        0,
+                        toLocalISOString(new Date())
                     );
                     setStartingBalance(forecastData?.startingBalance ?? 0);
                     setBalance(forecastData?.projectedBalance ?? 0);
