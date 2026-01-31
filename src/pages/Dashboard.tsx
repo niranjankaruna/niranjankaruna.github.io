@@ -53,7 +53,7 @@ const Dashboard = () => {
                     const forecastData = await forecastService.getForecast(
                         forecastPeriod,
                         safeMode,
-                        0,
+                        undefined, // Let backend calculate from transaction history
                         toLocalISOString(new Date())
                     );
                     setStartingBalance(forecastData?.startingBalance ?? 0);
