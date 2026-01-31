@@ -60,11 +60,18 @@ const Dashboard = () => {
                     setBalance(forecastData?.projectedBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
                     setDailyForecasts(forecastData?.dailyBreakdown ?? []);
+
+                    // Fix: Use End-of-Day balance from the first day (Today) as Current Balance
+                    // startingBalance from backend is "Opening Balance"
+                    if (forecastData?.dailyBreakdown && forecastData.dailyBreakdown.length > 0) {
+                        setStartingBalance(forecastData.dailyBreakdown[0].closingBalance);
+                    } else {
+                        setStartingBalance(forecastData?.startingBalance ?? 0);
+                    }
                 } catch (forecastErr) {
                     console.error('Failed to fetch forecast:', forecastErr);
                     setStartingBalance(0);
                     setBalance(0);
-                    setSafeToSpend(0);
                     setDailyForecasts([]);
                 }
 
