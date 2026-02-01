@@ -71,7 +71,7 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
 
     const today = new Date();
     const endDate = new Date(today);
-    endDate.setDate(today.getDate() + forecastDays);
+    endDate.setDate(today.getDate() + forecastDays - 1);
     const dateText = `Till ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
 
     if (!data || data.length === 0) {
