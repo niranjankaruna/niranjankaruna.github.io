@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { BanknotesIcon, ChevronDownIcon, ChevronUpIcon, TagIcon } from '@heroicons/react/24/outline';
 import type { BankHoldSummary, TransactionSummary } from '../../types/transaction';
+import { formatFriendlyDate } from '../../utils/dateUtils';
 
 interface BankHoldCardProps {
     data: BankHoldSummary[];
@@ -72,7 +73,11 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
     const today = new Date();
     const endDate = new Date(today);
     endDate.setDate(today.getDate() + forecastDays - 1);
-    const dateText = `Till ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+
+    let dateText = `Till ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+    if (endDate.toDateString() === today.toDateString()) {
+        dateText = "Till Today";
+    }
 
     if (!data || data.length === 0) {
         return (
@@ -170,7 +175,7 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
                                                         <div className="flex items-center gap-2">
                                                             {tx.transactionDate && (
                                                                 <span className="text-xs text-gray-400">
-                                                                    {new Date(tx.transactionDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                                                                    {formatFriendlyDate(tx.transactionDate)}
                                                                 </span>
                                                             )}
                                                             <span className="text-sm text-red-500">

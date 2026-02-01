@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import type { Transaction } from '../../types/transaction';
-import { formatDate } from '../../utils/dateUtils';
+import { formatFriendlyDate } from '../../utils/dateUtils';
 
 interface TransactionCardProps {
     transaction: Transaction;
@@ -31,7 +31,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({ transaction, c
                 <div>
                     <h4 className="text-sm font-semibold text-gray-900 line-clamp-1">{transaction.description || 'Untitled Transaction'}</h4>
                     <p className="text-xs text-gray-500">
-                        {formatDate(transaction.transactionDate)}
+                        {formatFriendlyDate(transaction.transactionDate)}
                         {isRecurring && <span className="ml-1 text-primary">• Recurring</span>}
                     </p>
                 </div>

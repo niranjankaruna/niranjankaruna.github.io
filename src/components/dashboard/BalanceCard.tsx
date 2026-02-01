@@ -48,6 +48,9 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
                                     const today = new Date();
                                     const endDate = new Date(today);
                                     endDate.setDate(today.getDate() + forecastDays - 1);
+                                    if (endDate.toDateString() === today.toDateString()) {
+                                        return "Till Today";
+                                    }
                                     return `Till ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
                                 })()}
                             </span>

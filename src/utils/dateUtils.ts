@@ -15,6 +15,21 @@ export const formatDate = (dateString: string | Date, options?: Intl.DateTimeFor
     return new Intl.DateTimeFormat('en-US', defaultOptions).format(date);
 };
 
+export const formatFriendlyDate = (dateString: string | Date): string => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';
+
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) return 'Today';
+    if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+
+    return formatDate(date);
+};
+
 export const formatCurrency = (amount: number, currency = 'EUR'): string => {
     return new Intl.NumberFormat('en-IE', {
         style: 'currency',

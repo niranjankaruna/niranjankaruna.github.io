@@ -243,9 +243,10 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
                                     <div className="flex flex-col items-end">
                                         <button
                                             type="button"
+                                            disabled={!!initialData}
                                             onClick={() => setIsEndOfMonth(!isEndOfMonth)}
                                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isEndOfMonth ? 'bg-primary' : 'bg-gray-200'
-                                                }`}
+                                                } ${!!initialData ? 'opacity-50 cursor-not-allowed' : ''}`}
                                         >
                                             <span
                                                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isEndOfMonth ? 'translate-x-6' : 'translate-x-1'
