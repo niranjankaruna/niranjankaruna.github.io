@@ -69,12 +69,17 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
         return result;
     }, [data]);
 
+    const today = new Date();
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() + forecastDays);
+    const dateText = `Till ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+
     if (!data || data.length === 0) {
         return (
             <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
                 <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-semibold text-gray-900">Minimum Balance to Hold</h3>
-                    <span className="text-sm text-gray-500">{forecastDays} days</span>
+                    <h3 className="font-semibold text-gray-900">Balance to Hold</h3>
+                    <span className="text-sm text-gray-500">{dateText}</span>
                 </div>
                 <p className="text-gray-500 text-sm text-center py-4">
                     No expenses with assigned bank accounts in forecast period
@@ -88,8 +93,8 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
     return (
         <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
             <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold text-gray-900">Minimum Balance to Hold</h3>
-                <span className="text-sm text-gray-500">{forecastDays} days</span>
+                <h3 className="font-semibold text-gray-900">Balance to Hold</h3>
+                <span className="text-sm text-gray-500">{dateText}</span>
             </div>
 
             <div className="space-y-3">
