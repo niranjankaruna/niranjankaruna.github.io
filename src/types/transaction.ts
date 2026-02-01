@@ -88,6 +88,7 @@ export interface TransactionSummary {
     bankAccountId?: string;
     bankAccountName?: string;
     tagNames?: string[];
+    transactionDate?: string;
 }
 
 export interface ForecastWarning {

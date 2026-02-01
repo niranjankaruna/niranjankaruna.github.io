@@ -162,9 +162,16 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
                                                                 </span>
                                                             )}
                                                         </div>
-                                                        <span className="text-sm text-red-500">
-                                                            -{formatAmount(tx.amount)}
-                                                        </span>
+                                                        <div className="flex items-center gap-2">
+                                                            {tx.transactionDate && (
+                                                                <span className="text-xs text-gray-400">
+                                                                    {new Date(tx.transactionDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                                                                </span>
+                                                            )}
+                                                            <span className="text-sm text-red-500">
+                                                                -{formatAmount(tx.amount)}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>
