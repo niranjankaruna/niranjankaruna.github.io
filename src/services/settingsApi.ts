@@ -1,4 +1,5 @@
 import { supabase } from './supabase/client';
+import { getDefaultForecastDays } from '../utils/forecastOptions';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -10,8 +11,9 @@ export interface UserSettings {
     dateFormat: string;
 }
 
+// Use dynamic current month as default forecast period
 export const defaultSettings: UserSettings = {
-    forecastPeriod: 30,
+    forecastPeriod: getDefaultForecastDays(),
     defaultSafeMode: false,
     lowBalanceWarning: 500,
 
