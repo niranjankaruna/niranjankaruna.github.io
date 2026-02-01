@@ -59,15 +59,6 @@ export function generateForecastOptions(): ForecastOption[] {
         });
     }
 
-    // Add fixed day options
-    const fixedOptions = [7, 14, 30, 60, 90, 120, 180, 365];
-    fixedOptions.forEach(days => {
-        options.push({
-            value: days,
-            label: `${days} days`
-        });
-    });
-
     return options;
 }
 
