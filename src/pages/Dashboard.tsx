@@ -8,7 +8,7 @@ import { BankHoldCard } from '../components/dashboard/BankHoldCard';
 import { transactionService, forecastService } from '../services/api/transactionService';
 import { useSettings } from '../contexts/SettingsContext';
 import { formatDate, toLocalISOString } from '../utils/dateUtils';
-import type { Transaction, DailyBreakdown, BankHoldSummary } from '../types/transaction';
+import type { Transaction, BankHoldSummary } from '../types/transaction';
 
 const Dashboard = () => {
     const { user } = useAuthStore();
@@ -17,7 +17,6 @@ const Dashboard = () => {
     const [balance, setBalance] = useState(0); // This will now serve as projectedBalance
     const [startingBalance, setStartingBalance] = useState(0);
     const [safeToSpend, setSafeToSpend] = useState(0);
-    const [dailyForecasts, setDailyForecasts] = useState<DailyBreakdown[]>([]);
     const [bankHoldSummary, setBankHoldSummary] = useState<BankHoldSummary[]>([]);
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
@@ -60,7 +59,6 @@ const Dashboard = () => {
                     setStartingBalance(forecastData?.startingBalance ?? 0);
                     setBalance(forecastData?.projectedBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
-                    setDailyForecasts(forecastData?.dailyBreakdown ?? []);
                     setBankHoldSummary(forecastData?.bankHoldSummary ?? []);
 
                     // Fix: Use End-of-Day balance from the first day (Today) as Current Balance
@@ -84,7 +82,6 @@ const Dashboard = () => {
                     console.error('Failed to fetch forecast:', forecastErr);
                     setStartingBalance(0);
                     setBalance(0);
-                    setDailyForecasts([]);
                     setBankHoldSummary([]);
                 }
 
@@ -116,7 +113,6 @@ const Dashboard = () => {
                 setBalance(0);
                 setSafeToSpend(0);
                 setRecentTransactions([]);
-                setDailyForecasts([]);
             } finally {
                 setLoading(false);
             }
