@@ -1,10 +1,16 @@
-import { useState } from 'react';
-import { BanknotesIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
-import type { BankHoldSummary } from '../../types/transaction';
+import { useState, useMemo } from 'react';
+import { BanknotesIcon, ChevronDownIcon, ChevronUpIcon, TagIcon } from '@heroicons/react/24/outline';
+import type { BankHoldSummary, TransactionSummary } from '../../types/transaction';
 
 interface BankHoldCardProps {
     data: BankHoldSummary[];
     forecastDays: number;
+}
+
+interface TagGroup {
+    tagName: string;
+    transactions: TransactionSummary[];
+    total: number;
 }
 
 const formatAmount = (amount: number): string => {
@@ -12,6 +18,29 @@ const formatAmount = (amount: number): string => {
         style: 'currency',
         currency: 'EUR'
     }).format(amount);
+};
+
+// Group transactions by tag (alphabetically)
+const groupByTag = (transactions: TransactionSummary[]): TagGroup[] => {
+    const groups: Record<string, TransactionSummary[]> = {};
+
+    transactions.forEach(tx => {
+        // Use first tag or 'Untagged' if no tags
+        const tagName = tx.tagNames && tx.tagNames.length > 0 ? tx.tagNames[0] : 'Untagged';
+        if (!groups[tagName]) {
+            groups[tagName] = [];
+        }
+        groups[tagName].push(tx);
+    });
+
+    // Convert to array and sort alphabetically
+    return Object.entries(groups)
+        .map(([tagName, txs]) => ({
+            tagName,
+            transactions: txs,
+            total: txs.reduce((sum, tx) => sum + tx.amount, 0)
+        }))
+        .sort((a, b) => a.tagName.localeCompare(b.tagName));
 };
 
 export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }) => {
@@ -28,6 +57,17 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
             return next;
         });
     };
+
+    // Memoize tag groups for each bank
+    const bankTagGroups = useMemo(() => {
+        const result: Record<string, TagGroup[]> = {};
+        data.forEach(bank => {
+            if (bank.transactions) {
+                result[bank.bankAccountId] = groupByTag(bank.transactions);
+            }
+        });
+        return result;
+    }, [data]);
 
     if (!data || data.length === 0) {
         return (
@@ -55,6 +95,8 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
             <div className="space-y-3">
                 {data.map((bank) => {
                     const isExpanded = expandedBanks.has(bank.bankAccountId);
+                    const tagGroups = bankTagGroups[bank.bankAccountId] || [];
+
                     return (
                         <div key={bank.bankAccountId} className="rounded-lg bg-gray-50 border border-gray-100 overflow-hidden">
                             {/* Bank Header - Clickable */}
@@ -88,25 +130,44 @@ export const BankHoldCard: React.FC<BankHoldCardProps> = ({ data, forecastDays }
                                 </div>
                             </div>
 
-                            {/* Expandable Transactions List */}
-                            {isExpanded && bank.transactions && bank.transactions.length > 0 && (
+                            {/* Expandable Transactions Grouped by Tag */}
+                            {isExpanded && tagGroups.length > 0 && (
                                 <div className="border-t border-gray-200 bg-white">
-                                    {bank.transactions.map((tx, idx) => (
-                                        <div
-                                            key={`${bank.bankAccountId}-tx-${idx}`}
-                                            className="flex justify-between items-center px-4 py-2 border-b border-gray-100 last:border-b-0"
-                                        >
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-sm text-gray-700">{tx.description}</span>
-                                                {tx.isRecurring && (
-                                                    <span className="text-xs px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded">
-                                                        Recurring
-                                                    </span>
-                                                )}
+                                    {tagGroups.map((group) => (
+                                        <div key={`${bank.bankAccountId}-tag-${group.tagName}`} className="border-b border-gray-100 last:border-b-0">
+                                            {/* Tag Group Header */}
+                                            <div className="flex items-center justify-between px-4 py-2 bg-gray-50">
+                                                <div className="flex items-center gap-2">
+                                                    <TagIcon className="w-4 h-4 text-gray-400" />
+                                                    <span className="text-sm font-medium text-gray-700">{group.tagName}</span>
+                                                    <span className="text-xs text-gray-400">({group.transactions.length})</span>
+                                                </div>
+                                                <span className="text-sm font-semibold text-red-600">
+                                                    -{formatAmount(group.total)}
+                                                </span>
                                             </div>
-                                            <span className="text-sm font-medium text-red-600">
-                                                -{formatAmount(tx.amount)}
-                                            </span>
+
+                                            {/* Transactions in this tag group */}
+                                            <div className="pl-6">
+                                                {group.transactions.map((tx, idx) => (
+                                                    <div
+                                                        key={`${bank.bankAccountId}-${group.tagName}-tx-${idx}`}
+                                                        className="flex justify-between items-center px-4 py-1.5 border-b border-gray-50 last:border-b-0"
+                                                    >
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm text-gray-600">{tx.description}</span>
+                                                            {tx.isRecurring && (
+                                                                <span className="text-xs px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded">
+                                                                    Recurring
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <span className="text-sm text-red-500">
+                                                            -{formatAmount(tx.amount)}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

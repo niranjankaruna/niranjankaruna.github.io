@@ -87,6 +87,7 @@ export interface TransactionSummary {
     isRecurring: boolean;
     bankAccountId?: string;
     bankAccountName?: string;
+    tagNames?: string[];
 }
 
 export interface ForecastWarning {
