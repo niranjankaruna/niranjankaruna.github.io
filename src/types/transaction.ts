@@ -102,4 +102,5 @@ export interface BankHoldSummary {
     color?: string;
     minimumHold: number;
     expenseCount: number;
+    transactions?: TransactionSummary[];
 }
