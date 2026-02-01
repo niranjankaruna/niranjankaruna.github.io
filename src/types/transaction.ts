@@ -69,6 +69,7 @@ export interface ForecastData {
     safeToSpend: number;
     dailyBreakdown: DailyBreakdown[];
     warnings: ForecastWarning[];
+    bankHoldSummary?: BankHoldSummary[];
 }
 
 export interface DailyBreakdown {
@@ -84,6 +85,8 @@ export interface TransactionSummary {
     amount: number;
     confidence?: string;
     isRecurring: boolean;
+    bankAccountId?: string;
+    bankAccountName?: string;
 }
 
 export interface ForecastWarning {
@@ -91,4 +94,12 @@ export interface ForecastWarning {
     type: string;
     message: string;
     projectedBalance: number;
+}
+
+export interface BankHoldSummary {
+    bankAccountId: string;
+    bankAccountName: string;
+    color?: string;
+    minimumHold: number;
+    expenseCount: number;
 }

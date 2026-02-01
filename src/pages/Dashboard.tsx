@@ -4,11 +4,11 @@ import { BellAlertIcon } from '@heroicons/react/24/outline';
 import { useAuthStore } from '../store/authStore';
 import { BalanceCard } from '../components/dashboard/BalanceCard';
 import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
-import { MiniForecastChart } from '../components/dashboard/MiniForecastChart';
+import { BankHoldCard } from '../components/dashboard/BankHoldCard';
 import { transactionService, forecastService } from '../services/api/transactionService';
 import { useSettings } from '../contexts/SettingsContext';
 import { formatDate, toLocalISOString } from '../utils/dateUtils';
-import type { Transaction, DailyBreakdown } from '../types/transaction';
+import type { Transaction, DailyBreakdown, BankHoldSummary } from '../types/transaction';
 
 const Dashboard = () => {
     const { user } = useAuthStore();
@@ -18,6 +18,7 @@ const Dashboard = () => {
     const [startingBalance, setStartingBalance] = useState(0);
     const [safeToSpend, setSafeToSpend] = useState(0);
     const [dailyForecasts, setDailyForecasts] = useState<DailyBreakdown[]>([]);
+    const [bankHoldSummary, setBankHoldSummary] = useState<BankHoldSummary[]>([]);
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -60,6 +61,7 @@ const Dashboard = () => {
                     setBalance(forecastData?.projectedBalance ?? 0);
                     setSafeToSpend(forecastData?.safeToSpend ?? 0);
                     setDailyForecasts(forecastData?.dailyBreakdown ?? []);
+                    setBankHoldSummary(forecastData?.bankHoldSummary ?? []);
 
                     // Fix: Use End-of-Day balance from the first day (Today) as Current Balance
                     // startingBalance from backend is "Opening Balance"
@@ -83,6 +85,7 @@ const Dashboard = () => {
                     setStartingBalance(0);
                     setBalance(0);
                     setDailyForecasts([]);
+                    setBankHoldSummary([]);
                 }
 
                 // Fetch recent transactions
@@ -195,10 +198,9 @@ const Dashboard = () => {
                             forecastDays={settings?.forecastPeriod ?? 30}
                         />
 
-                        {/* Mini Forecast Chart */}
-                        <MiniForecastChart
-                            data={dailyForecasts}
-                            safeMode={safeMode}
+                        {/* Bank Hold Summary */}
+                        <BankHoldCard
+                            data={bankHoldSummary}
                             forecastDays={settings?.forecastPeriod ?? 30}
                         />
 
