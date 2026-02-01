@@ -20,9 +20,9 @@ const Transactions = () => {
     // Filter State
     const [filterType, setFilterType] = useState<FilterType>('ALL');
     const [dateRange, setDateRange] = useState(() => {
-        const start = new Date();
-        const end = new Date();
-        end.setDate(end.getDate() + 30);
+        const today = new Date();
+        const start = new Date(today.getFullYear(), today.getMonth(), 1);
+        const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
         // Helper to get YYYY-MM-DD in local time
         const toLocalISO = (d: Date) => {
@@ -165,38 +165,52 @@ const Transactions = () => {
 
                 {/* Quick Filters */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                    {([30, 60, 90] as const).map((days) => {
-                        // Calculate target date string comparison
+                    {(() => {
                         const today = new Date();
-                        const targetDate = new Date();
-                        targetDate.setDate(today.getDate() + days);
+                        const filters = [];
 
-                        const toLocalISO = (d: Date) => {
-                            const offset = d.getTimezoneOffset() * 60000;
-                            return new Date(d.getTime() - offset).toISOString().split('T')[0];
-                        };
+                        // Generate Current Month + 11 Future Months
+                        for (let i = 0; i < 12; i++) {
+                            const date = new Date(today.getFullYear(), today.getMonth() + i, 1);
+                            const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+                            const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-                        const targetDateStr = toLocalISO(targetDate);
-                        const isSelected = dateRange.endDate === targetDateStr && dateRange.startDate === toLocalISO(today);
+                            const toLocalISO = (d: Date) => {
+                                const offset = d.getTimezoneOffset() * 60000;
+                                return new Date(d.getTime() - offset).toISOString().split('T')[0];
+                            };
 
-                        return (
-                            <button
-                                key={days}
-                                onClick={() => {
-                                    setDateRange({
-                                        startDate: toLocalISO(new Date()),
-                                        endDate: targetDateStr
-                                    });
-                                }}
-                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${isSelected
-                                    ? 'bg-blue-100 text-blue-800 border-blue-200'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
-                                    }`}
-                            >
-                                {days} Days
-                            </button>
-                        );
-                    })}
+                            const startStr = toLocalISO(startOfMonth);
+                            const endStr = toLocalISO(endOfMonth);
+
+                            let label = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                            if (i === 0) label = 'Current Month';
+
+                            filters.push({ label, startStr, endStr });
+                        }
+
+                        return filters.map((filter) => {
+                            const isSelected = dateRange.startDate === filter.startStr && dateRange.endDate === filter.endStr;
+
+                            return (
+                                <button
+                                    key={filter.label}
+                                    onClick={() => {
+                                        setDateRange({
+                                            startDate: filter.startStr,
+                                            endDate: filter.endStr
+                                        });
+                                    }}
+                                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${isSelected
+                                        ? 'bg-blue-100 text-blue-800 border-blue-200'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    {filter.label}
+                                </button>
+                            );
+                        });
+                    })()}
 
                     {/* Clear Button */}
                     {(dateRange.startDate || dateRange.endDate) && (
