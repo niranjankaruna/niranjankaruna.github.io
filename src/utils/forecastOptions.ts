@@ -29,44 +29,35 @@ export function generateForecastOptions(): ForecastOption[] {
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include end date
     };
 
-    // Get month name
-    const getMonthName = (date: Date): string => {
-        return date.toLocaleString('en-US', { month: 'long' });
+    // Get formatted month name and year (Short)
+    const getMonthYear = (date: Date): string => {
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+        return `${month} ${year}`;
     };
 
-    // Current month
-    const currentMonthEnd = getLastDayOfMonth(today.getFullYear(), today.getMonth());
-    const currentMonthDays = getDaysBetween(today, currentMonthEnd);
-    const currentMonthName = getMonthName(today);
+    // Generate options for Current Month + Next 12 Months
+    for (let i = 0; i <= 12; i++) {
+        // Calculate target month
+        // i=0 is current month, i=1 is next month, etc.
+        const targetDate = new Date(today.getFullYear(), today.getMonth() + i, 1);
+        const targetMonthEnd = getLastDayOfMonth(targetDate.getFullYear(), targetDate.getMonth());
+        const days = getDaysBetween(today, targetMonthEnd);
+        const monthYear = getMonthYear(targetDate);
 
-    // Next month
-    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-    const nextMonthEnd = getLastDayOfMonth(nextMonth.getFullYear(), nextMonth.getMonth());
-    const nextMonthDays = getDaysBetween(today, nextMonthEnd);
-    const nextMonthName = getMonthName(nextMonth);
+        let label = monthYear;
+        if (i === 0) {
+            label = `Current Month (${monthYear})`;
+        } else if (i === 1) {
+            label = `Next Month (${monthYear})`;
+        }
 
-    // Next to next month
-    const nextNextMonth = new Date(today.getFullYear(), today.getMonth() + 2, 1);
-    const nextNextMonthEnd = getLastDayOfMonth(nextNextMonth.getFullYear(), nextNextMonth.getMonth());
-    const nextNextMonthDays = getDaysBetween(today, nextNextMonthEnd);
-    const nextNextMonthName = getMonthName(nextNextMonth);
-
-    // Add month-based options first
-    options.push({
-        value: currentMonthDays,
-        label: `Current Month (${currentMonthName})`,
-        isDefault: true
-    });
-
-    options.push({
-        value: nextMonthDays,
-        label: `Next Month (${nextMonthName})`
-    });
-
-    options.push({
-        value: nextNextMonthDays,
-        label: `Next to Next Month (${nextNextMonthName})`
-    });
+        options.push({
+            value: days,
+            label: label,
+            isDefault: i === 0
+        });
+    }
 
     // Add fixed day options
     const fixedOptions = [7, 14, 30, 60, 90, 120, 180, 365];
