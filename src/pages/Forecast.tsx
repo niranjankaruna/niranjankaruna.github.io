@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { AdjustmentsHorizontalIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { forecastService } from '../services/api/transactionService';
 import { ForecastChart } from '../components/forecast/ForecastChart';
 import { SafeModeToggle } from '../components/dashboard/SafeModeToggle';
 import { useSettings } from '../contexts/SettingsContext';
+import { generateForecastOptions, getDefaultForecastDays } from '../utils/forecastOptions';
 import type { ForecastData } from '../types/transaction';
 
 const Forecast = () => {
@@ -13,9 +14,13 @@ const Forecast = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Generate dynamic forecast options with current month as default
+    const forecastOptions = useMemo(() => generateForecastOptions(), []);
+    const defaultForecastDays = useMemo(() => getDefaultForecastDays(), []);
+
     // Local state for controls
     const [isSafeMode, setSafeMode] = useState(false);
-    const [forecastDays, setForecastDays] = useState(30);
+    const [forecastDays, setForecastDays] = useState(defaultForecastDays);
     const [showControls, setShowControls] = useState(false);
 
     useEffect(() => {
@@ -110,8 +115,10 @@ const Forecast = () => {
                                     onChange={(e) => setForecastDays(Number(e.target.value))}
                                     className="block w-full rounded-lg border-gray-300 py-2 pl-3 pr-10 text-base focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                                 >
-                                    {[7, 14, 30, 60, 90, 180, 365].map(days => (
-                                        <option key={days} value={days}>{days} Days</option>
+                                    {forecastOptions.map(option => (
+                                        <option key={`${option.value}-${option.label}`} value={option.value}>
+                                            {option.label}
+                                        </option>
                                     ))}
                                 </select>
                             </div>

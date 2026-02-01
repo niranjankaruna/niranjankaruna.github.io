@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
 import { useAuthStore } from '../store/authStore';
 import { CurrencySettings } from '../components/settings/CurrencySettings';
 import { BankAccountSettings } from '../components/settings/BankAccountSettings';
 import { TagSettings } from '../components/settings/TagSettings';
-
-const FORECAST_OPTIONS = [7, 14, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
+import { generateForecastOptions, getDefaultForecastDays } from '../utils/forecastOptions';
 
 
 
@@ -13,7 +12,11 @@ export default function Settings() {
     const { settings, loading, updateSettings } = useSettings();
     const { user, signOut } = useAuthStore();
 
-    const [forecastPeriod, setForecastPeriod] = useState(settings.forecastPeriod);
+    // Generate dynamic forecast options
+    const forecastOptions = useMemo(() => generateForecastOptions(), []);
+    const defaultForecastDays = useMemo(() => getDefaultForecastDays(), []);
+
+    const [forecastPeriod, setForecastPeriod] = useState(settings.forecastPeriod || defaultForecastDays);
     const [defaultSafeMode, setDefaultSafeMode] = useState(settings.defaultSafeMode);
     const [lowBalanceWarning, setLowBalanceWarning] = useState(settings.lowBalanceWarning);
 
@@ -112,9 +115,9 @@ export default function Settings() {
                             onChange={(e) => setForecastPeriod(Number(e.target.value))}
                             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         >
-                            {FORECAST_OPTIONS.map((days) => (
-                                <option key={days} value={days}>
-                                    {days} days
+                            {forecastOptions.map((option) => (
+                                <option key={`${option.value}-${option.label}`} value={option.value}>
+                                    {option.label}
                                 </option>
                             ))}
                         </select>
