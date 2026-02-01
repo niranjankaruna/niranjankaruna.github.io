@@ -22,6 +22,7 @@ export interface RecurringRule {
     bankAccountId?: string;
     tags?: any[]; // Simplified for now, or use Tag[] if available
     tagIds?: string[]; // For forms
+    isEndOfMonth?: boolean;
 
     confidence?: IncomeConfidence;
 
@@ -38,6 +39,7 @@ export interface CreateRecurringRuleRequest {
     startDate: string;
     reminderDays?: number;
     active: boolean;
+    isEndOfMonth?: boolean;
     bankAccountId?: string;
     tagIds?: string[]; // To update tags
     confidence?: IncomeConfidence;

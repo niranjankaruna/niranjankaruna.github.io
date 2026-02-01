@@ -20,6 +20,7 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
     const [amount, setAmount] = useState('');
     const [type, setType] = useState<TransactionType>('EXPENSE');
     const [frequency, setFrequency] = useState<RecurrenceFrequency>('MONTHLY');
+    const [isEndOfMonth, setIsEndOfMonth] = useState(false);
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [currencyCode, setCurrencyCode] = useState('EUR');
     const [exchangeRate, setExchangeRate] = useState(1.0); // New state for exchange rate
@@ -38,6 +39,7 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
                 setDescription(initialData.description);
                 setType(initialData.type);
                 setFrequency(initialData.frequency);
+                setIsEndOfMonth(initialData.isEndOfMonth || false);
                 setStartDate(initialData.startDate);
                 setBankAccountId(initialData.bankAccountId);
                 setTagIds(initialData.tagIds || []);
@@ -76,6 +78,7 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
         setAmount('');
         setType('EXPENSE');
         setFrequency('MONTHLY');
+        setIsEndOfMonth(false);
         setStartDate(new Date().toISOString().split('T')[0]);
         setCurrencyCode('EUR');
         setExchangeRate(1.0);
@@ -106,6 +109,7 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
                 currencyCode: 'EUR', // Rule base currency is always EUR
                 type,
                 frequency,
+                isEndOfMonth: frequency === 'MONTHLY' ? isEndOfMonth : false,
                 startDate,
                 bankAccountId,
                 tagIds,
@@ -232,6 +236,26 @@ export const RecurringRuleForm: React.FC<RecurringRuleFormProps> = ({ isOpen, on
                                     <option value="YEARLY">Yearly</option>
                                 </select>
                             </div>
+
+                            {frequency === 'MONTHLY' && (
+                                <div className="mt-4 flex items-center justify-between">
+                                    <label className="text-sm font-medium text-gray-700">End of Month?</label>
+                                    <div className="flex flex-col items-end">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsEndOfMonth(!isEndOfMonth)}
+                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isEndOfMonth ? 'bg-primary' : 'bg-gray-200'
+                                                }`}
+                                        >
+                                            <span
+                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isEndOfMonth ? 'translate-x-6' : 'translate-x-1'
+                                                    }`}
+                                            />
+                                        </button>
+                                        <span className="text-xs text-gray-500 mt-1">Auto-moves to last day</span>
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="mt-4">
                                 <label className="block text-sm font-medium text-gray-700">Start Date</label>

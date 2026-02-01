@@ -63,6 +63,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
     // Expense specific
     const [isRecurring, setIsRecurring] = useState(false);
     const [frequency, setFrequency] = useState<RecurrenceFrequency>('MONTHLY');
+    const [isEndOfMonth, setIsEndOfMonth] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -71,6 +72,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
     useEffect(() => {
         if (isOpen) {
             if (initialData) {
+                // ... existing init logic ...
                 setType(initialData.type);
                 setAmount(initialData.amount.toString());
                 setDescription(initialData.description || '');
@@ -80,19 +82,13 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
 
                 setTagIds(initialData.tagIds || []);
 
-                // If editing, logic is tricky because we save converted amount.
-                // We should ideally load originalAmount if available.
-                // Assuming for now we load what we have. 
-                // If backend sends originalAmount and originalCurrency, use them.
                 if (initialData.originalAmount && initialData.originalCurrencyCode) {
                     setAmount(initialData.originalAmount.toString());
                     setCurrencyCode(initialData.originalCurrencyCode);
                     setExchangeRate(initialData.exchangeRate || 1.0);
                 } else if (initialData.currencyCode !== 'EUR') {
-                    // Legacy non-EUR transaction (if any)
                     setExchangeRate(initialData.exchangeRate || 1.0);
                 } else {
-                    // Standard EUR 
                     setExchangeRate(1.0);
                 }
 
@@ -102,6 +98,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                     setIsRecurring(initialData.isRecurring || false);
                     if (initialData.isRecurring) {
                         setFrequency(initialData.frequency || 'MONTHLY');
+                        // Note: We don't have isEndOfMonth in initialData (Transaction) yet.
+                        // Ideally we would fetch the rule or update Transaction DTO.
+                        // For now, default to false when editing transaction.
+                        setIsEndOfMonth(false);
                     }
                 }
             } else {
@@ -119,6 +119,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
         setTagIds([]);
         setConfidence('LIKELY');
         setIsRecurring(false);
+        setIsEndOfMonth(false);
         setFrequency('MONTHLY');
         setError(null);
         // Don't reset type, keep user's last choice or default
@@ -146,7 +147,11 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                     originalCurrencyCode: currencyCode
                 }),
                 ...(type === 'INCOME' && { confidence }),
-                ...(type === 'EXPENSE' && isRecurring && { isRecurring, frequency }),
+                ...(type === 'EXPENSE' && isRecurring && {
+                    isRecurring,
+                    frequency,
+                    ...(frequency === 'MONTHLY' && { isEndOfMonth })
+                }),
                 ...(type === 'EXPENSE' && !isRecurring && { isRecurring: false })
             };
 
@@ -372,9 +377,32 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                                                         { label: 'Quarterly', value: 'QUARTERLY' },
                                                         { label: 'Half Yearly', value: 'HALF_YEARLY' },
                                                         { label: 'Yearly', value: 'YEARLY' }
+
                                                     ]}
                                                 />
                                             </div>
+
+                                            {frequency === 'MONTHLY' && (
+                                                <div className="flex flex-col justify-center">
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-sm font-medium text-gray-700">End of Month?</label>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setIsEndOfMonth(!isEndOfMonth)}
+                                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isEndOfMonth ? 'bg-primary' : 'bg-gray-200'
+                                                                }`}
+                                                        >
+                                                            <span
+                                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isEndOfMonth ? 'translate-x-6' : 'translate-x-1'
+                                                                    }`}
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-xs text-gray-500 mt-1">
+                                                        Auto-moves to 28th, 30th, or 31st
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -419,6 +447,6 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ isOpen, onClos
                     </form>
                 </Dialog.Panel>
             </div>
-        </Dialog>
+        </Dialog >
     );
 };

@@ -4,6 +4,23 @@ export type IncomeStatus = 'PENDING' | 'RECEIVED' | 'CANCELLED';
 export type ExpenseStatus = 'UPCOMING' | 'PAID' | 'SKIPPED';
 export type RecurrenceFrequency = 'DAILY' | 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'HALF_YEARLY' | 'YEARLY';
 
+export interface RecurringRule {
+    id: string;
+    userId: string;
+    type: TransactionType;
+    amount: number;
+    currencyCode: string;
+    description?: string;
+    frequency: RecurrenceFrequency;
+    startDate: string;
+    lastRunDate?: string;
+    reminderDays?: number;
+    active: boolean;
+    isEndOfMonth?: boolean;
+    bankAccountId?: string;
+    tagIds?: string[];
+}
+
 export interface Transaction {
     id: string;
     type: TransactionType;
@@ -49,6 +66,7 @@ export interface CreateTransactionRequest {
     // Expense
     expenseStatus?: ExpenseStatus;
     isRecurring?: boolean;
+    isEndOfMonth?: boolean;
     frequency?: RecurrenceFrequency;
     reminderDays?: number;
     bankAccountId?: string;
